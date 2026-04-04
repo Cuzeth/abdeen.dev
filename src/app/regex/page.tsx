@@ -19,8 +19,7 @@ export default function RegexTesterPage() {
   return (
     <FadeInWrapper direction="up">
       <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight">Regex Tester</h1>
-        <p className="text-sm text-[var(--text)] mb-6">Test and debug regular expressions with live highlighting</p>
+        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight mb-6">Regex Tester</h1>
         <RegexTester />
       </div>
     </FadeInWrapper>

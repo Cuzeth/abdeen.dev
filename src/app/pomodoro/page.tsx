@@ -19,8 +19,7 @@ export default function PomodoroPage() {
   return (
     <FadeInWrapper direction="up">
       <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight">Pomodoro Timer</h1>
-        <p className="text-sm text-[var(--text)] mb-6">Stay focused, take breaks</p>
+        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight mb-6">Pomodoro Timer</h1>
         <PomodoroTimer />
       </div>
     </FadeInWrapper>
