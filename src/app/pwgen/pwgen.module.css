@@ -1,0 +1,512 @@
+/* ── Loading ── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 4rem 0;
+}
+
+.loadingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0.4;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.loadingDot:nth-child(2) { animation-delay: 0.15s; }
+.loadingDot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Container ── */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ── Mode selector ── */
+.modeRow {
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0.5rem;
+  padding: 3px;
+}
+
+.modeBtn {
+  padding: 0.45rem 1.25rem;
+  font-size: 0.75rem;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.03em;
+  font-weight: 500;
+}
+
+.modeBtn:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modeBtnActive {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--heading);
+}
+
+/* ── Primary result ── */
+.result {
+  width: 100%;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+
+.result:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.resultCopied {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 20px -4px var(--accent-glow);
+}
+
+/* ── Color-coded segments ── */
+.passwordSegments {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  word-break: break-all;
+  letter-spacing: 0.02em;
+}
+
+.segWord {
+  color: var(--heading);
+}
+
+.segNum {
+  color: var(--accent);
+}
+
+.segSpecial {
+  color: #FBBF24;
+}
+
+.segSep {
+  color: var(--text);
+  opacity: 0.4;
+}
+
+/* ── Result meta ── */
+.resultMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.charCount {
+  color: var(--text);
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.copyHint {
+  color: var(--text);
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.result:hover .copyHint {
+  opacity: 0.8;
+}
+
+.resultCopied .copyHint {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* ── Strength meter ── */
+.strengthRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.strengthBar {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+
+.strengthSegment {
+  height: 3px;
+  flex: 1;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.3s;
+}
+
+.strength1 { background: #EF4444; }
+.strength2 { background: #F59E0B; }
+.strength3 { background: #10B981; }
+.strength4 { background: #10B981; }
+
+.strengthLabel {
+  font-size: 0.65rem;
+  color: var(--text);
+  opacity: 0.6;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Batch list ── */
+.batchList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.batchFresh .batchItem {
+  animation: fadeSlide 0.2s ease-out both;
+}
+
+.batchFresh .batchItem:nth-child(2) { animation-delay: 30ms; }
+.batchFresh .batchItem:nth-child(3) { animation-delay: 60ms; }
+.batchFresh .batchItem:nth-child(4) { animation-delay: 90ms; }
+.batchFresh .batchItem:nth-child(5) { animation-delay: 120ms; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.batchItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s;
+  text-align: left;
+}
+
+.batchItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.batchSelected {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.batchSelected .batchIndex {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.batchPassword {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.batchSelected .batchPassword {
+  color: var(--heading);
+  opacity: 1;
+}
+
+.batchIndex {
+  font-size: 0.6rem;
+  color: var(--text);
+  opacity: 0.3;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  margin-left: 0.75rem;
+}
+
+/* ── Generate button ── */
+.generateBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.02em;
+}
+
+.generateBtn:hover {
+  opacity: 0.9;
+}
+
+.generateBtn:active {
+  transform: scale(0.98);
+}
+
+.kbd {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.6rem;
+  padding: 0.15rem 0.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0.25rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.controlRow,
+.toggle,
+.rangeGroup {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.controlRow:last-child,
+.toggle:last-child,
+.rangeGroup:last-child {
+  border-bottom: none;
+}
+
+.controlLabel {
+  font-size: 0.8rem;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+/* ── Separator segmented control ── */
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.segmentedControl {
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0.375rem;
+  padding: 2px;
+}
+
+.segBtn {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.7rem;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.segBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.segBtnActive {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--heading);
+}
+
+/* ── Toggle ── */
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle input:checked + .slider {
+  background: var(--accent);
+}
+
+.toggle input:checked + .slider::after {
+  transform: translateX(16px);
+}
+
+/* ── Range ── */
+.rangeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rangeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rangeValue {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.7rem;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  outline: none;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+/* ── Credit ── */
+.credit {
+  font-size: 0.6rem;
+  color: var(--text);
+  opacity: 0.35;
+  letter-spacing: 0.02em;
+}
+
+.credit a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s;
+}
+
+.credit a:hover {
+  opacity: 1;
+}
+
+/* ── Keyboard hints ── */
+.hints {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.6rem;
+  color: var(--text);
+  opacity: 0.35;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.kbdSmall {
+  display: inline-block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.55rem;
+  padding: 0.1rem 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0.2rem;
+  margin-right: 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .passwordSegments {
+    font-size: 0.9rem;
+  }
+
+  .batchPassword {
+    font-size: 0.6rem;
+  }
+
+  .hints {
+    display: none;
+  }
+}

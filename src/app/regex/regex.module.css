@@ -1,0 +1,288 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 700px;
+}
+
+.patternRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.patternInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--heading);
+  font-family: monospace;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.patternInput:focus {
+  border-color: var(--accent);
+}
+
+.patternInput.error {
+  border-color: #ef4444;
+}
+
+.flags {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.flagBtn {
+  width: 32px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.375rem;
+  color: var(--text);
+  font-family: monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.flagBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.flagBtnActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.errorMsg {
+  font-size: 0.8rem;
+  color: #ef4444;
+}
+
+.testArea {
+  width: 100%;
+  min-height: 160px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--heading);
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.testArea:focus {
+  border-color: var(--accent);
+}
+
+.highlightBox {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.match {
+  background: rgba(220, 38, 38, 0.25);
+  border-radius: 2px;
+  color: var(--heading);
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.infoBadge {
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.replaceRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.replaceInput {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--heading);
+  font-family: monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.replaceInput:focus {
+  border-color: var(--accent);
+}
+
+.replaceToggle {
+  font-size: 0.8rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.replaceToggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.replaceToggleActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.resultBox {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--heading);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.group {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text);
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.25rem;
+}
+
+.groupIndex {
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+
+.cheatsheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.cheatSection {
+  padding: 1rem 1.25rem;
+}
+
+.cheatSection + .cheatSection {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cheatTitle {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.625rem;
+  opacity: 0.5;
+}
+
+.cheatItems {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 480px) {
+  .cheatItems {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cheatItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  padding: 0.3rem 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.cheatPattern {
+  flex-shrink: 0;
+  width: 64px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--heading);
+  opacity: 0.9;
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.cheatDesc {
+  color: var(--text);
+  opacity: 0.7;
+  font-size: 0.75rem;
+}

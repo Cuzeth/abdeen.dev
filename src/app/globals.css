@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-heading: #FAFAFA;
+  --color-text: #A1A1AA;
+  --color-accent: #DC2626;
+  --color-accent-hover: #B91C1C;
+  --color-accent-glow: rgba(220, 38, 38, 0.4);
+  --color-maincolor: #080808;
+  --color-card-bg: #0F0F0F;
+}
+
+:root {
+  color-scheme: dark;
+  --maincolor: #080808;
+  --supportingcolor: #111111;
+  --text: #A1A1AA;
+  --heading: #FAFAFA;
+  --accent: #DC2626;
+  --accent-hover: #B91C1C;
+  --accent-glow: rgba(220, 38, 38, 0.4);
+  --card-bg: #0F0F0F;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: dark;
+    --maincolor: #080808;
+    --supportingcolor: #111111;
+    --text: #A1A1AA;
+    --heading: #FAFAFA;
+    --card-bg: #0F0F0F;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--maincolor);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--maincolor);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+input, textarea, select {
+  font-size: 16px;
+}
