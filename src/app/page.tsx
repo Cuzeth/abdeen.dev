@@ -5,7 +5,7 @@ const tools = [
   {
     title: "CoverQuad",
     description:
-      "Create a 2\u00d72 album art collage. Upload images or search for album art.",
+      "Apple killed the 2\u00d72 playlist covers. This brings them back.",
     href: "/coverquad",
   },
   {
