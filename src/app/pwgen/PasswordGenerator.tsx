@@ -136,6 +136,7 @@ export default function PasswordGenerator() {
   const [separator, setSeparator] = useState<Separator>('-');
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [seed, setSeed] = useState(0);
 
   // Memorable mode
   const [useCommon, setUseCommon] = useState(true);
@@ -243,9 +244,11 @@ export default function PasswordGenerator() {
     [],
   );
 
-  const generate = useCallback(() => {
-    if (!wordLists) return;
-    setGenerating(true);
+  // Regenerate when options or seed change (render-time state adjustment)
+  const optionsKey = `${mode}-${separator}-${useCommon}-${useLeet}-${leetAmount}-${passphraseSource}-${wordCount}-${passphraseCapitalize}-${seed}`;
+  const [prevOptionsKey, setPrevOptionsKey] = useState('');
+
+  if (wordLists && optionsKey !== prevOptionsKey) {
     const batch = Array.from({ length: BATCH_SIZE }, () =>
       mode === 'memorable'
         ? generateMemorable(wordLists, separator, useCommon, useLeet, leetAmount)
@@ -254,12 +257,14 @@ export default function PasswordGenerator() {
     setPasswords(batch);
     setSelectedIndex(0);
     setCopied(false);
-    requestAnimationFrame(() => setGenerating(false));
-  }, [wordLists, mode, useCommon, useLeet, leetAmount, separator, passphraseSource, wordCount, passphraseCapitalize, generateMemorable, generatePassphrase]);
+    setPrevOptionsKey(optionsKey);
+  }
 
-  useEffect(() => {
-    if (wordLists) generate();
-  }, [wordLists, generate]);
+  const generate = useCallback(() => {
+    setSeed((s) => s + 1);
+    setGenerating(true);
+    requestAnimationFrame(() => setGenerating(false));
+  }, []);
 
   // ── Keyboard shortcuts ──
 
@@ -323,7 +328,12 @@ export default function PasswordGenerator() {
         <div
           className={`${styles.result} ${copied ? styles.resultCopied : ''}`}
           onClick={copyToClipboard}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyToClipboard(); } }}
           title="Click to copy"
+          role="button"
+          tabIndex={0}
+          aria-label={`Password: ${selected.full}. Click to copy.`}
+          aria-live="polite"
         >
           <div className={styles.passwordSegments}>
             {selected.segments.map((seg, i) => (

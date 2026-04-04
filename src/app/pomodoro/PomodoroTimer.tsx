@@ -122,8 +122,8 @@ export default function PomodoroTimer() {
         ))}
       </div>
 
-      <div className={styles.timerWrap}>
-        <svg className={styles.ring} viewBox="0 0 260 260">
+      <div className={styles.timerWrap} role="timer" aria-label={`${MODE_LABELS[mode]}: ${minutes} minutes and ${seconds} seconds remaining`}>
+        <svg className={styles.ring} viewBox="0 0 260 260" aria-hidden="true">
           <circle className={styles.ringTrack} cx="130" cy="130" r={RING_RADIUS} />
           <circle
             className={styles.ringProgress}
@@ -134,7 +134,7 @@ export default function PomodoroTimer() {
             strokeDashoffset={dashOffset}
           />
         </svg>
-        <span className={styles.time}>
+        <span className={styles.time} aria-live="off">
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </span>
       </div>
@@ -148,9 +148,9 @@ export default function PomodoroTimer() {
         </button>
       </div>
 
-      <div className={styles.sessions}>
+      <div className={styles.sessions} aria-label={`${sessions} sessions completed, ${sessions % 4} of 4 in current cycle`}>
         <span>Sessions</span>
-        <div className={styles.dots}>
+        <div className={styles.dots} aria-hidden="true">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className={`${styles.dot} ${i < sessions % 4 ? styles.dotFilled : ''}`} />
           ))}

@@ -4,17 +4,25 @@ import QRGenerator from './QRGenerator';
 
 export const metadata: Metadata = {
   title: 'QR Generator',
-  description: 'Generate QR codes for text, WiFi, email, and phone.',
+  description:
+    'Generate custom QR codes for URLs, WiFi networks, email, and phone numbers. Customize colors, dot styles, and gradients. Download as PNG — free, no sign-up.',
+  alternates: { canonical: 'https://abdeen.dev/qr' },
+  openGraph: {
+    title: 'QR Generator | abdeen.dev',
+    description:
+      'Create QR codes for text, WiFi, email, and phone. Customize styles and download as PNG.',
+    url: 'https://abdeen.dev/qr',
+  },
 };
 
 export default function QRGeneratorPage() {
   return (
     <FadeInWrapper direction="up">
-      <main className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
+      <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
         <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight">QR Generator</h1>
         <p className="text-sm text-[var(--text)] mb-6">Generate QR codes for text, WiFi, email, and phone</p>
         <QRGenerator />
-      </main>
+      </div>
     </FadeInWrapper>
   );
 }

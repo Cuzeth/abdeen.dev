@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import QRCode from 'qrcode';
 import styles from './twofa.module.css';
 
@@ -44,19 +44,15 @@ export default function TwoFactorQR() {
     return s;
   }, [type, secret, label, issuer, counter, showAdvanced, algorithm, digits, period]);
 
-  useEffect(() => {
-    if (uriEdited) return;
-    const newUri = generateUri();
-    setUri(newUri);
-  }, [generateUri, uriEdited]);
+  const effectiveUri = useMemo(
+    () => (uriEdited ? uri : generateUri()),
+    [uriEdited, uri, generateUri],
+  );
 
   useEffect(() => {
-    if (!uri) {
-      setQrDataUrl(null);
-      return;
-    }
+    if (!effectiveUri) return;
     let cancelled = false;
-    QRCode.toDataURL(uri, {
+    QRCode.toDataURL(effectiveUri, {
       width: size,
       margin: 2,
       color: { dark: '#000000', light: '#ffffff' },
@@ -67,7 +63,9 @@ export default function TwoFactorQR() {
       if (!cancelled) setQrDataUrl(null);
     });
     return () => { cancelled = true; };
-  }, [uri, size]);
+  }, [effectiveUri, size]);
+
+  const displayQr = effectiveUri ? qrDataUrl : null;
 
   const parseUri = useCallback((value: string) => {
     setUri(value);
@@ -113,8 +111,9 @@ export default function TwoFactorQR() {
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <label className={styles.label}>Type</label>
+        <label htmlFor="twofa-type" className={styles.label}>Type</label>
         <select
+          id="twofa-type"
           className={styles.select}
           value={type}
           onChange={(e) => { setType(e.target.value as OTPType); handleFieldChange(); }}
@@ -125,8 +124,9 @@ export default function TwoFactorQR() {
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Secret (required)</label>
+        <label htmlFor="twofa-secret" className={styles.label}>Secret (required)</label>
         <input
+          id="twofa-secret"
           className={`${styles.input} ${secret === '' && label !== '' ? styles.invalid : ''}`}
           type="text"
           placeholder="e.g. JBSWY3DPEHPK3PXP"
@@ -138,8 +138,9 @@ export default function TwoFactorQR() {
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Label (required)</label>
+        <label htmlFor="twofa-label" className={styles.label}>Label (required)</label>
         <input
+          id="twofa-label"
           className={`${styles.input} ${label === '' && secret !== '' ? styles.invalid : ''}`}
           type="text"
           placeholder="e.g. user@example.com"
@@ -151,8 +152,9 @@ export default function TwoFactorQR() {
       </div>
 
       <div className={styles.section}>
-        <label className={styles.label}>Issuer (optional)</label>
+        <label htmlFor="twofa-issuer" className={styles.label}>Issuer (optional)</label>
         <input
+          id="twofa-issuer"
           className={styles.input}
           type="text"
           placeholder="e.g. Google, GitHub, etc."
@@ -238,23 +240,24 @@ export default function TwoFactorQR() {
       <hr className={styles.divider} />
 
       <div className={styles.section}>
-        <label className={styles.label}>OTPAuth URI</label>
+        <label htmlFor="twofa-uri" className={styles.label}>OTPAuth URI</label>
         <input
+          id="twofa-uri"
           className={styles.uriInput}
           type="text"
           placeholder="otpauth://"
-          value={uri}
+          value={effectiveUri}
           onChange={(e) => parseUri(e.target.value)}
           autoComplete="off"
           spellCheck={false}
         />
       </div>
 
-      {qrDataUrl && (
+      {displayQr && (
         <div className={styles.qrSection}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={qrDataUrl}
+            src={displayQr}
             alt="2FA QR Code"
             width={size}
             height={size}

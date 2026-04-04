@@ -4,17 +4,25 @@ import PasswordGenerator from './PasswordGenerator';
 
 export const metadata: Metadata = {
   title: 'Password Generator',
-  description: 'Generate memorable, secure passwords inspired by Apple Keychain.',
+  description:
+    'Generate strong, memorable passwords inspired by Apple Keychain, or secure diceware passphrases with EFF and BIP-39 word lists. Entropy calculation, batch generation, and clipboard copy.',
+  alternates: { canonical: 'https://abdeen.dev/pwgen' },
+  openGraph: {
+    title: 'Password Generator | abdeen.dev',
+    description:
+      'Generate strong, memorable passwords or secure passphrases. Free, no sign-up required.',
+    url: 'https://abdeen.dev/pwgen',
+  },
 };
 
 export default function PasswordGeneratorPage() {
   return (
     <FadeInWrapper direction="up">
-      <main className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
+      <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
         <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight">Password Generator</h1>
         <p className="text-sm text-[var(--text)] mb-8 opacity-60">Memorable &middot; Secure &middot; Precise</p>
         <PasswordGenerator />
-      </main>
+      </div>
     </FadeInWrapper>
   );
 }

@@ -52,21 +52,23 @@ export default function HomePage() {
         </div>
       </FadeInWrapper>
 
-      <div className="max-w-5xl mx-auto grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {tools.map((item) => (
-          <FadeInWrapper key={item.href} direction="up">
-            <Link
-              href={item.href}
-              className="block h-full rounded-2xl border border-white/10 bg-white/5 p-6 transition-colors hover:bg-white/10"
-            >
-              <h2 className="text-xl font-bold text-[var(--heading)] mb-2">
-                {item.title}
-              </h2>
-              <p className="text-sm text-[var(--text)]">{item.description}</p>
-            </Link>
-          </FadeInWrapper>
-        ))}
-      </div>
+      <section className="max-w-5xl mx-auto" aria-label="Tools">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {tools.map((item) => (
+            <FadeInWrapper key={item.href} direction="up">
+              <Link
+                href={item.href}
+                className="group block h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-200 hover:bg-white/[0.07] hover:border-white/15 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
+              >
+                <h2 className="text-xl font-bold text-[var(--heading)] mb-2 group-hover:text-[var(--accent)] transition-colors duration-200">
+                  {item.title}
+                </h2>
+                <p className="text-sm text-[var(--text)] leading-relaxed">{item.description}</p>
+              </Link>
+            </FadeInWrapper>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

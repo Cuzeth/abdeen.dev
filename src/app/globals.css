@@ -24,17 +24,6 @@
   --card-bg: #0F0F0F;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: dark;
-    --maincolor: #080808;
-    --supportingcolor: #111111;
-    --text: #A1A1AA;
-    --heading: #FAFAFA;
-    --card-bg: #0F0F0F;
-  }
-}
-
 html {
   scroll-behavior: smooth;
   background-color: var(--maincolor);

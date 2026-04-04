@@ -209,10 +209,12 @@ export default function QRGenerator() {
   return (
     <div className={styles.container}>
       {/* Tabs */}
-      <div className={styles.tabs}>
+      <div className={styles.tabs} role="tablist" aria-label="QR code type">
         {TABS.map(({ key, label }) => (
           <button
             key={key}
+            role="tab"
+            aria-selected={activeTab === key}
             className={`${styles.tab} ${activeTab === key ? styles.tabActive : ''}`}
             onClick={() => { setActiveTab(key); setError(null); }}
           >
@@ -225,8 +227,9 @@ export default function QRGenerator() {
       <div className={styles.form}>
         {activeTab === 'text' && (
           <>
-            <label className={styles.label}>Text or URL</label>
+            <label htmlFor="qr-text" className={styles.label}>Text or URL</label>
             <textarea
+              id="qr-text"
               className={styles.textarea}
               placeholder="Enter text or URL..."
               value={text}
@@ -237,15 +240,17 @@ export default function QRGenerator() {
 
         {activeTab === 'wifi' && (
           <>
-            <label className={styles.label}>Network Name (SSID)</label>
+            <label htmlFor="qr-wifi-ssid" className={styles.label}>Network Name (SSID)</label>
             <input
+              id="qr-wifi-ssid"
               className={styles.input}
               placeholder="e.g. MyWiFi"
               value={wifiSSID}
               onChange={(e) => setWifiSSID(e.target.value)}
             />
-            <label className={styles.label}>Security</label>
+            <label htmlFor="qr-wifi-security" className={styles.label}>Security</label>
             <select
+              id="qr-wifi-security"
               className={styles.select}
               value={wifiSecurity}
               onChange={(e) => {
@@ -257,8 +262,9 @@ export default function QRGenerator() {
               <option value="WEP">WEP</option>
               <option value="nopass">None</option>
             </select>
-            <label className={styles.label}>Password</label>
+            <label htmlFor="qr-wifi-password" className={styles.label}>Password</label>
             <input
+              id="qr-wifi-password"
               className={styles.input}
               type="password"
               placeholder="Network password"
@@ -279,23 +285,26 @@ export default function QRGenerator() {
 
         {activeTab === 'email' && (
           <>
-            <label className={styles.label}>Email Address</label>
+            <label htmlFor="qr-email-to" className={styles.label}>Email Address</label>
             <input
+              id="qr-email-to"
               className={styles.input}
               type="email"
               placeholder="recipient@example.com"
               value={emailTo}
               onChange={(e) => setEmailTo(e.target.value)}
             />
-            <label className={styles.label}>Subject</label>
+            <label htmlFor="qr-email-subject" className={styles.label}>Subject</label>
             <input
+              id="qr-email-subject"
               className={styles.input}
               placeholder="Email subject"
               value={emailSubject}
               onChange={(e) => setEmailSubject(e.target.value)}
             />
-            <label className={styles.label}>Message</label>
+            <label htmlFor="qr-email-body" className={styles.label}>Message</label>
             <textarea
+              id="qr-email-body"
               className={styles.textarea}
               placeholder="Email body..."
               value={emailBody}
@@ -306,16 +315,18 @@ export default function QRGenerator() {
 
         {activeTab === 'phone' && (
           <>
-            <label className={styles.label}>Phone Number</label>
+            <label htmlFor="qr-phone" className={styles.label}>Phone Number</label>
             <input
+              id="qr-phone"
               className={styles.input}
               type="tel"
               placeholder="+1 234 567 8900"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <label className={styles.label}>SMS Message (optional)</label>
+            <label htmlFor="qr-phone-msg" className={styles.label}>SMS Message (optional)</label>
             <textarea
+              id="qr-phone-msg"
               className={styles.textarea}
               placeholder="Leave blank for call, or enter a message for SMS..."
               value={phoneMessage}
@@ -467,6 +478,7 @@ export default function QRGenerator() {
       <div
         ref={qrRef}
         className={`${styles.output} ${generated ? styles.outputVisible : ''}`}
+        aria-label="Generated QR code"
       />
 
       {generated && (

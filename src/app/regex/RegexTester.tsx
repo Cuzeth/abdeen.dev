@@ -149,15 +149,18 @@ export default function RegexTester() {
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <span className={styles.sectionLabel}>Pattern</span>
+        <label htmlFor="regex-pattern" className={styles.sectionLabel}>Pattern</label>
         <div className={styles.patternRow}>
           <input
+            id="regex-pattern"
             type="text"
             className={`${styles.patternInput} ${error ? styles.error : ''}`}
             value={pattern}
             onChange={(e) => setPattern(e.target.value)}
             placeholder="Enter regex pattern..."
             spellCheck={false}
+            aria-invalid={!!error}
+            aria-describedby={error ? 'regex-error' : undefined}
           />
           <div className={styles.flags}>
             {ALL_FLAGS.map((f) => (
@@ -174,12 +177,13 @@ export default function RegexTester() {
             ))}
           </div>
         </div>
-        {error && <span className={styles.errorMsg}>{error}</span>}
+        {error && <span id="regex-error" className={styles.errorMsg} role="alert">{error}</span>}
       </div>
 
       <div className={styles.section}>
-        <span className={styles.sectionLabel}>Test String</span>
+        <label htmlFor="regex-test" className={styles.sectionLabel}>Test String</label>
         <textarea
+          id="regex-test"
           className={styles.testArea}
           value={testString}
           onChange={(e) => setTestString(e.target.value)}

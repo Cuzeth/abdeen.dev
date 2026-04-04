@@ -276,6 +276,10 @@ export default function CoverQuad() {
             onClick={() => handleSlotClick(i)}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, i)}
+            role="button"
+            tabIndex={0}
+            aria-label={slot ? `Slot ${i + 1}: ${slot.label} — click to replace` : `Slot ${i + 1}: empty — click to add cover art`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSlotClick(i); } }}
           >
             <div className={styles.slotEmpty}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -335,9 +339,9 @@ export default function CoverQuad() {
       </div>
 
       {modal === 'choice' && (
-        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1}>
+        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Add cover art">
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalClose} onClick={closeAllModals}>&times;</button>
+            <button className={styles.modalClose} onClick={closeAllModals} aria-label="Close">&times;</button>
             <div className={styles.modalTitle}>Add Cover Art</div>
             <div className={styles.choiceButtons}>
               <button className={styles.choiceBtn} onClick={handleUploadChoice}>
@@ -361,9 +365,9 @@ export default function CoverQuad() {
       )}
 
       {modal === 'search' && (
-        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1}>
+        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Search album art">
           <div className={`${styles.modal} ${styles.searchModal}`} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalClose} onClick={closeAllModals}>&times;</button>
+            <button className={styles.modalClose} onClick={closeAllModals} aria-label="Close">&times;</button>
             <div className={styles.modalTitle}>Search Album Art</div>
             <div className={styles.searchBar}>
               <input
