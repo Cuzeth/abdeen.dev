@@ -17,10 +17,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     template: "%s | abdeen.dev",
-    default: "abdeen.dev — Free Browser Tools, Carefully Engineered",
+    default: "abdeen.dev — Free Tools, Carefully Engineered",
   },
   description:
-    "Free, open-source browser tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, 2FA QR generator, and album art collage creator. No sign-up, no tracking.",
+    "Free and open-source tools by Jaafar Abdeen. No sign-up, no tracking.",
   metadataBase: new URL("https://abdeen.dev"),
   applicationName: "abdeen.dev",
   authors: [{ name: "Jaafar Abdeen", url: "https://jaafar.cv" }],
@@ -45,16 +45,16 @@ export const metadata: Metadata = {
     siteName: "abdeen.dev",
     type: "website",
     url: "https://abdeen.dev",
-    title: "abdeen.dev — Free Browser Tools, Carefully Engineered",
+    title: "abdeen.dev — Free Tools, Carefully Engineered",
     description:
-      "Free, open-source browser tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, and more. No sign-up required.",
+      "Free and open-source tools by Jaafar Abdeen. No sign-up required.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "abdeen.dev — Free Browser Tools, Carefully Engineered",
+    title: "abdeen.dev — Free Tools, Carefully Engineered",
     description:
-      "Free, open-source browser tools — password generator, QR codes, regex tester, pomodoro timer, and more.",
+      "Free and open-source tools — password generator, QR codes, regex tester, pomodoro timer, and more.",
   },
   robots: {
     index: true,
@@ -84,7 +84,7 @@ const jsonLd = {
       name: "abdeen.dev",
       url: "https://abdeen.dev",
       description:
-        "Free, open-source browser tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, and more.",
+        "Free and open-source tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, and more.",
       author: { "@id": "https://abdeen.dev/#person" },
     },
     {
@@ -97,9 +97,9 @@ const jsonLd = {
     {
       "@type": "CollectionPage",
       "@id": "https://abdeen.dev/#collection",
-      name: "Free Browser Tools",
+      name: "Free Tools",
       description:
-        "A curated collection of free, open-source browser-based tools.",
+        "A curated collection of free and open-source tools.",
       url: "https://abdeen.dev",
       isPartOf: { "@id": "https://abdeen.dev/#website" },
       about: [
