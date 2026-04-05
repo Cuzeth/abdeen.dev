@@ -60,10 +60,18 @@ export default function LofiAtcRadio() {
 
   const station = LOFI_STATIONS[stationIdx];
 
-  // clean up RAF on unmount
+  // stop everything on unmount
   useEffect(() => {
     return () => {
       cancelAnimationFrame(rafRef.current);
+      lofiRef.current?.pause();
+      atcRef.current?.pause();
+      lofiRef.current = null;
+      atcRef.current = null;
+      ctxRef.current?.close();
+      ctxRef.current = null;
+      analyserRef.current = null;
+      mergerRef.current = null;
     };
   }, []);
 
