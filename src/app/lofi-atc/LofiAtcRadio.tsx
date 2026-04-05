@@ -42,6 +42,19 @@ const BARS = 11;
 
 type StreamStatus = "idle" | "connecting" | "live" | "error";
 
+// Module-level set so cleanup can always find and kill active audio,
+// even if React refs have been cleared by the time cleanup runs.
+const activeAudios = new Set<HTMLAudioElement>();
+
+function killAllAudio() {
+  activeAudios.forEach((a) => {
+    a.pause();
+    a.src = "";
+    a.load();
+  });
+  activeAudios.clear();
+}
+
 export default function LofiAtcRadio() {
   const lofiRef = useRef<HTMLAudioElement | null>(null);
   const atcRef = useRef<HTMLAudioElement | null>(null);
@@ -64,14 +77,13 @@ export default function LofiAtcRadio() {
   useEffect(() => {
     return () => {
       cancelAnimationFrame(rafRef.current);
-      lofiRef.current?.pause();
-      atcRef.current?.pause();
-      lofiRef.current = null;
-      atcRef.current = null;
+      killAllAudio();
       ctxRef.current?.close();
       ctxRef.current = null;
       analyserRef.current = null;
       mergerRef.current = null;
+      lofiRef.current = null;
+      atcRef.current = null;
     };
   }, []);
 
@@ -157,6 +169,7 @@ export default function LofiAtcRadio() {
       audio.crossOrigin = "anonymous";
       audio.volume = volume;
       setStatus("connecting");
+      activeAudios.add(audio);
 
       audio.addEventListener("playing", () => setStatus("live"));
       audio.addEventListener("error", () => setStatus("error"));
@@ -185,11 +198,9 @@ export default function LofiAtcRadio() {
   );
 
   const stopStreams = useCallback(() => {
-    lofiRef.current?.pause();
-    atcRef.current?.pause();
+    killAllAudio();
     lofiRef.current = null;
     atcRef.current = null;
-    analyserRef.current = null;
     setPlaying(false);
     setLofiStatus("idle");
     setAtcStatus("idle");
@@ -208,7 +219,13 @@ export default function LofiAtcRadio() {
     (idx: number) => {
       setStationIdx(idx);
       if (playing) {
-        lofiRef.current?.pause();
+        const old = lofiRef.current;
+        if (old) {
+          old.pause();
+          old.src = "";
+          old.load();
+          activeAudios.delete(old);
+        }
         lofiRef.current = null;
         stopVisualizer();
         setLofiStatus("connecting");
