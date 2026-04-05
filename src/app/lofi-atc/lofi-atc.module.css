@@ -1,0 +1,273 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 32rem;
+}
+
+/* ---------- play button ---------- */
+.playBtn {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(145deg, rgba(204, 27, 27, 0.18), rgba(204, 27, 27, 0.06));
+  color: var(--heading);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.playBtn:hover {
+  transform: scale(1.06);
+  border-color: rgba(204, 27, 27, 0.5);
+  box-shadow: 0 0 32px rgba(204, 27, 27, 0.2);
+}
+
+.playBtn:active {
+  transform: scale(0.97);
+}
+
+.playBtnPlaying {
+  border-color: rgba(204, 27, 27, 0.5);
+  box-shadow: 0 0 40px rgba(204, 27, 27, 0.18);
+}
+
+.playIcon {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: currentColor;
+}
+
+/* pulse ring when playing */
+.pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(204, 27, 27, 0.35);
+  animation: pulseRing 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseRing {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+/* ---------- soundwave ---------- */
+.waveWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 2rem;
+}
+
+.bar {
+  width: 3px;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0.25;
+  height: 4px;
+  will-change: height, opacity;
+  transition: height 0.06s ease-out, opacity 0.06s ease-out;
+}
+
+/* ---------- sliders ---------- */
+.sliders {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.sliderGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sliderLabel {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.sliderValue {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--heading);
+  opacity: 0.5;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--heading);
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgba(204, 27, 27, 0.25);
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--heading);
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+/* ---------- status ---------- */
+.statusRow {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dotLive {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+  animation: blink 2s ease-in-out infinite;
+}
+
+.dotError {
+  background: var(--accent);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ---------- station picker ---------- */
+.stationPicker {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stationBtn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.stationBtn:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.stationBtnActive {
+  border-color: rgba(204, 27, 27, 0.5);
+  background: rgba(204, 27, 27, 0.12);
+  color: var(--heading);
+}
+
+/* ---------- credits ---------- */
+.credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.68rem;
+  color: var(--text);
+  opacity: 0.4;
+}
+
+.creditItem {
+  white-space: nowrap;
+}
+
+.creditSep {
+  opacity: 0.3;
+}
+
+.creditLink {
+  color: var(--heading);
+  opacity: 0.7;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.15);
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
+}
+
+.creditLink:hover {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .sliders {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

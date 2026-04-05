@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import FadeInWrapper from '@/components/FadeInWrapper';
+import ToolPageShell from '@/components/ToolPageShell';
 import PasswordGenerator from './PasswordGenerator';
 
 export const metadata: Metadata = {
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 
 export default function PasswordGeneratorPage() {
   return (
-    <FadeInWrapper direction="up">
-      <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight mb-8">Password Generator</h1>
-        <PasswordGenerator />
-      </div>
-    </FadeInWrapper>
+    <ToolPageShell
+      title="Password Generator"
+      description="Generate polished passwords or passphrases with strong defaults, useful entropy feedback, and quick batch creation."
+    >
+      <PasswordGenerator />
+    </ToolPageShell>
   );
 }

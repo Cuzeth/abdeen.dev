@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import FadeInWrapper from '@/components/FadeInWrapper';
+import ToolPageShell from '@/components/ToolPageShell';
 import PomodoroTimer from './PomodoroTimer';
 
 export const metadata: Metadata = {
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 
 export default function PomodoroPage() {
   return (
-    <FadeInWrapper direction="up">
-      <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight mb-6">Pomodoro Timer</h1>
-        <PomodoroTimer />
-      </div>
-    </FadeInWrapper>
+    <ToolPageShell
+      title="Pomodoro Timer"
+      description="A stripped-back focus timer with customizable sessions, calm pacing, and just enough feedback to keep momentum."
+    >
+      <PomodoroTimer />
+    </ToolPageShell>
   );
 }

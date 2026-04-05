@@ -5,7 +5,7 @@ const tools = [
   {
     title: "CoverQuad",
     description:
-      "Apple killed the 2\u00d72 playlist covers. This brings them back.",
+      "Apple killed the 2×2 playlist covers. This brings them back.",
     href: "/coverquad",
   },
   {
@@ -36,37 +36,53 @@ const tools = [
     description: "Generate QR codes for text, WiFi, email, and phone.",
     href: "/qr",
   },
+  {
+    title: "Lo-fi ATC Radio",
+    description:
+      "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
+    href: "/lofi-atc",
+  },
 ];
 
 export default function HomePage() {
   return (
-    <div className="px-4 md:px-8 pt-10 pb-16">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-20 pt-4 md:gap-10 md:pb-28 md:pt-8">
       <FadeInWrapper direction="up">
-        <div className="max-w-5xl mx-auto mb-10">
-          <h1 className="text-4xl md:text-6xl font-black mb-3 tracking-tighter text-[var(--heading)]">
+        <div className="mb-2">
+          <h1 className="text-4xl font-bold tracking-[-0.06em] text-[var(--heading)] md:text-5xl">
             abdeen<span className="text-[var(--accent)]">.</span>dev
           </h1>
-          <p className="text-base md:text-lg text-[var(--text)] max-w-xl font-light">
+          <p className="mt-3 text-base text-[var(--text)] md:text-lg">
             Small tools, carefully engineered.
           </p>
         </div>
       </FadeInWrapper>
 
-      <section className="max-w-5xl mx-auto" aria-label="Tools">
+      <section aria-label="Tools">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((item) => (
-            <FadeInWrapper key={item.href} direction="up">
+          {tools.map((item, index) => (
+            <FadeInWrapper
+              key={item.href}
+              direction="up"
+              delay={0.04 + index * 0.03}
+            >
               <Link
                 href={item.href}
-                className="group block h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-200 hover:bg-white/[0.07] hover:border-white/15 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
+                className="group surface-panel block h-full rounded-[1.6rem] px-5 py-5 transition-transform duration-300 hover:-translate-y-1"
               >
-                <span className="block font-mono text-[11px] text-[var(--text)] opacity-30 mb-3 tracking-wide">
-                  {item.href}
-                </span>
-                <h2 className="text-lg font-semibold text-[var(--heading)] mb-1.5 group-hover:text-[var(--accent)] transition-colors duration-200">
-                  {item.title}
-                </h2>
-                <p className="text-sm text-[var(--text)] leading-relaxed opacity-70">{item.description}</p>
+                <div className="flex h-full flex-col gap-4">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
+                    {item.href}
+                  </span>
+                  <div>
+                    <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
+                      {item.title}
+                    </h2>
+                    <p className="mt-2 text-sm leading-7 text-[var(--text)]">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
               </Link>
             </FadeInWrapper>
           ))}

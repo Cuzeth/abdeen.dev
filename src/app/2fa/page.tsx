@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import FadeInWrapper from '@/components/FadeInWrapper';
+import ToolPageShell from '@/components/ToolPageShell';
 import TwoFactorQR from './TwoFactorQR';
 
 export const metadata: Metadata = {
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 
 export default function TwoFactorQRPage() {
   return (
-    <FadeInWrapper direction="up">
-      <div className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-12">
-        <h1 className="text-2xl font-bold text-[var(--heading)] tracking-tight mb-6">2FA QR Generator</h1>
-        <TwoFactorQR />
-      </div>
-    </FadeInWrapper>
+    <ToolPageShell
+      title="2FA QR Generator"
+      description="Create authenticator-ready QR codes from TOTP or HOTP secrets, or generate them directly from an otpauth URI."
+    >
+      <TwoFactorQR />
+    </ToolPageShell>
   );
 }

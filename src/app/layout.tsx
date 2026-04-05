@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
 import Link from "next/link";
 import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#080808",
+  themeColor: "#000000",
 };
 
 const jsonLd = {
@@ -151,6 +152,14 @@ const jsonLd = {
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        {
+          "@type": "WebApplication",
+          name: "Lo-fi ATC Radio",
+          url: "https://abdeen.dev/lofi-atc",
+          applicationCategory: "MultimediaApplication",
+          operatingSystem: "Any",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        },
       ],
     },
   ],
@@ -164,7 +173,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${manrope.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
         <Script
@@ -175,43 +184,39 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-white focus:rounded-md focus:text-sm"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-sm focus:text-white"
         >
           Skip to content
         </a>
-        <header className="w-full px-6 py-5" role="banner">
-          <nav className="max-w-5xl mx-auto" aria-label="Main">
+        <header className="sticky top-0 z-40 w-full px-4 py-4 md:px-8" role="banner">
+          <nav
+            className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-white/10 bg-black/20 px-3 py-2 shadow-[0_18px_48px_rgba(0,0,0,0.18)] backdrop-blur-xl"
+            aria-label="Main"
+          >
             <Link
               href="/"
-              className="text-lg font-semibold tracking-tight text-[var(--heading)] hover:opacity-80 transition-opacity"
+              className="flex min-w-0 items-center gap-3 rounded-full px-3 py-2 transition-opacity hover:opacity-90"
               aria-label="abdeen.dev — Home"
             >
-              abdeen<span className="text-[var(--accent)]">.</span>dev
+              <span className="shrink-0 text-lg font-bold tracking-[-0.06em] text-[var(--heading)]">
+                abdeen<span className="text-[var(--accent)]">.</span>dev
+              </span>
             </Link>
-          </nav>
-        </header>
-        <main id="main-content" className="flex-1">{children}</main>
-        <footer className="w-full px-6 py-8 border-t border-white/5" role="contentinfo">
-          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--text)]">
-            <span className="opacity-50">
-              &copy; {new Date().getFullYear()}{" "}
-              <a
-                href="https://jaafar.cv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[var(--heading)] transition-colors"
-              >
-                Jaafar Abdeen
-              </a>
-            </span>
+
             <a
               href="https://jaafar.cv"
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-40 hover:opacity-80 transition-opacity"
+              className="eyebrow transition-colors duration-200 hover:border-white/20 hover:text-[var(--heading)]"
             >
               jaafar.cv
             </a>
+          </nav>
+        </header>
+        <main id="main-content" className="relative flex-1 px-4 md:px-8">{children}</main>
+        <footer className="w-full px-4 pb-6 pt-2 md:px-8 md:pb-10" role="contentinfo">
+          <div className="mx-auto max-w-6xl text-center text-xs text-[var(--text)] opacity-50">
+            <span>&copy; {new Date().getFullYear()} Jaafar Abdeen</span>
           </div>
         </footer>
       </body>
