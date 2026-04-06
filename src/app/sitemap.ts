@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://abdeen.dev';
-  const lastModified = '2026-04-04';
+  const lastModified = new Date().toISOString().split('T')[0];
 
   return [
     { url: base, lastModified, changeFrequency: 'monthly', priority: 1.0 },
