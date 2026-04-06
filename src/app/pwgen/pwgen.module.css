@@ -556,6 +556,10 @@
     gap: 0.5rem;
   }
 
+  .segBtn {
+    flex: 1;
+  }
+
   .hints {
     display: none;
   }
