@@ -42,6 +42,12 @@ const tools = [
       "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
     href: "/lofi-atc",
   },
+  {
+    title: "SafeStay Scanner",
+    description:
+      "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
+    href: "/safestay",
+  },
 ];
 
 export default function HomePage() {

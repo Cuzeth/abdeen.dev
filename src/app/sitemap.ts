@@ -12,5 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/pomodoro`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/2fa`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/coverquad`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/lofi-atc`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/safestay`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
   ];
 }
