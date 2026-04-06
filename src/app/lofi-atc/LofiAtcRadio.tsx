@@ -101,55 +101,24 @@ export default function LofiAtcRadio() {
 
   const startVisualizer = useCallback(() => {
     const analyser = analyserRef.current;
-    if (!analyser) {
-      // No analyser (Web Audio API failed) — use CSS fallback animation
-      for (let i = 0; i < BARS; i++) {
-        const bar = barsRef.current[i];
-        if (!bar) continue;
-        bar.classList.add(styles.barAnimated);
-        bar.style.animationDelay = `${i * 0.12}s`;
-      }
-      return;
-    }
+    if (!analyser) return;
 
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
-    let fallbackActive = false;
 
     const tick = () => {
       analyser.getByteFrequencyData(dataArray);
 
-      // Check if analyser is returning real data
-      const hasData = dataArray.some((v) => v > 0);
-
-      if (!hasData && !fallbackActive) {
-        // Analyser returning silence (common on mobile) — switch to CSS fallback
-        fallbackActive = true;
-        for (let i = 0; i < BARS; i++) {
-          const bar = barsRef.current[i];
-          if (!bar) continue;
-          bar.classList.add(styles.barAnimated);
-          bar.style.animationDelay = `${i * 0.12}s`;
-        }
-      } else if (hasData && fallbackActive) {
-        fallbackActive = false;
-        for (let i = 0; i < BARS; i++) {
-          barsRef.current[i]?.classList.remove(styles.barAnimated);
-        }
-      }
-
-      if (!fallbackActive) {
-        const len = dataArray.length;
-        for (let i = 0; i < BARS; i++) {
-          const bar = barsRef.current[i];
-          if (!bar) continue;
-          // sample from lower-mid frequencies where lofi energy lives
-          const idx = Math.floor((i / BARS) * len * 0.4);
-          const val = dataArray[idx] / 255;
-          const h = 4 + val * 28;
-          const o = 0.3 + val * 0.7;
-          bar.style.height = `${h}px`;
-          bar.style.opacity = `${o}`;
-        }
+      const len = dataArray.length;
+      for (let i = 0; i < BARS; i++) {
+        const bar = barsRef.current[i];
+        if (!bar) continue;
+        // sample from lower-mid frequencies where lofi energy lives
+        const idx = Math.floor((i / BARS) * len * 0.4);
+        const val = dataArray[idx] / 255;
+        const h = 4 + val * 28;
+        const o = 0.3 + val * 0.7;
+        bar.style.height = `${h}px`;
+        bar.style.opacity = `${o}`;
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -163,10 +132,8 @@ export default function LofiAtcRadio() {
     for (let i = 0; i < BARS; i++) {
       const bar = barsRef.current[i];
       if (!bar) continue;
-      bar.classList.remove(styles.barAnimated);
       bar.style.height = "4px";
       bar.style.opacity = "0.25";
-      bar.style.animationDelay = "";
     }
   }, []);
 
@@ -187,15 +154,9 @@ export default function LofiAtcRadio() {
 
   const connectToGraph = useCallback(
     (audio: HTMLAudioElement) => {
-      try {
-        const { ctx, merger } = ensureAnalyserGraph();
-        const source = ctx.createMediaElementSource(audio);
-        source.connect(merger);
-      } catch {
-        // Web Audio API connection can fail on mobile (e.g. iOS cross-origin
-        // streaming restrictions). Audio still plays via the HTMLAudioElement
-        // directly — we just lose the visualizer for that stream.
-      }
+      const { ctx, merger } = ensureAnalyserGraph();
+      const source = ctx.createMediaElementSource(audio);
+      source.connect(merger);
     },
     [ensureAnalyserGraph],
   );
