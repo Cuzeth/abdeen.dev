@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useSlider } from "@/hooks/useSlider";
 import styles from "./lofi-atc.module.css";
 
 interface LofiStation {
@@ -72,6 +73,7 @@ export default function LofiAtcRadio() {
   const [atcStatus, setAtcStatus] = useState<StreamStatus>("idle");
 
   const station = LOFI_STATIONS[stationIdx];
+  const stationSlider = useSlider(stationIdx);
 
   // stop everything on unmount
   useEffect(() => {
@@ -316,10 +318,19 @@ export default function LofiAtcRadio() {
       </div>
 
       {/* station switcher */}
-      <div className={styles.stationPicker} role="radiogroup" aria-label="Lo-fi station">
+      <div className={styles.stationPicker} role="radiogroup" aria-label="Lo-fi station" ref={stationSlider.containerRef}>
+        <div
+          className={styles.stationSlider}
+          style={{
+            left: stationSlider.style.left,
+            width: stationSlider.style.width,
+            opacity: stationSlider.ready ? 1 : 0,
+          }}
+        />
         {LOFI_STATIONS.map((s, i) => (
           <button
             key={s.url}
+            data-active={i === stationIdx}
             className={`${styles.stationBtn} ${i === stationIdx ? styles.stationBtnActive : ""}`}
             onClick={() => handleStationChange(i)}
             role="radio"

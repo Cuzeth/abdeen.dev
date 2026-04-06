@@ -193,8 +193,8 @@ export default function TwoFactorQR() {
         Advanced options
       </label>
 
-      {showAdvanced && (
-        <>
+      <div className={`${styles.advancedPanel} ${showAdvanced ? styles.advancedPanelOpen : ''}`}>
+        <div className={styles.advancedPanelInner}>
           <p className={styles.advancedNote}>
             Advanced options are not supported by Google Authenticator (they are ignored). Yubico Authenticator supports them.
           </p>
@@ -234,8 +234,8 @@ export default function TwoFactorQR() {
               />
             </div>
           )}
-        </>
-      )}
+        </div>
+      </div>
 
       <hr className={styles.divider} />
 

@@ -232,8 +232,8 @@ export default function RegexTester() {
         >
           {showReplace ? 'Hide Replace' : 'Show Replace'}
         </button>
-        {showReplace && (
-          <>
+        <div className={`${styles.collapsePanel} ${showReplace ? styles.collapsePanelOpen : ''}`}>
+          <div className={styles.collapsePanelInner}>
             <input
               type="text"
               className={styles.replaceInput}
@@ -248,8 +248,8 @@ export default function RegexTester() {
                 <div className={styles.resultBox}>{replaceResult}</div>
               </div>
             )}
-          </>
-        )}
+          </div>
+        </div>
       </div>
 
       <div className={styles.section}>
@@ -259,23 +259,25 @@ export default function RegexTester() {
         >
           {showCheatsheet ? 'Hide Cheatsheet' : 'Regex Cheatsheet'}
         </button>
-        {showCheatsheet && (
-          <div className={styles.cheatsheet}>
-            {CHEATSHEET.map((section) => (
-              <div key={section.title} className={styles.cheatSection}>
-                <h3 className={styles.cheatTitle}>{section.title}</h3>
-                <div className={styles.cheatItems}>
-                  {section.items.map((item) => (
-                    <div key={item.pattern} className={styles.cheatItem}>
-                      <code className={styles.cheatPattern}>{item.pattern}</code>
-                      <span className={styles.cheatDesc}>{item.desc}</span>
-                    </div>
-                  ))}
+        <div className={`${styles.collapsePanel} ${showCheatsheet ? styles.collapsePanelOpen : ''}`}>
+          <div className={styles.collapsePanelInner}>
+            <div className={styles.cheatsheet}>
+              {CHEATSHEET.map((section) => (
+                <div key={section.title} className={styles.cheatSection}>
+                  <h3 className={styles.cheatTitle}>{section.title}</h3>
+                  <div className={styles.cheatItems}>
+                    {section.items.map((item) => (
+                      <div key={item.pattern} className={styles.cheatItem}>
+                        <code className={styles.cheatPattern}>{item.pattern}</code>
+                        <span className={styles.cheatDesc}>{item.desc}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

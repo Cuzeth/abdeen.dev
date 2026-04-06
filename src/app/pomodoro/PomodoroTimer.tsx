@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSlider } from '@/hooks/useSlider';
 import styles from './pomodoro.module.css';
 
 type Mode = 'work' | 'short' | 'long';
@@ -46,6 +47,7 @@ export default function PomodoroTimer() {
   const [sessions, setSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const modeSlider = useSlider(mode);
 
   const totalSeconds = durations[mode] * 60;
   const progress = 1 - secondsLeft / totalSeconds;
@@ -110,10 +112,19 @@ export default function PomodoroTimer() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.modes}>
+      <div className={styles.modes} ref={modeSlider.containerRef}>
+        <div
+          className={styles.modeSlider}
+          style={{
+            left: modeSlider.style.left,
+            width: modeSlider.style.width,
+            opacity: modeSlider.ready ? 1 : 0,
+          }}
+        />
         {(Object.keys(MODE_LABELS) as Mode[]).map((m) => (
           <button
             key={m}
+            data-active={mode === m}
             className={`${styles.modeBtn} ${mode === m ? styles.modeBtnActive : ''}`}
             onClick={() => switchMode(m)}
           >
@@ -162,8 +173,8 @@ export default function PomodoroTimer() {
         <button className={styles.settingsToggle} onClick={() => setShowSettings(!showSettings)}>
           {showSettings ? 'Hide Settings' : 'Customize Durations'}
         </button>
-        {showSettings && (
-          <>
+        <div className={`${styles.settingsPanel} ${showSettings ? styles.settingsPanelOpen : ''}`}>
+          <div className={styles.settingsPanelInner}>
             {(Object.keys(MODE_LABELS) as Mode[]).map((m) => (
               <div key={m} className={styles.settingRow}>
                 <span>{MODE_LABELS[m]}</span>
@@ -180,8 +191,8 @@ export default function PomodoroTimer() {
                 </div>
               </div>
             ))}
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type QRCodeStyling from 'qr-code-styling';
+import { useSlider } from '@/hooks/useSlider';
 import styles from './qr.module.css';
 
 type TabType = 'text' | 'wifi' | 'email' | 'phone';
@@ -61,13 +62,11 @@ export default function QRGenerator() {
   const [gradientColor2, setGradientColor2] = useState('#4a00e0');
   const [gradientType, setGradientType] = useState<GradientType>('linear');
 
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const tabSlider = useSlider(activeTab);
   const qrRef = useRef<HTMLDivElement>(null);
   const qrInstance = useRef<QRCodeStyling | null>(null);
   const lastData = useRef<string>('');
   const styleSectionRef = useRef<HTMLDivElement>(null);
-
-  const activeTabIndex = useMemo(() => TABS.findIndex(t => t.key === activeTab), [activeTab]);
 
   const buildQRData = useCallback((): string | null => {
     switch (activeTab) {
@@ -213,18 +212,20 @@ export default function QRGenerator() {
   return (
     <div className={styles.container}>
       {/* Tabs */}
-      <div className={styles.tabs} role="tablist" aria-label="QR code type" ref={tabsRef}>
+      <div className={styles.tabs} role="tablist" aria-label="QR code type" ref={tabSlider.containerRef}>
         <div
           className={styles.tabSlider}
           style={{
-            width: `calc(${100 / TABS.length}% - 0.25rem)`,
-            transform: `translateX(calc(${activeTabIndex * 100}% + ${activeTabIndex * 0.25}rem))`,
+            left: tabSlider.style.left,
+            width: tabSlider.style.width,
+            opacity: tabSlider.ready ? 1 : 0,
           }}
         />
         {TABS.map(({ key, label }) => (
           <button
             key={key}
             role="tab"
+            data-active={activeTab === key}
             aria-selected={activeTab === key}
             className={`${styles.tab} ${activeTab === key ? styles.tabActive : ''}`}
             onClick={() => { setActiveTab(key); setError(null); }}

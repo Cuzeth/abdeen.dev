@@ -12,6 +12,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useSlider } from '@/hooks/useSlider';
 import styles from './pwgen.module.css';
 
 // ── Constants ──
@@ -149,6 +150,9 @@ export default function PasswordGenerator() {
   const [passphraseCapitalize, setPassphraseCapitalize] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const modeSlider = useSlider(mode);
+  const sepSlider = useSlider(separator);
+  const sourceSlider = useSlider(passphraseSource);
 
   useEffect(() => {
     Promise.all([
@@ -308,14 +312,24 @@ export default function PasswordGenerator() {
   return (
     <div className={styles.container} ref={containerRef}>
       {/* Mode selector */}
-      <div className={styles.modeRow}>
+      <div className={styles.modeRow} ref={modeSlider.containerRef}>
+        <div
+          className={styles.modeSlider}
+          style={{
+            left: modeSlider.style.left,
+            width: modeSlider.style.width,
+            opacity: modeSlider.ready ? 1 : 0,
+          }}
+        />
         <button
+          data-active={mode === 'memorable'}
           className={`${styles.modeBtn} ${mode === 'memorable' ? styles.modeBtnActive : ''}`}
           onClick={() => setMode('memorable')}
         >
           Memorable
         </button>
         <button
+          data-active={mode === 'passphrase'}
           className={`${styles.modeBtn} ${mode === 'passphrase' ? styles.modeBtnActive : ''}`}
           onClick={() => setMode('passphrase')}
         >
@@ -394,10 +408,19 @@ export default function PasswordGenerator() {
         {/* Separator — shared */}
         <div className={styles.controlRow}>
           <span className={styles.controlLabel}>Separator</span>
-          <div className={styles.segmentedControl}>
+          <div className={styles.segmentedControl} ref={sepSlider.containerRef}>
+            <div
+              className={styles.segSlider}
+              style={{
+                left: sepSlider.style.left,
+                width: sepSlider.style.width,
+                opacity: sepSlider.ready ? 1 : 0,
+              }}
+            />
             {([['', 'None'], ['-', 'Hyphen'], ['.', 'Dot']] as [Separator, string][]).map(([val, label]) => (
               <button
                 key={val}
+                data-active={separator === val}
                 className={`${styles.segBtn} ${separator === val ? styles.segBtnActive : ''}`}
                 onClick={() => setSeparator(val)}
               >
@@ -444,14 +467,24 @@ export default function PasswordGenerator() {
           <>
             <div className={styles.controlRow}>
               <span className={styles.controlLabel}>Word List</span>
-              <div className={styles.segmentedControl}>
+              <div className={styles.segmentedControl} ref={sourceSlider.containerRef}>
+                <div
+                  className={styles.segSlider}
+                  style={{
+                    left: sourceSlider.style.left,
+                    width: sourceSlider.style.width,
+                    opacity: sourceSlider.ready ? 1 : 0,
+                  }}
+                />
                 <button
+                  data-active={passphraseSource === 'eff'}
                   className={`${styles.segBtn} ${passphraseSource === 'eff' ? styles.segBtnActive : ''}`}
                   onClick={() => setPassphraseSource('eff')}
                 >
                   EFF
                 </button>
                 <button
+                  data-active={passphraseSource === 'bip39'}
                   className={`${styles.segBtn} ${passphraseSource === 'bip39' ? styles.segBtnActive : ''}`}
                   onClick={() => setPassphraseSource('bip39')}
                 >

@@ -37,13 +37,26 @@
 /* ── Mode selector ── */
 .modeRow {
   display: flex;
-  gap: 2px;
+  gap: 0.25rem;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 0.5rem;
-  padding: 3px;
+  padding: 0.25rem;
+  position: relative;
+}
+
+.modeSlider {
+  position: absolute;
+  top: 0.25rem;
+  height: calc(100% - 0.5rem);
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .modeBtn {
+  flex: 1;
   padding: 0.45rem 1.25rem;
   font-size: 0.75rem;
   color: var(--text);
@@ -51,17 +64,18 @@
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.25s ease;
   letter-spacing: 0.03em;
   font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
 .modeBtn:hover {
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--heading);
 }
 
 .modeBtnActive {
-  background: rgba(255, 255, 255, 0.1);
   color: var(--heading);
 }
 
@@ -333,10 +347,22 @@
 
 .segmentedControl {
   display: flex;
-  gap: 2px;
+  gap: 0.15rem;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 0.375rem;
-  padding: 2px;
+  padding: 0.15rem;
+  position: relative;
+}
+
+.segSlider {
+  position: absolute;
+  top: 0.15rem;
+  height: calc(100% - 0.3rem);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1), width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .segBtn {
@@ -347,16 +373,17 @@
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.25s ease;
   letter-spacing: 0.02em;
+  position: relative;
+  z-index: 1;
 }
 
 .segBtn:hover {
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--heading);
 }
 
 .segBtnActive {
-  background: rgba(255, 255, 255, 0.1);
   color: var(--heading);
 }
 
@@ -498,6 +525,16 @@
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
+  .modeSlider,
+  .segSlider {
+    display: none;
+  }
+
+  .modeBtnActive,
+  .segBtnActive {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
   .passwordSegments {
     font-size: 0.9rem;
   }
