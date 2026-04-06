@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import type QRCodeStyling from 'qr-code-styling';
 import styles from './qr.module.css';
 
@@ -61,9 +61,13 @@ export default function QRGenerator() {
   const [gradientColor2, setGradientColor2] = useState('#4a00e0');
   const [gradientType, setGradientType] = useState<GradientType>('linear');
 
+  const tabsRef = useRef<HTMLDivElement>(null);
   const qrRef = useRef<HTMLDivElement>(null);
   const qrInstance = useRef<QRCodeStyling | null>(null);
   const lastData = useRef<string>('');
+  const styleSectionRef = useRef<HTMLDivElement>(null);
+
+  const activeTabIndex = useMemo(() => TABS.findIndex(t => t.key === activeTab), [activeTab]);
 
   const buildQRData = useCallback((): string | null => {
     switch (activeTab) {
@@ -209,7 +213,14 @@ export default function QRGenerator() {
   return (
     <div className={styles.container}>
       {/* Tabs */}
-      <div className={styles.tabs} role="tablist" aria-label="QR code type">
+      <div className={styles.tabs} role="tablist" aria-label="QR code type" ref={tabsRef}>
+        <div
+          className={styles.tabSlider}
+          style={{
+            width: `calc(${100 / TABS.length}% - 0.25rem)`,
+            transform: `translateX(calc(${activeTabIndex * 100}% + ${activeTabIndex * 0.25}rem))`,
+          }}
+        />
         {TABS.map(({ key, label }) => (
           <button
             key={key}
@@ -224,7 +235,7 @@ export default function QRGenerator() {
       </div>
 
       {/* Forms */}
-      <div className={styles.form}>
+      <div className={styles.form} key={activeTab}>
         {activeTab === 'text' && (
           <>
             <label htmlFor="qr-text" className={styles.label}>Text or URL</label>
@@ -351,8 +362,11 @@ export default function QRGenerator() {
         {showStyle ? 'Hide Style Options' : 'Customize Style'}
       </button>
 
-      {showStyle && (
-        <div className={styles.styleSection}>
+      <div
+        className={`${styles.styleSection} ${showStyle ? styles.styleSectionOpen : ''}`}
+        ref={styleSectionRef}
+      >
+        <div className={styles.styleSectionInner}>
           <div className={styles.styleGrid}>
             <div className={styles.styleField}>
               <label className={styles.label}>Dot Style</label>
@@ -470,9 +484,8 @@ export default function QRGenerator() {
               </div>
             )}
           </div>
-
         </div>
-      )}
+      </div>
 
       {/* Output */}
       <div
