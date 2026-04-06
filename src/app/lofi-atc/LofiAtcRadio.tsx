@@ -59,11 +59,9 @@ function killAllAudio() {
 export default function LofiAtcRadio() {
   const lofiRef = useRef<HTMLAudioElement | null>(null);
   const atcRef = useRef<HTMLAudioElement | null>(null);
-  const lofiGainRef = useRef<GainNode | null>(null);
-  const atcGainRef = useRef<GainNode | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const mergerRef = useRef<GainNode | null>(null);
+  const mergerRef = useRef<ChannelMergerNode | null>(null);
   const rafRef = useRef<number>(0);
   const barsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -86,8 +84,6 @@ export default function LofiAtcRadio() {
       ctxRef.current = null;
       analyserRef.current = null;
       mergerRef.current = null;
-      lofiGainRef.current = null;
-      atcGainRef.current = null;
       lofiRef.current = null;
       atcRef.current = null;
     };
@@ -190,20 +186,15 @@ export default function LofiAtcRadio() {
   }, [getAudioContext]);
 
   const connectToGraph = useCallback(
-    (audio: HTMLAudioElement, volume: number): GainNode | null => {
+    (audio: HTMLAudioElement) => {
       try {
         const { ctx, merger } = ensureAnalyserGraph();
         const source = ctx.createMediaElementSource(audio);
-        const gain = ctx.createGain();
-        gain.gain.value = volume;
-        source.connect(gain);
-        gain.connect(merger);
-        return gain;
+        source.connect(merger);
       } catch {
         // Web Audio API connection can fail on mobile (e.g. iOS cross-origin
         // streaming restrictions). Audio still plays via the HTMLAudioElement
-        // directly — we just lose the visualizer and GainNode volume control.
-        return null;
+        // directly — we just lose the visualizer for that stream.
       }
     },
     [ensureAnalyserGraph],
@@ -216,6 +207,7 @@ export default function LofiAtcRadio() {
       setStatus: (s: StreamStatus) => void,
     ): HTMLAudioElement => {
       const audio = new Audio(url);
+      audio.crossOrigin = "anonymous";
       audio.volume = volume;
       setStatus("connecting");
       activeAudios.add(audio);
@@ -225,9 +217,11 @@ export default function LofiAtcRadio() {
       audio.addEventListener("stalled", () => setStatus("connecting"));
       audio.addEventListener("waiting", () => setStatus("connecting"));
 
+      connectToGraph(audio);
+
       return audio;
     },
-    [],
+    [connectToGraph],
   );
 
   const startStreams = useCallback(
@@ -236,22 +230,18 @@ export default function LofiAtcRadio() {
       const atc = createAudio(ATC_SOURCE.url, atcVol, setAtcStatus);
       lofiRef.current = lofi;
       atcRef.current = atc;
-      lofiGainRef.current = connectToGraph(lofi, lofiVol);
-      atcGainRef.current = connectToGraph(atc, atcVol);
       lofi.play().catch(() => setLofiStatus("error"));
       atc.play().catch(() => setAtcStatus("error"));
       setPlaying(true);
       startVisualizer();
     },
-    [lofiVol, atcVol, createAudio, connectToGraph, startVisualizer],
+    [lofiVol, atcVol, createAudio, startVisualizer],
   );
 
   const stopStreams = useCallback(() => {
     killAllAudio();
     lofiRef.current = null;
     atcRef.current = null;
-    lofiGainRef.current = null;
-    atcGainRef.current = null;
     setPlaying(false);
     setLofiStatus("idle");
     setAtcStatus("idle");
@@ -278,7 +268,6 @@ export default function LofiAtcRadio() {
           activeAudios.delete(old);
         }
         lofiRef.current = null;
-        lofiGainRef.current = null;
         stopVisualizer();
         setLofiStatus("connecting");
         const lofi = createAudio(
@@ -287,23 +276,18 @@ export default function LofiAtcRadio() {
           setLofiStatus,
         );
         lofiRef.current = lofi;
-        lofiGainRef.current = connectToGraph(lofi, lofiVol);
         lofi.play().catch(() => setLofiStatus("error"));
         startVisualizer();
       }
     },
-    [playing, lofiVol, createAudio, connectToGraph, startVisualizer, stopVisualizer],
+    [playing, lofiVol, createAudio, startVisualizer, stopVisualizer],
   );
 
   const handleLofiVol = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const v = parseFloat(e.target.value);
       setLofiVol(v);
-      if (lofiGainRef.current) {
-        lofiGainRef.current.gain.value = v;
-      } else if (lofiRef.current) {
-        lofiRef.current.volume = v;
-      }
+      if (lofiRef.current) lofiRef.current.volume = v;
     },
     [],
   );
@@ -312,11 +296,7 @@ export default function LofiAtcRadio() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const v = parseFloat(e.target.value);
       setAtcVol(v);
-      if (atcGainRef.current) {
-        atcGainRef.current.gain.value = v;
-      } else if (atcRef.current) {
-        atcRef.current.volume = v;
-      }
+      if (atcRef.current) atcRef.current.volume = v;
     },
     [],
   );
