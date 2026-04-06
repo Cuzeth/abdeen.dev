@@ -525,16 +525,6 @@
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
-  .modeSlider,
-  .segSlider {
-    display: none;
-  }
-
-  .modeBtnActive,
-  .segBtnActive {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
   .result {
     padding: 1rem;
   }

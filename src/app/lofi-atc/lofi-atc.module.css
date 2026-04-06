@@ -289,15 +289,6 @@
     gap: 1.5rem;
   }
 
-  .stationSlider {
-    display: none;
-  }
-
-  .stationBtnActive {
-    border-color: rgba(204, 27, 27, 0.5);
-    background: rgba(204, 27, 27, 0.12);
-  }
-
   .stationBtn {
     min-height: 44px;
     display: flex;

@@ -226,14 +226,6 @@
     gap: 1.5rem;
   }
 
-  .modeSlider {
-    display: none;
-  }
-
-  .modeBtnActive {
-    background: var(--accent);
-  }
-
   .modeBtn {
     min-height: 44px;
     display: flex;
