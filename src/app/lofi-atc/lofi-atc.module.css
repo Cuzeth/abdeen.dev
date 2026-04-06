@@ -246,6 +246,18 @@
   color: var(--heading);
 }
 
+/* ---------- notice ---------- */
+.notice {
+  margin: 0;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  opacity: 0.4;
+  text-align: center;
+  line-height: 1.5;
+}
+
 /* ---------- credits ---------- */
 .credits {
   display: flex;

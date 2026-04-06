@@ -61,9 +61,12 @@ export default function LofiAtcRadio() {
   const atcRef = useRef<HTMLAudioElement | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const mergerRef = useRef<ChannelMergerNode | null>(null);
+  const mergerRef = useRef<GainNode | null>(null);
+  const lofiGainRef = useRef<GainNode | null>(null);
+  const atcGainRef = useRef<GainNode | null>(null);
   const rafRef = useRef<number>(0);
   const barsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [isSafari, setIsSafari] = useState(false);
 
   const [playing, setPlaying] = useState(false);
   const [stationIdx, setStationIdx] = useState(0);
@@ -89,6 +92,13 @@ export default function LofiAtcRadio() {
     };
   }, []);
 
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/Safari/.test(ua) && !/Chrome/.test(ua) && !/Chromium/.test(ua)) {
+      setIsSafari(true);
+    }
+  }, []);
+
   const getAudioContext = useCallback(() => {
     if (!ctxRef.current) {
       ctxRef.current = new AudioContext();
@@ -104,17 +114,39 @@ export default function LofiAtcRadio() {
     if (!analyser) return;
 
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
+    let silentFrames = 0;
 
     const tick = () => {
       analyser.getByteFrequencyData(dataArray);
 
+      const hasSignal = dataArray.some((v) => v > 0);
+      // Safari's AnalyserNode returns all zeros with createMediaElementSource
+      // (WebKit bug). Count consecutive silent frames, but always recover
+      // if real data arrives (streams can take a while to buffer).
+      if (hasSignal) {
+        silentFrames = 0;
+      } else {
+        silentFrames++;
+      }
+      const useFallback = silentFrames > 120;
+
+      const now = performance.now();
       const len = dataArray.length;
       for (let i = 0; i < BARS; i++) {
         const bar = barsRef.current[i];
         if (!bar) continue;
-        // sample from lower-mid frequencies where lofi energy lives
-        const idx = Math.floor((i / BARS) * len * 0.4);
-        const val = dataArray[idx] / 255;
+
+        let val: number;
+        if (useFallback) {
+          val =
+            0.3 +
+            0.35 * Math.sin(now / 600 + i * 0.9) +
+            0.15 * Math.sin(now / 300 + i * 1.7);
+        } else {
+          const idx = Math.floor((i / BARS) * len * 0.4);
+          val = dataArray[idx] / 255;
+        }
+
         const h = 4 + val * 28;
         const o = 0.3 + val * 0.7;
         bar.style.height = `${h}px`;
@@ -153,10 +185,18 @@ export default function LofiAtcRadio() {
   }, [getAudioContext]);
 
   const connectToGraph = useCallback(
-    (audio: HTMLAudioElement) => {
+    (
+      audio: HTMLAudioElement,
+      gainRef: React.RefObject<GainNode | null>,
+      volume: number,
+    ) => {
       const { ctx, merger } = ensureAnalyserGraph();
       const source = ctx.createMediaElementSource(audio);
-      source.connect(merger);
+      const gain = ctx.createGain();
+      gain.gain.value = volume;
+      source.connect(gain);
+      gain.connect(merger);
+      gainRef.current = gain;
     },
     [ensureAnalyserGraph],
   );
@@ -166,10 +206,13 @@ export default function LofiAtcRadio() {
       url: string,
       volume: number,
       setStatus: (s: StreamStatus) => void,
+      gainRef: React.RefObject<GainNode | null>,
     ): HTMLAudioElement => {
       const audio = new Audio(url);
       audio.crossOrigin = "anonymous";
-      audio.volume = volume;
+      // Keep element volume at 1 — GainNode handles actual volume.
+      // Safari ignores HTMLAudioElement.volume once routed through Web Audio.
+      audio.volume = 1;
       setStatus("connecting");
       activeAudios.add(audio);
 
@@ -178,7 +221,7 @@ export default function LofiAtcRadio() {
       audio.addEventListener("stalled", () => setStatus("connecting"));
       audio.addEventListener("waiting", () => setStatus("connecting"));
 
-      connectToGraph(audio);
+      connectToGraph(audio, gainRef, volume);
 
       return audio;
     },
@@ -187,8 +230,8 @@ export default function LofiAtcRadio() {
 
   const startStreams = useCallback(
     (lofiUrl: string) => {
-      const lofi = createAudio(lofiUrl, lofiVol, setLofiStatus);
-      const atc = createAudio(ATC_SOURCE.url, atcVol, setAtcStatus);
+      const lofi = createAudio(lofiUrl, lofiVol, setLofiStatus, lofiGainRef);
+      const atc = createAudio(ATC_SOURCE.url, atcVol, setAtcStatus, atcGainRef);
       lofiRef.current = lofi;
       atcRef.current = atc;
       lofi.play().catch(() => setLofiStatus("error"));
@@ -203,6 +246,8 @@ export default function LofiAtcRadio() {
     killAllAudio();
     lofiRef.current = null;
     atcRef.current = null;
+    lofiGainRef.current = null;
+    atcGainRef.current = null;
     setPlaying(false);
     setLofiStatus("idle");
     setAtcStatus("idle");
@@ -229,12 +274,14 @@ export default function LofiAtcRadio() {
           activeAudios.delete(old);
         }
         lofiRef.current = null;
+        lofiGainRef.current = null;
         stopVisualizer();
         setLofiStatus("connecting");
         const lofi = createAudio(
           LOFI_STATIONS[idx].url,
           lofiVol,
           setLofiStatus,
+          lofiGainRef,
         );
         lofiRef.current = lofi;
         lofi.play().catch(() => setLofiStatus("error"));
@@ -248,7 +295,7 @@ export default function LofiAtcRadio() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const v = parseFloat(e.target.value);
       setLofiVol(v);
-      if (lofiRef.current) lofiRef.current.volume = v;
+      if (lofiGainRef.current) lofiGainRef.current.gain.value = v;
     },
     [],
   );
@@ -257,7 +304,7 @@ export default function LofiAtcRadio() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const v = parseFloat(e.target.value);
       setAtcVol(v);
-      if (atcRef.current) atcRef.current.volume = v;
+      if (atcGainRef.current) atcGainRef.current.gain.value = v;
     },
     [],
   );
@@ -341,48 +388,54 @@ export default function LofiAtcRadio() {
         ))}
       </div>
 
-      {/* volume sliders */}
-      <div className={styles.sliders}>
-        <div className={styles.sliderGroup}>
-          <label className={styles.sliderLabel} htmlFor="lofi-vol">
-            Lo-fi
-          </label>
-          <input
-            id="lofi-vol"
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={lofiVol}
-            onChange={handleLofiVol}
-            className={styles.slider}
-            aria-label="Lo-fi music volume"
-          />
-          <span className={styles.sliderValue}>
-            {Math.round(lofiVol * 100)}%
-          </span>
-        </div>
+      {/* volume sliders — hidden on Safari where volume is not programmable */}
+      {isSafari ? (
+        <p className={styles.notice}>
+          Volume controls aren&apos;t supported in Safari — use your device&apos;s volume instead.
+        </p>
+      ) : (
+        <div className={styles.sliders}>
+          <div className={styles.sliderGroup}>
+            <label className={styles.sliderLabel} htmlFor="lofi-vol">
+              Lo-fi
+            </label>
+            <input
+              id="lofi-vol"
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={lofiVol}
+              onChange={handleLofiVol}
+              className={styles.slider}
+              aria-label="Lo-fi music volume"
+            />
+            <span className={styles.sliderValue}>
+              {Math.round(lofiVol * 100)}%
+            </span>
+          </div>
 
-        <div className={styles.sliderGroup}>
-          <label className={styles.sliderLabel} htmlFor="atc-vol">
-            ATC
-          </label>
-          <input
-            id="atc-vol"
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={atcVol}
-            onChange={handleAtcVol}
-            className={styles.slider}
-            aria-label="ATC radio volume"
-          />
-          <span className={styles.sliderValue}>
-            {Math.round(atcVol * 100)}%
-          </span>
+          <div className={styles.sliderGroup}>
+            <label className={styles.sliderLabel} htmlFor="atc-vol">
+              ATC
+            </label>
+            <input
+              id="atc-vol"
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={atcVol}
+              onChange={handleAtcVol}
+              className={styles.slider}
+              aria-label="ATC radio volume"
+            />
+            <span className={styles.sliderValue}>
+              {Math.round(atcVol * 100)}%
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* credits */}
       <div className={styles.credits}>
