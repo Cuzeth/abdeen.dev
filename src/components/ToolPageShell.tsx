@@ -15,7 +15,7 @@ export default function ToolPageShell({
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 pb-16 pt-4 md:gap-8 md:pb-24 md:pt-8">
       <FadeInWrapper direction="up">
-        <section className="surface-panel overflow-hidden rounded-[2rem]">
+        <section className="surface-panel overflow-hidden rounded-[1.25rem] md:rounded-[2rem]">
           <div className="border-b border-white/[0.06] px-5 py-4 md:px-8 md:py-5">
             <h1 className="text-lg font-bold tracking-[-0.03em] text-[var(--heading)]">
               {title}

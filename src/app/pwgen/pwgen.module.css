@@ -535,15 +535,43 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
+  .result {
+    padding: 1rem;
+  }
+
   .passwordSegments {
     font-size: 0.9rem;
   }
 
+  .batchItem {
+    min-height: 44px;
+  }
+
   .batchPassword {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
+  }
+
+  .generateBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .kbd {
+    display: none;
+  }
+
+  .controlRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
   }
 
   .hints {
     display: none;
+  }
+
+  .credit {
+    text-align: center;
+    line-height: 1.8;
   }
 }

@@ -160,3 +160,14 @@
   opacity: 0.5;
   line-height: 1.5;
 }
+
+@media (max-width: 480px) {
+  .qrImage {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .qrSection {
+    padding: 1rem;
+  }
+}

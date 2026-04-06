@@ -313,3 +313,28 @@
   opacity: 0.7;
   font-size: 0.75rem;
 }
+
+@media (max-width: 480px) {
+  .patternRow {
+    flex-direction: column;
+  }
+
+  .flags {
+    align-self: flex-start;
+  }
+
+  .flagBtn {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .testArea {
+    min-height: 120px;
+  }
+
+  .replaceToggle {
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+  }
+}

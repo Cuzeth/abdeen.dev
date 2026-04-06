@@ -192,6 +192,17 @@ canvas {
   text-transform: uppercase;
 }
 
+/* ── Mobile touch & performance fixes ── */
+button, a, [role="button"], input, select, textarea {
+  touch-action: manipulation;
+}
+
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

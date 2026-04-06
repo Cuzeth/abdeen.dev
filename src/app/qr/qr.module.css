@@ -371,10 +371,31 @@
 
   .tab {
     flex: 1 1 calc(50% - 0.125rem);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tabActive {
     background: var(--accent);
+  }
+
+  .generateBtn {
+    width: 100%;
+  }
+
+  .output {
+    padding: 0 1rem;
+  }
+
+  .outputVisible {
+    padding: 1rem;
+  }
+
+  .output canvas {
+    max-width: 100%;
+    height: auto !important;
   }
 
   .styleGrid {
@@ -387,5 +408,9 @@
 
   .gradientRow > :last-child {
     grid-column: 1 / -1;
+  }
+
+  .hint {
+    display: none;
   }
 }

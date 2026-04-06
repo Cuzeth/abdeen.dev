@@ -222,11 +222,35 @@
 }
 
 @media (max-width: 480px) {
+  .container {
+    gap: 1.5rem;
+  }
+
   .modeSlider {
     display: none;
   }
 
   .modeBtnActive {
     background: var(--accent);
+  }
+
+  .modeBtn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .timerWrap {
+    width: 200px;
+    height: 200px;
+  }
+
+  .time {
+    font-size: 3rem;
+  }
+
+  .controlBtn {
+    min-height: 44px;
   }
 }

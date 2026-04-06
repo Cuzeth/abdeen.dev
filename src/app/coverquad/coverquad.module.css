@@ -335,11 +335,35 @@
   }
 }
 
+/* Touch devices: always show clear button */
+@media (hover: none) {
+  .filled .slotClear {
+    display: flex;
+  }
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .grid {
     gap: 2px;
     border-radius: 8px;
+  }
+
+  .filled .slotClear {
+    display: flex;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .btnExport {
+    width: 100%;
   }
 
   .searchResultsGrid {
@@ -348,5 +372,9 @@
 
   .choiceButtons {
     flex-direction: column;
+  }
+
+  .choiceBtn {
+    min-height: 44px;
   }
 }

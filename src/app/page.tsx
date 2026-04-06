@@ -68,7 +68,7 @@ export default function HomePage() {
             >
               <Link
                 href={item.href}
-                className="group surface-panel block h-full rounded-[1.6rem] px-5 py-5 transition-transform duration-300 hover:-translate-y-1"
+                className="group surface-panel block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
               >
                 <div className="flex h-full flex-col gap-4">
                   <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
