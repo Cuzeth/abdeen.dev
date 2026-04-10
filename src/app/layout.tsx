@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   creator: "Jaafar Abdeen",
   publisher: "Jaafar Abdeen",
   keywords: [
+    "Jaafar Abdeen",
+    "abdeen.dev",
     "free browser tools",
     "password generator",
     "QR code generator",
@@ -40,6 +42,11 @@ export const metadata: Metadata = {
     "open source tools",
     "developer tools",
     "online utilities",
+    "Hush",
+    "focus sounds",
+    "iOS app",
+    "SafeStay",
+    "hidden camera detector",
   ],
   alternates: {
     canonical: "https://abdeen.dev",
@@ -95,7 +102,12 @@ const jsonLd = {
       "@id": "https://abdeen.dev/#person",
       name: "Jaafar Abdeen",
       url: "https://jaafar.cv",
-      sameAs: ["https://jaafar.cv"],
+      sameAs: [
+        "https://jaafar.cv",
+        "https://github.com/Cuzeth",
+        "https://linkedin.com/in/jaafar-abdeen",
+        "https://strobefast.app",
+      ],
     },
     {
       "@type": "CollectionPage",
@@ -163,11 +175,23 @@ const jsonLd = {
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
         {
-          "@type": "WebApplication",
+          "@type": "MobileApplication",
+          name: "Hush",
+          url: "https://abdeen.dev/hush",
+          applicationCategory: "UtilityApplication",
+          operatingSystem: "iOS",
+          description:
+            "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        },
+        {
+          "@type": "SoftwareApplication",
           name: "SafeStay Scanner",
           url: "https://abdeen.dev/safestay",
           applicationCategory: "SecurityApplication",
-          operatingSystem: "Any",
+          operatingSystem: "macOS, Linux",
+          description:
+            "CLI tool to detect hidden cameras on WiFi networks. ARP scanning, MAC address lookup, and port detection.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
       ],
