@@ -46,8 +46,10 @@ const REPO_URL = "https://github.com/cuzethcom/hush";
 const APP_STORE_URL: string | null = null; // TODO: replace with App Store link
 
 const screenshots = [
-  // TODO: add screenshot paths, e.g. "/hush/screen-1.png"
-] as string[];
+  "/hush/screen-1.png",
+  "/hush/screen-2.png",
+  "/hush/screen-3.png",
+];
 
 export default function Hush() {
   return (
