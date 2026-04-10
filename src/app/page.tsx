@@ -42,17 +42,29 @@ const tools = [
       "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
     href: "/lofi-atc",
   },
-  {
-    title: "SafeStay Scanner",
-    description:
-      "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
-    href: "/safestay",
-  },
+];
+
+const apps = [
   {
     title: "Hush",
     description:
       "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
     href: "/hush",
+    external: false,
+  },
+  {
+    title: "SafeStay Scanner",
+    description:
+      "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
+    href: "/safestay",
+    external: false,
+  },
+  {
+    title: "Strobe",
+    description:
+      "Rapid serial visual reader for iPhone, iPad, and Mac. Read PDFs, EPUBs, and text at speed.",
+    href: "https://strobefast.app",
+    external: true,
   },
 ];
 
@@ -70,7 +82,62 @@ export default function HomePage() {
         </div>
       </FadeInWrapper>
 
+      {/* Apps */}
+      <section aria-label="Apps">
+        <FadeInWrapper direction="up" delay={0.02}>
+          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
+            Apps
+          </h2>
+        </FadeInWrapper>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {apps.map((item, index) => {
+            const Tag = item.external ? "a" : Link;
+            const externalProps = item.external
+              ? { target: "_blank" as const, rel: "noopener noreferrer" }
+              : {};
+            return (
+              <FadeInWrapper
+                key={item.href}
+                direction="up"
+                delay={0.04 + index * 0.03}
+              >
+                <Tag
+                  href={item.href}
+                  className="group surface-panel block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
+                  {...externalProps}
+                >
+                  <div className="flex h-full flex-col gap-4">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
+                      {item.external ? new URL(item.href).hostname : item.href}
+                    </span>
+                    <div>
+                      <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
+                        {item.title}
+                      </h2>
+                      <p className="mt-2 text-sm leading-7 text-[var(--text)]">
+                        {item.description}
+                      </p>
+                    </div>
+                    {item.external && (
+                      <span className="mt-auto text-xs text-[var(--text)] opacity-40 transition-opacity duration-200 group-hover:opacity-70">
+                        Visit site &rarr;
+                      </span>
+                    )}
+                  </div>
+                </Tag>
+              </FadeInWrapper>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Tools */}
       <section aria-label="Tools">
+        <FadeInWrapper direction="up" delay={0.02}>
+          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
+            Tools
+          </h2>
+        </FadeInWrapper>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((item, index) => (
             <FadeInWrapper
