@@ -42,7 +42,7 @@ const presets = [
   "Cozy",
 ];
 
-const REPO_URL = "https://github.com/cuzethcom/hush";
+const REPO_URL = "https://github.com/cuzeth/hush";
 const APP_STORE_URL: string | null = null; // TODO: replace with App Store link
 
 const screenshots = [
