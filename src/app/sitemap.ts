@@ -15,5 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/lofi-atc`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/safestay`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/hush`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${base}/hush/privacy`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${base}/hush/terms`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
   ];
 }

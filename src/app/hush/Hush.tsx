@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
 const features = [
@@ -173,14 +174,28 @@ export default function Hush() {
           <p className="text-sm leading-7 text-[var(--text)] opacity-70">
             No accounts, no analytics, no tracking. Open source under GPL-3.0.
           </p>
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="self-start text-sm text-[var(--text)] opacity-50 transition-opacity hover:opacity-80"
-          >
-            View source on GitHub &rarr;
-          </a>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)] opacity-50">
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-opacity hover:opacity-80"
+            >
+              GitHub &rarr;
+            </a>
+            <Link
+              href="/hush/privacy"
+              className="transition-opacity hover:opacity-80"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/hush/terms"
+              className="transition-opacity hover:opacity-80"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </section>
       </FadeInWrapper>
     </div>
