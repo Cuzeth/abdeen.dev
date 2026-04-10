@@ -48,6 +48,12 @@ const tools = [
       "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
     href: "/safestay",
   },
+  {
+    title: "Hush",
+    description:
+      "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
+    href: "/hush",
+  },
 ];
 
 export default function HomePage() {

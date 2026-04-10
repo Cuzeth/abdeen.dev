@@ -14,5 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/coverquad`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/lofi-atc`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/safestay`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/hush`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
   ];
 }
