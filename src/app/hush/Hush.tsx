@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
@@ -44,13 +46,30 @@ const presets = [
 ];
 
 const REPO_URL = "https://github.com/cuzeth/hush";
-const APP_STORE_URL: string | null = null; // TODO: replace with App Store link
+const APP_STORE_URL: string | null = "https://apps.apple.com/us/app/hush-focus-sounds/id6761935532";
 
 const screenshots = [
   "/hush/screen-1.png",
   "/hush/screen-2.png",
   "/hush/screen-3.png",
 ];
+
+function ScreenshotImage({ src, index }: { src: string; index: number }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative h-[480px] w-[222px] flex-shrink-0 rounded-[1.25rem] border border-white/[0.08] overflow-hidden bg-white/[0.02]">
+      <Image
+        src={src}
+        alt={`Hush screenshot ${index + 1}`}
+        width={222}
+        height={480}
+        priority
+        className={`h-full w-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
 
 export default function Hush() {
   return (
@@ -101,12 +120,7 @@ export default function Hush() {
           {screenshots.length > 0 ? (
             <div className="flex gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {screenshots.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt={`Hush screenshot ${i + 1}`}
-                  className="h-[480px] w-auto flex-shrink-0 rounded-[1.25rem] border border-white/[0.08] object-cover"
-                />
+                <ScreenshotImage key={i} src={src} index={i} />
               ))}
             </div>
           ) : (
