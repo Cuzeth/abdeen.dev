@@ -82,33 +82,81 @@ export default function HomePage() {
         </div>
       </FadeInWrapper>
 
-      {/* Apps */}
-      <section aria-label="Apps">
-        <FadeInWrapper direction="up" delay={0.02}>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
-            Apps
-          </h2>
-        </FadeInWrapper>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {apps.map((item, index) => {
-            const Tag = item.external ? "a" : Link;
-            const externalProps = item.external
-              ? { target: "_blank" as const, rel: "noopener noreferrer" }
-              : {};
-            return (
+      <div className="relative grid gap-8 md:gap-10 lg:grid-cols-[1fr_2fr]">
+        {/* Fading divider line (visible only side-by-side) */}
+        <div className="pointer-events-none absolute inset-y-0 left-[calc(33.333%+0.5rem)] hidden w-px lg:block" style={{ background: "linear-gradient(to bottom, transparent, var(--text) 30%, var(--text) 70%, transparent)", opacity: 0.1 }} />
+        {/* Apps */}
+        <section aria-label="Apps">
+          <FadeInWrapper direction="up" delay={0.02}>
+            <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-60">
+              Apps
+            </h2>
+          </FadeInWrapper>
+          <div className="grid gap-4">
+            {apps.map((item, index) => {
+              const Tag = item.external ? "a" : Link;
+              const externalProps = item.external
+                ? { target: "_blank" as const, rel: "noopener noreferrer" }
+                : {};
+              return (
+                <FadeInWrapper
+                  key={item.href}
+                  direction="up"
+                  delay={0.04 + index * 0.03}
+                >
+                  <Tag
+                    href={item.href}
+                    className="group surface-panel block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
+                    {...externalProps}
+                  >
+                    <div className="flex h-full flex-col gap-4">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
+                        {item.external
+                          ? new URL(item.href).hostname
+                          : item.href}
+                      </span>
+                      <div>
+                        <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
+                          {item.title}
+                        </h2>
+                        <p className="mt-2 text-sm leading-7 text-[var(--text)]">
+                          {item.description}
+                        </p>
+                      </div>
+                      {item.external && (
+                        <span className="mt-auto text-xs text-[var(--text)] opacity-40 transition-opacity duration-200 group-hover:opacity-70">
+                          Visit site &rarr;
+                        </span>
+                      )}
+                    </div>
+                  </Tag>
+                </FadeInWrapper>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Tools */}
+        <section aria-label="Tools">
+          <FadeInWrapper direction="up" delay={0.02}>
+            <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-60">
+              Tools
+            </h2>
+          </FadeInWrapper>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {tools.map((item, index) => (
               <FadeInWrapper
                 key={item.href}
                 direction="up"
                 delay={0.04 + index * 0.03}
               >
-                <Tag
+                <Link
                   href={item.href}
                   className="group surface-panel block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
-                  {...externalProps}
                 >
                   <div className="flex h-full flex-col gap-4">
                     <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
-                      {item.external ? new URL(item.href).hostname : item.href}
+                      {item.href}
                     </span>
                     <div>
                       <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
@@ -118,55 +166,13 @@ export default function HomePage() {
                         {item.description}
                       </p>
                     </div>
-                    {item.external && (
-                      <span className="mt-auto text-xs text-[var(--text)] opacity-40 transition-opacity duration-200 group-hover:opacity-70">
-                        Visit site &rarr;
-                      </span>
-                    )}
                   </div>
-                </Tag>
+                </Link>
               </FadeInWrapper>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section aria-label="Tools">
-        <FadeInWrapper direction="up" delay={0.02}>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
-            Tools
-          </h2>
-        </FadeInWrapper>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((item, index) => (
-            <FadeInWrapper
-              key={item.href}
-              direction="up"
-              delay={0.04 + index * 0.03}
-            >
-              <Link
-                href={item.href}
-                className="group surface-panel block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
-              >
-                <div className="flex h-full flex-col gap-4">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text)] opacity-45">
-                    {item.href}
-                  </span>
-                  <div>
-                    <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
-                      {item.title}
-                    </h2>
-                    <p className="mt-2 text-sm leading-7 text-[var(--text)]">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </FadeInWrapper>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
