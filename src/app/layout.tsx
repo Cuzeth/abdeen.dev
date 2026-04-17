@@ -166,6 +166,8 @@ const jsonLd = {
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx
+        /*
         {
           "@type": "WebApplication",
           name: "Lo-fi ATC Radio",
@@ -174,6 +176,7 @@ const jsonLd = {
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        */
         {
           "@type": "MobileApplication",
           name: "Hush",

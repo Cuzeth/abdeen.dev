@@ -36,12 +36,16 @@ const tools = [
     description: "Generate QR codes for text, WiFi, email, and phone.",
     href: "/qr",
   },
+  // DISABLED: Lo-fi ATC Radio — re-enable by uncommenting this entry
+  // and flipping ENABLED in src/app/lofi-atc/page.tsx back to true.
+  /*
   {
     title: "Lo-fi ATC Radio",
     description:
       "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
     href: "/lofi-atc",
   },
+  */
 ];
 
 const apps = [
