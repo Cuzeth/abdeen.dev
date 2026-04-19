@@ -43,6 +43,16 @@ export default function OGImage() {
         >
           Small tools, carefully engineered.
         </div>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: 4,
+            background: 'linear-gradient(90deg, #DC2626 0%, #DC2626 33%, #FECACA 66%, #DC2626 100%)',
+          }}
+        />
       </div>
     ),
     { ...size },
