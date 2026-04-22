@@ -21,8 +21,8 @@ export default function NotFound() {
       </FadeInWrapper>
 
       <FadeInWrapper direction="up" delay={0.05}>
-        <h1 className="text-5xl font-bold tracking-[-0.06em] text-[var(--heading)] md:text-7xl">
-          Nothing here<span className="text-[var(--accent)]">.</span>
+        <h1 className="text-5xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
+          Nothing here<span className="text-[var(--color-red)]">.</span>
         </h1>
       </FadeInWrapper>
 
@@ -37,7 +37,7 @@ export default function NotFound() {
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/"
-            className="rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_28px_var(--accent-glow)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--accent-hover)]"
+            className="rounded-full bg-[var(--color-red)] px-5 py-2.5 text-sm font-semibold text-[var(--color-paper)] shadow-[0_10px_28px_var(--accent-glow)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--accent-hover)]"
           >
             Back home
           </Link>

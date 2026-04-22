@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(bun run:*)",
-      "WebSearch"
+      "WebSearch",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_close"
     ]
   }
 }

@@ -1,26 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono } from "next/font/google";
-import { Manrope } from "next/font/google";
 import Link from "next/link";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { switzer, plexSans, arefRuqaa, jetbrainsMono } from "./fonts";
 import "./globals.css";
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
     template: "%s | abdeen.dev",
-    default: "abdeen.dev — Free Tools, Carefully Engineered",
+    default: "abdeen.dev — Small tools, carefully engineered",
   },
   description:
     "Free and open-source tools by Jaafar Abdeen. No sign-up, no tracking.",
@@ -28,9 +17,10 @@ export const metadata: Metadata = {
   applicationName: "abdeen.dev",
   authors: [{ name: "Jaafar Abdeen", url: "https://jaafar.cv" }],
   creator: "Jaafar Abdeen",
-  publisher: "Jaafar Abdeen",
+  publisher: "Abdeen Labs",
   keywords: [
     "Jaafar Abdeen",
+    "Abdeen Labs",
     "abdeen.dev",
     "free browser tools",
     "password generator",
@@ -55,14 +45,14 @@ export const metadata: Metadata = {
     siteName: "abdeen.dev",
     type: "website",
     url: "https://abdeen.dev",
-    title: "abdeen.dev — Free Tools, Carefully Engineered",
+    title: "abdeen.dev — Small tools, carefully engineered",
     description:
       "Free and open-source tools by Jaafar Abdeen. No sign-up required.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "abdeen.dev — Free Tools, Carefully Engineered",
+    title: "abdeen.dev — Small tools, carefully engineered",
     description:
       "Free and open-source tools — password generator, QR codes, regex tester, pomodoro timer, and more.",
   },
@@ -82,7 +72,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000",
+  themeColor: "#15110D",
 };
 
 const jsonLd = {
@@ -96,6 +86,14 @@ const jsonLd = {
       description:
         "Free and open-source tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, and more.",
       author: { "@id": "https://abdeen.dev/#person" },
+      publisher: { "@id": "https://abdeen.dev/#organization" },
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://abdeen.dev/#organization",
+      name: "Abdeen Labs",
+      url: "https://abdeen.dev",
+      founder: { "@id": "https://abdeen.dev/#person" },
     },
     {
       "@type": "Person",
@@ -207,11 +205,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const fontVars = [
+    switzer.variable,
+    plexSans.variable,
+    arefRuqaa.variable,
+    jetbrainsMono.variable,
+  ].join(" ");
+
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${geistMono.variable}`}
-    >
+    <html lang="en" className={fontVars}>
       <body className="min-h-screen flex flex-col">
         <Script
           id="json-ld"
@@ -221,22 +223,28 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[var(--color-red)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-paper)]"
         >
           Skip to content
         </a>
         <header className="sticky top-0 z-40 w-full px-4 py-4 md:px-8" role="banner">
           <nav
-            className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-white/10 bg-black/20 px-3 py-2 shadow-[0_18px_48px_rgba(0,0,0,0.18)] backdrop-blur-xl"
+            className="surface-ink-elev mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2 backdrop-blur-xl"
             aria-label="Main"
           >
             <Link
               href="/"
-              className="flex min-w-0 items-center gap-3 rounded-full px-3 py-2 transition-opacity hover:opacity-90"
-              aria-label="abdeen.dev — Home"
+              className="group flex min-w-0 items-center gap-3 rounded-full px-2 py-1.5 transition-opacity hover:opacity-90"
+              aria-label="Abdeen Labs — Home"
             >
-              <span className="shrink-0 text-lg font-bold tracking-[-0.06em] text-[var(--heading)]">
-                abdeen<span className="text-[var(--accent)]">.</span>dev
+              <span
+                aria-hidden="true"
+                className="brand-mark shrink-0 text-[26px] leading-none text-[var(--mark-default)] md:text-[30px]"
+              >
+                عابدين
+              </span>
+              <span className="brand-wordmark shrink-0 text-[10px] text-[var(--color-paper)] md:text-[11px]">
+                Abdeen Labs
               </span>
             </Link>
 
@@ -244,7 +252,7 @@ export default function RootLayout({
               href="https://jaafar.cv"
               target="_blank"
               rel="noopener noreferrer"
-              className="eyebrow transition-colors duration-200 hover:border-white/20 hover:text-[var(--heading)]"
+              className="eyebrow transition-colors duration-200 hover:border-white/20 hover:text-[var(--color-paper)]"
             >
               jaafar.cv
             </a>
@@ -252,8 +260,21 @@ export default function RootLayout({
         </header>
         <main id="main-content" className="relative flex-1 px-4 md:px-8">{children}</main>
         <footer className="w-full px-4 pb-6 pt-2 md:px-8 md:pb-10" role="contentinfo">
-          <div className="mx-auto max-w-6xl text-center text-xs text-[var(--text)] opacity-50">
-            <span>&copy; {new Date().getFullYear()} Jaafar Abdeen</span>
+          <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center">
+            <div className="flex items-center gap-2.5 opacity-60">
+              <span
+                aria-hidden="true"
+                className="brand-mark text-[20px] leading-none text-[var(--mark-default)]"
+              >
+                عابدين
+              </span>
+              <span className="brand-wordmark text-[9px] text-[var(--color-paper)]">
+                Abdeen Labs
+              </span>
+            </div>
+            <span className="text-xs text-[var(--text)] opacity-50">
+              &copy; {new Date().getFullYear()} Jaafar Abdeen
+            </span>
           </div>
         </footer>
         <Analytics />

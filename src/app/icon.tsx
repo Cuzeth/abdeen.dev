@@ -1,9 +1,15 @@
 import { ImageResponse } from 'next/og';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 
-export default function Icon() {
+export default async function Icon() {
+  const arefRuqaa = await readFile(
+    path.join(process.cwd(), 'public/fonts/brand/ArefRuqaa-Bold.ttf'),
+  );
+
   return new ImageResponse(
     (
       <div
@@ -13,23 +19,35 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#080808',
-          borderRadius: 6,
+          background: '#15110D',
+          borderRadius: 7,
         }}
       >
         <span
           style={{
-            fontSize: 22,
-            fontWeight: 900,
-            color: '#FAFAFA',
-            letterSpacing: '-0.05em',
+            fontFamily: 'Aref Ruqaa',
+            fontWeight: 700,
+            fontSize: 28,
+            lineHeight: 1,
+            color: '#CC1B1B',
             display: 'flex',
+            direction: 'rtl',
           }}
         >
-          a<span style={{ color: '#DC2626' }}>.</span>
+          ع
         </span>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        {
+          name: 'Aref Ruqaa',
+          data: arefRuqaa,
+          weight: 700,
+          style: 'normal',
+        },
+      ],
+    },
   );
 }

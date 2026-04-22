@@ -76,11 +76,18 @@ export default function HomePage() {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-20 pt-4 md:gap-10 md:pb-28 md:pt-8">
       <FadeInWrapper direction="up">
-        <div className="mb-2">
-          <h1 className="text-4xl font-bold tracking-[-0.06em] text-[var(--heading)] md:text-5xl">
-            abdeen<span className="text-[var(--accent)]">.</span>dev
+        <div className="mb-2 flex flex-col gap-4">
+          <span className="eyebrow self-start">
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
+            />
+            An Abdeen Labs property
+          </span>
+          <h1 className="font-semibold tracking-[-0.02em] text-[var(--color-paper)] text-5xl leading-[1.02] md:text-6xl">
+            abdeen<span className="text-[var(--color-red)]">.</span>dev
           </h1>
-          <p className="mt-3 text-base text-[var(--text)] md:text-lg">
+          <p className="max-w-xl text-base leading-7 text-[var(--text)] md:text-lg">
             Small tools, carefully engineered.
           </p>
         </div>
@@ -92,7 +99,7 @@ export default function HomePage() {
         {/* Apps */}
         <section aria-label="Apps">
           <FadeInWrapper direction="up" delay={0.02}>
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-60">
+            <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
               Apps
             </h2>
           </FadeInWrapper>
@@ -120,7 +127,7 @@ export default function HomePage() {
                           : item.href}
                       </span>
                       <div>
-                        <h2 className="text-xl font-bold tracking-[-0.04em] text-[var(--heading)] transition-colors duration-200 group-hover:text-[var(--accent)]">
+                        <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
                           {item.title}
                         </h2>
                         <p className="mt-2 text-sm leading-7 text-[var(--text)]">
@@ -143,7 +150,7 @@ export default function HomePage() {
         {/* Tools */}
         <section aria-label="Tools">
           <FadeInWrapper direction="up" delay={0.02}>
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-60">
+            <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
               Tools
             </h2>
           </FadeInWrapper>
