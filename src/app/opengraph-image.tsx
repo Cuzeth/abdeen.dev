@@ -26,7 +26,7 @@ export default async function OGImage() {
     (
       <div
         style={{
-          background: '#15110D',
+          background: '#0A0A0A',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -43,7 +43,7 @@ export default async function OGImage() {
             position: 'absolute',
             inset: 0,
             background:
-              'linear-gradient(140deg, rgba(30,28,25,0.98) 0%, rgba(20,18,17,0.92) 58%, rgba(14,13,12,0.96) 100%)',
+              'linear-gradient(140deg, rgba(26,26,26,0.98) 0%, rgba(18,18,18,0.92) 58%, rgba(12,12,12,0.96) 100%)',
             display: 'flex',
           }}
         />

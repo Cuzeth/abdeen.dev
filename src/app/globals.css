@@ -4,12 +4,17 @@
    Abdeen Labs brand tokens (BRAND.md v1.7)
    Canonical palette: red, ink, paper, fog, graphite — no others.
    Ink Elevated is a 4-layer recipe, not a hex. Keep the layers together.
+
+   Site deviation: Ink is held at neutral near-black (#0A0A0A) rather than
+   the warm #15110D specified in v1.7 — site owner preference for a cooler,
+   blacker surface. All derived surfaces (body gradient, Ink Elevated stops)
+   are neutralized to match.
    ────────────────────────────────────────────────────────────────────── */
 
 @theme inline {
   /* Canonical brand palette */
   --color-red: #CC1B1B;
-  --color-ink: #15110D;
+  --color-ink: #0A0A0A;
   --color-paper: #FAFAFA;
   --color-fog: #E5E5E5;
   --color-graphite: #8A8A8A;
@@ -22,12 +27,12 @@
 
   /* Legacy aliases still referenced by existing pages/modules */
   --color-heading: var(--color-paper);
-  --color-text: #A39F97;
+  --color-text: #9A9A9A;
   --color-accent: var(--color-red);
   --color-accent-hover: #A81616;
   --color-accent-glow: rgba(204, 27, 27, 0.35);
   --color-maincolor: var(--color-ink);
-  --color-card-bg: rgba(30, 28, 25, 0.78);
+  --color-card-bg: rgba(24, 24, 24, 0.78);
 }
 
 :root {
@@ -35,17 +40,18 @@
 
   /* Canonical */
   --color-red: #CC1B1B;
-  --color-ink: #15110D;
+  --color-ink: #0A0A0A;
   --color-paper: #FAFAFA;
   --color-fog: #E5E5E5;
   --color-graphite: #8A8A8A;
 
-  /* Ink Elevated — product-UI surface extension. Four layers. */
+  /* Ink Elevated — product-UI surface extension. Four layers.
+     Stops neutralized (R=G=B) to match the cooler Ink used site-wide. */
   --surface-ink-elev-bg: linear-gradient(
     140deg,
-    rgba(30, 28, 25, 0.98) 0%,
-    rgba(20, 18, 17, 0.92) 58%,
-    rgba(14, 13, 12, 0.96) 100%
+    rgba(26, 26, 26, 0.98) 0%,
+    rgba(18, 18, 18, 0.92) 58%,
+    rgba(12, 12, 12, 0.96) 100%
   );
   --surface-ink-elev-border: 1px solid rgba(255, 255, 255, 0.11);
   --surface-ink-elev-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -62,14 +68,14 @@
 
   /* Legacy alias tokens — mapped to canonical brand values */
   --maincolor: var(--color-ink);
-  --supportingcolor: #0E0B08;
-  --text: #A39F97;
+  --supportingcolor: #050505;
+  --text: #9A9A9A;
   --heading: var(--color-paper);
   --accent: var(--color-red);
   --accent-hover: #A81616;
   --accent-glow: rgba(204, 27, 27, 0.35);
-  --card-bg: rgba(30, 28, 25, 0.78);
-  --card-bg-strong: rgba(30, 28, 25, 0.92);
+  --card-bg: rgba(24, 24, 24, 0.78);
+  --card-bg-strong: rgba(24, 24, 24, 0.92);
   --surface-border: rgba(255, 255, 255, 0.11);
   --surface-border-strong: rgba(255, 255, 255, 0.16);
   --shadow-soft: 0 20px 44px rgba(0, 0, 0, 0.22);
@@ -88,7 +94,7 @@ body {
   background:
     radial-gradient(circle at 18% 12%, rgba(204, 27, 27, 0.12), transparent 28%),
     radial-gradient(circle at 82% 8%, rgba(250, 250, 250, 0.05), transparent 26%),
-    linear-gradient(180deg, #1A1612 0%, var(--color-ink) 42%, #0E0B08 100%);
+    linear-gradient(180deg, #111111 0%, var(--color-ink) 42%, #050505 100%);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
@@ -214,7 +220,7 @@ canvas {
 
 /* Quieter secondary surface — cards/list rows that don't need full lift. */
 .surface-panel {
-  background: linear-gradient(180deg, rgba(24, 21, 18, 0.88), rgba(16, 14, 12, 0.82));
+  background: linear-gradient(180deg, rgba(22, 22, 22, 0.88), rgba(14, 14, 14, 0.82));
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow:
     var(--shadow-soft),
