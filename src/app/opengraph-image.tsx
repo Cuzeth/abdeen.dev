@@ -103,6 +103,19 @@ export default async function OGImage() {
             Small tools, carefully engineered.
           </div>
         </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 4,
+            background:
+              'linear-gradient(90deg, #CC1B1B 0%, #7A1212 35%, #3A2A24 70%, #A39F97 100%)',
+            display: 'flex',
+          }}
+        />
       </div>
     ),
     {
