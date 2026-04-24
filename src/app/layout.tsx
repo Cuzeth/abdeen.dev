@@ -213,7 +213,7 @@ export default function RootLayout({
   ].join(" ");
 
   return (
-    <html lang="en" className={fontVars}>
+    <html lang="en" className={fontVars} data-scroll-behavior="smooth">
       <body className="min-h-screen flex flex-col">
         <Script
           id="json-ld"
