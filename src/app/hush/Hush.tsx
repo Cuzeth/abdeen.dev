@@ -78,7 +78,7 @@ export default function Hush() {
       <FadeInWrapper direction="up">
         <div className="flex flex-col gap-4">
           <span className="eyebrow w-fit">iOS App</span>
-          <h1 className="text-4xl font-bold tracking-[-0.06em] text-[var(--heading)] md:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-5xl">
             Hush
           </h1>
           <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg md:leading-8">
@@ -114,7 +114,7 @@ export default function Hush() {
       {/* Screenshots */}
       <FadeInWrapper direction="up" delay={0.06}>
         <section>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
+          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
             Screenshots
           </h2>
           {screenshots.length > 0 ? (
@@ -143,15 +143,15 @@ export default function Hush() {
       {/* Features Grid */}
       <section>
         <FadeInWrapper direction="up" delay={0.08}>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
+          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
             Features
           </h2>
         </FadeInWrapper>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <FadeInWrapper key={f.label} direction="up" delay={0.1 + i * 0.04}>
-              <div className="surface-panel flex h-full flex-col gap-2 rounded-[1.1rem] px-5 py-5 md:rounded-[1.6rem]">
-                <h3 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
+              <div className="surface-card flex h-full flex-col gap-2 rounded-[1.1rem] px-5 py-5 md:rounded-[1.6rem]">
+                <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
                   {f.label}
                 </h3>
                 <p className="text-sm leading-7 text-[var(--text)]">
@@ -166,7 +166,7 @@ export default function Hush() {
       {/* Presets */}
       <FadeInWrapper direction="up" delay={0.12}>
         <section>
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text)] opacity-50">
+          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
             Built-in Presets
           </h2>
           <div className="flex flex-wrap gap-2">

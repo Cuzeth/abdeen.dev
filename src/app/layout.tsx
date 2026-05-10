@@ -229,7 +229,7 @@ export default function RootLayout({
         </a>
         <header className="sticky top-0 z-40 w-full px-4 py-4 md:px-8" role="banner">
           <nav
-            className="surface-panel mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2"
+            className="surface-card mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2 backdrop-blur-xl"
             aria-label="Main"
           >
             <Link

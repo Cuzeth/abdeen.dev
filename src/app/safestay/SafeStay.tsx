@@ -171,7 +171,7 @@ export default function SafeStay() {
           ))}
         </div>
         <div className="flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--text)] opacity-50">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
             After downloading
           </p>
           <pre className="overflow-x-auto text-xs leading-6 text-[var(--text)]">
@@ -287,7 +287,7 @@ export default function SafeStay() {
         <div className="flex flex-col gap-6">
           {CHECKLIST_ITEMS.map((group) => (
             <div key={group.area} className="flex flex-col gap-2">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--text)] opacity-50">
+              <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
                 {group.area}
               </h3>
               <ul className="flex flex-col gap-1.5 pl-1">

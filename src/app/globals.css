@@ -1,14 +1,12 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────────────
-   Abdeen Labs brand tokens (BRAND.md v1.7)
+   Abdeen Labs brand tokens (BRAND.md v1.10)
    Canonical palette: red, ink, paper, fog, graphite — no others.
-   Ink Elevated is a 4-layer recipe, not a hex. Keep the layers together.
-
-   Site deviation: Ink is held at neutral near-black (#0A0A0A) rather than
-   the warm #15110D specified in v1.7 — site owner preference for a cooler,
-   blacker surface. All derived surfaces (body gradient, Ink Elevated stops)
-   are neutralized to match.
+   Two surface recipes on Ink: Surface Card (default — fill + hairline
+   border, nothing else) and Ink Elevated (reserved — four-layer lift for
+   hero/shell/modal). Mono carries the technical register (system eyebrows,
+   metadata, status chips, kbd, code, console). No thin weights anywhere.
    ────────────────────────────────────────────────────────────────────── */
 
 @theme inline {
@@ -27,12 +25,20 @@
 
   /* Legacy aliases still referenced by existing pages/modules */
   --color-heading: var(--color-paper);
-  --color-text: #9A9A9A;
+  --color-text: var(--color-graphite);
   --color-accent: var(--color-red);
   --color-accent-hover: #A81616;
   --color-accent-glow: rgba(204, 27, 27, 0.35);
   --color-maincolor: var(--color-ink);
-  --color-card-bg: rgba(14, 14, 14, 0.78);
+  --color-card-bg: rgba(14, 14, 14, 0.85);
+
+  /* Mono tracking — short for product UI, NOT the 0.18em editorial eyebrow */
+  --tracking-mono-eyebrow: 0.08em;
+  --tracking-mono-chip: 0.04em;
+
+  /* Console pattern (BRAND.md §Console on Card) */
+  --console-prompt: var(--color-red);
+  --console-rule: rgba(255, 255, 255, 0.06);
 }
 
 :root {
@@ -45,7 +51,13 @@
   --color-fog: #E5E5E5;
   --color-graphite: #8A8A8A;
 
-  /* Ink Elevated — product-UI surface extension. Four layers.
+  /* Surface Card — default container on Ink. Two layers, applied together.
+     Near-flush fill defined by a hairline border. No gradient, no shadow,
+     no inset highlight — that recipe is Ink Elevated, not this one. */
+  --surface-card-bg: rgba(14, 14, 14, 0.85);
+  --surface-card-border: 1px solid rgba(255, 255, 255, 0.08);
+
+  /* Ink Elevated — reserved surface for hero/shell/modal. Four layers.
      Stops neutralized (R=G=B) to match the cooler Ink used site-wide. */
   --surface-ink-elev-bg: linear-gradient(
     140deg,
@@ -69,12 +81,12 @@
   /* Legacy alias tokens — mapped to canonical brand values */
   --maincolor: var(--color-ink);
   --supportingcolor: #050505;
-  --text: #9A9A9A;
+  --text: var(--color-graphite);
   --heading: var(--color-paper);
   --accent: var(--color-red);
   --accent-hover: #A81616;
   --accent-glow: rgba(204, 27, 27, 0.35);
-  --card-bg: rgba(14, 14, 14, 0.78);
+  --card-bg: var(--surface-card-bg);
   --card-bg-strong: rgba(14, 14, 14, 0.92);
   --surface-border: rgba(255, 255, 255, 0.11);
   --surface-border-strong: rgba(255, 255, 255, 0.16);
@@ -218,15 +230,12 @@ canvas {
   pointer-events: none;
 }
 
-/* Quieter secondary surface — cards/list rows that don't need full lift.
-   Fill sits nearly at Ink so cards read as bordered voids, not gray masses. */
-.surface-panel {
-  background: linear-gradient(180deg, rgba(14, 14, 14, 0.88), rgba(8, 8, 8, 0.82));
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    var(--shadow-soft),
-    inset 0 1px 0 rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(24px);
+/* Surface Card — default container on Ink (BRAND.md rule #13).
+   Near-flush fill, hairline border, nothing else. Cards read as bordered
+   voids carved out of Ink, not as gray masses floating on black. */
+.surface-card {
+  background: var(--surface-card-bg);
+  border: var(--surface-card-border);
 }
 
 .metric-panel {
@@ -235,7 +244,22 @@ canvas {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Eyebrow — Switzer 500, tracking 0.18em, uppercase (BRAND.md typography). */
+/* System eyebrow — JetBrains Mono 400, tracking 0.08em, uppercase, graphite.
+   Brand v1.10 default for product UI labels (section captions, metadata
+   rails). The `.eyebrow` below stays in marketing/editorial registers. */
+.eyebrow-system {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: var(--tracking-mono-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+
+/* Editorial eyebrow — Switzer 500, tracking 0.18em, uppercase (BRAND.md typography). */
 .eyebrow {
   display: inline-flex;
   align-items: center;
