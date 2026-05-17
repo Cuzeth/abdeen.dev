@@ -168,26 +168,6 @@ export default function SafeStay() {
 
   return (
     <div className="flex w-full max-w-2xl flex-col gap-10">
-      {/* ── Notice (informational, MIT-aligned) ── */}
-      <div className="rounded-xl border-l-2 border-white/[0.12] bg-white/[0.015] px-4 py-3 text-xs leading-6 text-[var(--text)] opacity-70">
-        <p>
-          SafeStay is MIT-licensed and provided as is, with no warranty and no
-          liability. It is not legal advice. Network scanning may be illegal in
-          your jurisdiction or under the terms of the network you are on —
-          confirming you have authorization is your responsibility. Not
-          affiliated with Airbnb, any hotel chain, or any vendor named here.{" "}
-          <a
-            href={DISCLAIMER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--heading)] underline decoration-white/20 underline-offset-2 transition-colors hover:decoration-white/40"
-          >
-            Full notice
-          </a>
-          .
-        </p>
-      </div>
-
       {/* ── Section 1: Install ── */}
       <section className="flex flex-col gap-4">
         <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
@@ -475,6 +455,51 @@ export default function SafeStay() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="border-t border-white/[0.06]" />
+
+      {/* ── Footer notice ── */}
+      <section className="flex flex-col gap-4">
+        <p className="text-sm leading-7 text-[var(--text)] opacity-70">
+          SafeStay is MIT-licensed and provided as is, with no warranty and no
+          liability. Detection results may contain false positives and false
+          negatives — never rely on this tool as the sole basis for any
+          decision about your safety. Nothing here is legal advice.
+        </p>
+        <p className="text-sm leading-7 text-[var(--text)] opacity-70">
+          Network scanning may be illegal under your jurisdiction or the terms
+          of the network you are on. Confirming you have authorization is your
+          responsibility. Not affiliated with Airbnb, any hotel chain, or any
+          vendor named here.
+        </p>
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)] opacity-50">
+          <a
+            href={DISCLAIMER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-opacity hover:opacity-80"
+          >
+            Full notice &rarr;
+          </a>
+          <a
+            href={`${REPO_URL}/blob/main/LICENSE`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-opacity hover:opacity-80"
+          >
+            License
+          </a>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-opacity hover:opacity-80"
+          >
+            Source
+          </a>
+        </div>
       </section>
     </div>
   );
