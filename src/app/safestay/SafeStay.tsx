@@ -227,13 +227,13 @@ export default function SafeStay() {
             One-liner (macOS &amp; Linux)
           </p>
           <div className="flex items-center justify-between gap-3">
-            <pre className="flex-1 overflow-x-auto text-xs leading-6 text-[var(--text)]">
+            <pre className="min-w-0 flex-1 overflow-x-auto text-xs leading-6 text-[var(--text)]">
               <code>{INSTALL_CMD}</code>
             </pre>
             <button
               type="button"
               onClick={copyInstall}
-              className="shrink-0 rounded-md border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.04em] text-[var(--text)] transition-colors hover:border-white/[0.18] hover:text-[var(--heading)]"
+              className="shrink-0 rounded-md border border-white/[0.08] bg-white/[0.04] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--text)] transition-colors hover:border-white/[0.18] hover:text-[var(--heading)]"
             >
               {copied ? "Copied" : "Copy"}
             </button>
