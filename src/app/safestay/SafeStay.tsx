@@ -168,42 +168,23 @@ export default function SafeStay() {
 
   return (
     <div className="flex w-full max-w-2xl flex-col gap-10">
-      {/* ── Legal Notice ── */}
-      <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/[0.03] px-4 py-4 text-xs leading-6">
-        <p className="font-bold uppercase tracking-[0.18em] text-yellow-400/90">
-          Legal Notice — read before using
-        </p>
-        <p className="mt-2 text-[var(--text)] opacity-80">
-          SafeStay is provided <strong>AS IS</strong>, with <strong>NO WARRANTY</strong>{" "}
-          and <strong>NO LIABILITY</strong> of any kind. It is{" "}
-          <strong>NOT legal advice</strong>. The author does{" "}
-          <strong>not condone, encourage, or recommend</strong> its use against
-          any network, device, host, or person.
-        </p>
-        <p className="mt-2 text-[var(--text)] opacity-80">
-          Network scanning may be illegal or restricted under the laws of your
-          jurisdiction and the terms of service of the network you are connected
-          to. <strong>You alone are responsible</strong> for confirming you have
-          lawful authorization to scan, before you scan.
-        </p>
-        <p className="mt-2 text-[var(--text)] opacity-80">
-          SafeStay is{" "}
-          <strong>not affiliated with Airbnb, any hotel chain, or any camera vendor</strong>.
-          Vendor names appear as technical references only. If you believe a
-          crime has occurred, contact local law enforcement and a licensed
-          attorney — not this tool.
-        </p>
-        <p className="mt-3 text-[var(--text)] opacity-70">
-          By downloading or using this tool you agree to the full{" "}
+      {/* ── Notice (informational, MIT-aligned) ── */}
+      <div className="rounded-xl border-l-2 border-white/[0.12] bg-white/[0.015] px-4 py-3 text-xs leading-6 text-[var(--text)] opacity-70">
+        <p>
+          SafeStay is MIT-licensed and provided as is, with no warranty and no
+          liability. It is not legal advice. Network scanning may be illegal in
+          your jurisdiction or under the terms of the network you are on —
+          confirming you have authorization is your responsibility. Not
+          affiliated with Airbnb, any hotel chain, or any vendor named here.{" "}
           <a
             href={DISCLAIMER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--heading)] underline decoration-yellow-500/40 underline-offset-2 transition-colors hover:decoration-yellow-500/80"
+            className="text-[var(--heading)] underline decoration-white/20 underline-offset-2 transition-colors hover:decoration-white/40"
           >
-            DISCLAIMER
+            Full notice
           </a>
-          . If you do not agree, do not use this software.
+          .
         </p>
       </div>
 
@@ -238,8 +219,9 @@ export default function SafeStay() {
             </button>
           </div>
           <p className="text-xs leading-5 text-[var(--text)] opacity-50">
-            Installs to <code>~/.local/bin</code>. Never asks for sudo. Inspect
-            the script before running it.
+            Installs to <code>~/.local/bin</code> and verifies the binary
+            against the release&apos;s SHA-256 checksums before installing.
+            Never asks for sudo. Inspect the script before running it.
           </p>
         </div>
 
@@ -278,7 +260,7 @@ export default function SafeStay() {
             After install
           </p>
           <pre className="overflow-x-auto text-xs leading-6 text-[var(--text)]">
-            <code>{`sudo safestay        # best results (enables ARP scanning)\nsafestay             # unprivileged fallback\nsafestay --disclaimer  # full legal notice`}</code>
+            <code>{`sudo safestay          # best results (raw ICMP fills the ARP cache)\nsafestay               # unprivileged fallback (TCP/UDP probes only)\nsafestay --disclaimer  # informational notice`}</code>
           </pre>
           <p className="text-xs leading-5 text-[var(--text)] opacity-50">
             Press <code className="rounded bg-white/[0.06] px-1">?</code> inside
@@ -314,9 +296,12 @@ export default function SafeStay() {
             className="text-[var(--heading)] underline decoration-white/20 underline-offset-2 transition-colors hover:decoration-white/40"
           >
             SafeStay OUI database
-          </a>
-          . For comprehensive detection with port scanning, risk assessment, and
-          the physical-check guide, install the full scanner above.
+          </a>{" "}
+          (derived from the IEEE MA-L public registry). Vendor labels are
+          technical references, not confirmed identifications — MAC addresses
+          can be spoofed and OUI assignments can be reused. For full detection
+          with port scanning, risk assessment, and the physical-check guide,
+          install the scanner above.
         </p>
         <div className="flex flex-col gap-3">
           <input
@@ -342,27 +327,29 @@ export default function SafeStay() {
               {lookupResult.risk === "high" && (
                 <>
                   <span className="font-bold">
-                    Known camera manufacturer: {lookupResult.vendor}
+                    OUI registered to: {lookupResult.vendor}
                   </span>
                   <p className="mt-1 opacity-80">
-                    This MAC prefix is registered to a surveillance/camera
-                    company. If you didn&apos;t expect a camera on this network,
-                    investigate further. Major consumer brands (Ring, Nest,
-                    Wyze, Arlo, Eufy, Tapo) must be disclosed by Airbnb hosts —
-                    check the listing.
+                    This MAC prefix is registered to a surveillance or camera
+                    company. That is not, on its own, proof of what the
+                    physical device actually is — MACs can be spoofed and OUI
+                    assignments can be reused — but if you did not expect a
+                    camera on this network, it is worth investigating further.
+                    Major consumer brands (Ring, Nest, Wyze, Arlo, Eufy, Tapo)
+                    must be disclosed by Airbnb hosts — check the listing.
                   </p>
                 </>
               )}
               {lookupResult.risk === "medium" && (
                 <>
                   <span className="font-bold">
-                    IoT/SoC vendor: {lookupResult.vendor}
+                    OUI registered to chipset vendor: {lookupResult.vendor}
                   </span>
                   <p className="mt-1 opacity-80">
-                    This chipset is commonly found inside hidden cameras and IoT
-                    devices. Not definitive on its own, but worth investigating —
-                    especially if combined with camera-streaming ports being
-                    open.
+                    This chipset is commonly found inside hidden cameras and
+                    IoT devices, but also inside many legitimate ones. Not
+                    definitive on its own — worth investigating only if
+                    combined with camera-streaming ports being open.
                   </p>
                 </>
               )}
