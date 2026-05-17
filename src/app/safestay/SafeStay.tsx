@@ -48,36 +48,35 @@ const PHYSICAL_CHECK = [
 
 const POST_DETECTION_STEPS = [
   {
-    area: "1. Do not confront the host",
+    area: "1. The host (per published safety reporting)",
     items: [
-      "You are in their property, possibly far from home. Stay calm",
-      "Do not unplug, cover, or move the device beyond what you need for one clear photo",
-      "Do not message the host with accusations from inside the unit",
+      "Widely-cited safety articles describe on-site confrontation as a common source of escalation, particularly for travellers far from home.",
+      "Published accounts also describe unplugging or moving suspected devices as a frequent cause of lost evidence — one photo of the device in place is typically preserved first.",
+      "Accusatory messaging from inside the unit is commonly described as counter-productive in the same accounts.",
     ],
   },
   {
-    area: "2. Document it before you do anything else",
+    area: "2. Documentation (per Airbnb's resolution flow)",
     items: [
-      "Take timestamped photos and a short video showing the device's location in the room",
-      "Export the SafeStay scanner's HTML report (press 'e' in the app) and keep it with your evidence",
-      "Note the listing URL, host name, and the exact check-in and check-out times",
+      "Airbnb's resolution submissions typically request timestamped photos and short video showing the device's location.",
+      "SafeStay can export an HTML report (press 'e' in the app) that can be attached as one piece of evidence among others.",
+      "The listing URL, host name, and exact check-in/check-out times are commonly requested.",
     ],
   },
   {
-    area: "3. Leave the unit if you feel unsafe, then call the police",
+    area: "3. Local authorities (per Airbnb's guidance)",
     items: [
-      "Per general guidance, call local police before contacting Airbnb support",
-      "Get a report number — Airbnb's resolution team will ask for it",
-      "If you are in another country, search for the local non-emergency police line, not 911",
+      "Airbnb's published guidance directs guests to contact local police before contacting Airbnb support.",
+      "Police reports typically generate a reference number; Airbnb's resolution team commonly asks for it.",
+      "Outside one's home country, the non-emergency police line varies by city — local search results are usually more accurate than 911.",
     ],
   },
   {
-    area: "4. Report to Airbnb within 72 hours",
+    area: "4. Airbnb's resolution centre",
     items: [
-      "Open the Airbnb Resolution Center (link in the disclaimer above)",
-      "Hidden cameras anywhere inside a listing have been banned by Airbnb since April 2024",
-      "Reporting within 72 hours preserves your eligibility for a full or partial refund and rebooking",
-      "Attach: your photos, the police report number, and the SafeStay HTML report",
+      "Per Airbnb's policy, hidden cameras anywhere inside a listing have been prohibited since April 2024.",
+      "Per Airbnb's published terms, reporting within 72 hours of discovery is associated with eligibility for refund and rebooking.",
+      "Typical submission contents per Airbnb's flow: photos, police report number, any scan report or evidence.",
     ],
   },
 ];
@@ -428,9 +427,11 @@ export default function SafeStay() {
           If You Found Something
         </h2>
         <p className="text-sm leading-7 text-[var(--text)]">
-          The order matters. Document first, then escalate. Do not confront the
-          host on-site. The steps below are general guidance, not legal advice —
-          see the disclaimer above.
+          The list below summarises Airbnb&apos;s own published guidance and
+          widely-cited safety reporting.{" "}
+          <strong>It is not advice from this software&apos;s author.</strong>{" "}
+          Personal-safety decisions are yours alone — for those, contact local
+          authorities and a licensed attorney in the relevant jurisdiction.
         </p>
 
         <div className="flex flex-col gap-6">
