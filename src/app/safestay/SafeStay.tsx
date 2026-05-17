@@ -7,45 +7,87 @@ interface OUIData {
   chipset: Record<string, string>;
 }
 
-const CHECKLIST_ITEMS = [
+const PHYSICAL_CHECK = [
   {
-    area: "Bedroom & Living Areas",
+    area: "Look at the obvious spots first",
     items: [
-      "Check smoke detectors — real ones don't have tiny lenses or extra LEDs",
-      "Inspect alarm clocks and digital displays for pinholes or camera lenses",
-      "Look behind wall art and mirrors for devices or wiring",
-      "Check USB chargers and power adapters — some contain hidden cameras",
-      "Scan air purifiers, Bluetooth speakers, and decorative objects",
-      "Look for tiny holes in walls, ceilings, and shelving",
+      "Smoke detectors, especially ones placed unusually low or aimed at a bed",
+      "Air purifiers, alarm clocks, picture frames, mirrors, decorative plants",
+      "USB chargers and power adapters plugged in near the bed or shower",
+      "Vents, speakers, and any object with a small dark dot the size of a pencil tip",
     ],
   },
   {
-    area: "Bathroom",
+    area: "Sweep the room with a flashlight in the dark",
     items: [
-      "Check toiletry containers, tissue boxes, and soap dispensers",
-      "Inspect the showerhead and any ceiling fixtures",
-      "Look for devices behind towel hooks or wall-mounted accessories",
-      "Examine electrical outlets and night lights",
+      "Turn off all lights and close the curtains",
+      "Use a flashlight (phone torch works) and slowly sweep across surfaces from eye level",
+      "A camera lens reflects a sharp, repeatable glint — different from glass or metal",
+      "Inspect any glint up close: lift, twist, or unscrew the object if you can",
     ],
   },
   {
-    area: "Network & Tech",
+    area: "Use your phone's front camera to find IR LEDs",
     items: [
-      "Run SafeStay Scanner on the WiFi network",
-      "Check the router for unfamiliar connected devices",
-      "Look for hidden Ethernet cables running to unexpected locations",
-      "Note any devices with blinking LEDs you can't identify",
+      "Open your phone's front-facing camera (not the rear — most rear cameras filter IR)",
+      "Turn off the room lights. Point it at smoke detectors, vents, clocks, frames",
+      "Night-vision cameras emit faint purple/white dots that are invisible to the eye but visible to your phone sensor",
+      "If you see steady IR dots from an object that should not have a camera, treat it as a finding",
     ],
   },
   {
-    area: "Quick Tests",
+    area: "Check for cameras that don't use the WiFi",
     items: [
-      "Turn off all lights and look for faint LED glows",
-      "Use your phone camera to detect infrared LEDs (appear purple/white on screen)",
-      "Scan for unknown Bluetooth devices in your phone's settings",
-      "Check if the WiFi network has unfamiliar device names",
+      "4G/LTE cameras have a SIM card and bypass the host network entirely — SafeStay cannot see them",
+      "Look for objects with an unusual second power cable, or a small antenna nub",
+      "SD-card recorders need no network at all — they just store video locally",
+      "If you find a device you cannot explain, document it before touching it further",
     ],
   },
+];
+
+const POST_DETECTION_STEPS = [
+  {
+    area: "1. Do not confront the host",
+    items: [
+      "You are in their property, possibly far from home. Stay calm",
+      "Do not unplug, cover, or move the device beyond what you need for one clear photo",
+      "Do not message the host with accusations from inside the unit",
+    ],
+  },
+  {
+    area: "2. Document it before you do anything else",
+    items: [
+      "Take timestamped photos and a short video showing the device's location in the room",
+      "Export the SafeStay scanner's HTML report (press 'e' in the app) and keep it with your evidence",
+      "Note the listing URL, host name, and the exact check-in and check-out times",
+    ],
+  },
+  {
+    area: "3. Leave the unit if you feel unsafe, then call the police",
+    items: [
+      "Per general guidance, call local police before contacting Airbnb support",
+      "Get a report number — Airbnb's resolution team will ask for it",
+      "If you are in another country, search for the local non-emergency police line, not 911",
+    ],
+  },
+  {
+    area: "4. Report to Airbnb within 72 hours",
+    items: [
+      "Open the Airbnb Resolution Center (link in the disclaimer above)",
+      "Hidden cameras anywhere inside a listing have been banned by Airbnb since April 2024",
+      "Reporting within 72 hours preserves your eligibility for a full or partial refund and rebooking",
+      "Attach: your photos, the police report number, and the SafeStay HTML report",
+    ],
+  },
+];
+
+const LIMITS = [
+  "Cameras on a 4G/LTE SIM card are invisible to any WiFi scan",
+  "AP / client isolation hides every other device on the network from this tool",
+  "Cameras that only write to an SD card and never go online cannot be detected",
+  "Modern hidden cameras often run unbranded firmware on commodity chips (Tuya, ESP32, Anyka, Ingenic) — they may not match any known vendor",
+  "This tool is a starting point, not a guarantee. Always pair it with a physical sweep",
 ];
 
 const DOWNLOAD_LINKS = [
@@ -58,8 +100,13 @@ const DOWNLOAD_LINKS = [
 const RELEASES_BASE =
   "https://github.com/Cuzeth/airbnb-safety-tools/releases/latest/download";
 const REPO_URL = "https://github.com/Cuzeth/airbnb-safety-tools";
+const DISCLAIMER_URL =
+  "https://github.com/Cuzeth/airbnb-safety-tools/blob/main/DISCLAIMER.md";
 const OUI_DB_URL =
   "https://github.com/Cuzeth/airbnb-safety-tools/blob/main/internal/oui/oui.go";
+const AIRBNB_HELP_URL = "https://www.airbnb.com/help/article/3061";
+const INSTALL_CMD =
+  "curl -fsSL https://raw.githubusercontent.com/Cuzeth/airbnb-safety-tools/main/install.sh | bash";
 
 function normalizeMAC(input: string): string {
   const cleaned = input.replace(/[^0-9a-fA-F]/g, "").toUpperCase();
@@ -76,6 +123,7 @@ export default function SafeStay() {
     vendor: string;
     risk: "high" | "medium" | "none";
   } | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetch("/data/safestay/oui-camera.json")
@@ -112,37 +160,92 @@ export default function SafeStay() {
     [ouiData],
   );
 
+  const copyInstall = useCallback(() => {
+    navigator.clipboard?.writeText(INSTALL_CMD).then(() => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    });
+  }, []);
+
   return (
     <div className="flex w-full max-w-2xl flex-col gap-10">
-      {/* ── Disclaimer ── */}
-      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-xs leading-6 text-[var(--text)] opacity-60">
-        <p>
-          This tool is intended for personal safety use only — to check for
-          hidden cameras in spaces you are staying in (your Airbnb, hotel
-          room, rental, etc.). Do not use this on networks you do not have
-          authorization to scan. Unauthorized network scanning may violate
-          local laws and terms of service.
+      {/* ── Legal Notice ── */}
+      <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/[0.03] px-4 py-4 text-xs leading-6">
+        <p className="font-bold uppercase tracking-[0.18em] text-yellow-400/90">
+          Legal Notice — read before using
         </p>
-        <p className="mt-2">
-          This tool is provided as-is, without warranty of any kind. The
-          author assumes no liability for any damages, legal consequences, or
-          losses arising from the use or misuse of this software. By
-          downloading or using this tool, you accept full responsibility for
-          your actions and agree that the author is not responsible for how it
-          is used. Use at your own risk.
+        <p className="mt-2 text-[var(--text)] opacity-80">
+          SafeStay is provided <strong>AS IS</strong>, with <strong>NO WARRANTY</strong>{" "}
+          and <strong>NO LIABILITY</strong> of any kind. It is{" "}
+          <strong>NOT legal advice</strong>. The author does{" "}
+          <strong>not condone, encourage, or recommend</strong> its use against
+          any network, device, host, or person.
+        </p>
+        <p className="mt-2 text-[var(--text)] opacity-80">
+          Network scanning may be illegal or restricted under the laws of your
+          jurisdiction and the terms of service of the network you are connected
+          to. <strong>You alone are responsible</strong> for confirming you have
+          lawful authorization to scan, before you scan.
+        </p>
+        <p className="mt-2 text-[var(--text)] opacity-80">
+          SafeStay is{" "}
+          <strong>not affiliated with Airbnb, any hotel chain, or any camera vendor</strong>.
+          Vendor names appear as technical references only. If you believe a
+          crime has occurred, contact local law enforcement and a licensed
+          attorney — not this tool.
+        </p>
+        <p className="mt-3 text-[var(--text)] opacity-70">
+          By downloading or using this tool you agree to the full{" "}
+          <a
+            href={DISCLAIMER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--heading)] underline decoration-yellow-500/40 underline-offset-2 transition-colors hover:decoration-yellow-500/80"
+          >
+            DISCLAIMER
+          </a>
+          . If you do not agree, do not use this software.
         </p>
       </div>
 
-      {/* ── Section 1: Download ── */}
+      {/* ── Section 1: Install ── */}
       <section className="flex flex-col gap-4">
         <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
-          Download
+          Install
         </h2>
         <p className="text-sm leading-7 text-[var(--text)]">
           SafeStay scans your local WiFi network, identifies devices by
-          manufacturer, checks for camera-specific ports (RTSP, P2P, telnet
-          backdoors), and flags suspicious devices with risk levels. Runs
-          entirely on your machine.
+          manufacturer, probes camera-specific ports (RTSP, ONVIF, Tuya P2P,
+          MQTT-TLS, debug backdoors), and flags suspicious devices with risk
+          levels. It also ships an in-app physical-check guide for the cameras
+          a network scan cannot see (4G/SIM, SD-card-only, separate VLAN).
+          Runs entirely on your machine.
+        </p>
+
+        <div className="flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
+            One-liner (macOS &amp; Linux)
+          </p>
+          <div className="flex items-center justify-between gap-3">
+            <pre className="flex-1 overflow-x-auto text-xs leading-6 text-[var(--text)]">
+              <code>{INSTALL_CMD}</code>
+            </pre>
+            <button
+              type="button"
+              onClick={copyInstall}
+              className="shrink-0 rounded-md border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.04em] text-[var(--text)] transition-colors hover:border-white/[0.18] hover:text-[var(--heading)]"
+            >
+              {copied ? "Copied" : "Copy"}
+            </button>
+          </div>
+          <p className="text-xs leading-5 text-[var(--text)] opacity-50">
+            Installs to <code>~/.local/bin</code>. Never asks for sudo. Inspect
+            the script before running it.
+          </p>
+        </div>
+
+        <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-graphite)]">
+          Or download a prebuilt binary
         </p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {DOWNLOAD_LINKS.map((dl) => (
@@ -170,16 +273,18 @@ export default function SafeStay() {
             </a>
           ))}
         </div>
+
         <div className="flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
-            After downloading
+            After install
           </p>
           <pre className="overflow-x-auto text-xs leading-6 text-[var(--text)]">
-            <code>{`chmod +x safestay\nsudo ./safestay`}</code>
+            <code>{`sudo safestay        # best results (enables ARP scanning)\nsafestay             # unprivileged fallback\nsafestay --disclaimer  # full legal notice`}</code>
           </pre>
           <p className="text-xs leading-5 text-[var(--text)] opacity-50">
-            Run with sudo for ARP scanning (finds more devices). Without sudo,
-            falls back to nmap ping scan (requires nmap installed).
+            Press <code className="rounded bg-white/[0.06] px-1">?</code> inside
+            the app at any time for the in-app safety guide — physical-check
+            checklist, what to do if you found something, and limits.
           </p>
         </div>
         <a
@@ -211,8 +316,8 @@ export default function SafeStay() {
           >
             SafeStay OUI database
           </a>
-          . For a more comprehensive search with port scanning and risk
-          assessment, download the full scanner above.
+          . For comprehensive detection with port scanning, risk assessment, and
+          the physical-check guide, install the full scanner above.
         </p>
         <div className="flex flex-col gap-3">
           <input
@@ -243,26 +348,32 @@ export default function SafeStay() {
                   <p className="mt-1 opacity-80">
                     This MAC prefix is registered to a surveillance/camera
                     company. If you didn&apos;t expect a camera on this network,
-                    investigate further.
+                    investigate further. Major consumer brands (Ring, Nest,
+                    Wyze, Arlo, Eufy, Tapo) must be disclosed by Airbnb hosts —
+                    check the listing.
                   </p>
                 </>
               )}
               {lookupResult.risk === "medium" && (
                 <>
                   <span className="font-bold">
-                    IoT chipset vendor: {lookupResult.vendor}
+                    IoT/SoC vendor: {lookupResult.vendor}
                   </span>
                   <p className="mt-1 opacity-80">
                     This chipset is commonly found inside hidden cameras and IoT
-                    devices. Not definitive, but worth investigating.
+                    devices. Not definitive on its own, but worth investigating —
+                    especially if combined with camera-streaming ports being
+                    open.
                   </p>
                 </>
               )}
               {lookupResult.risk === "none" && (
                 <span>
                   No known camera manufacturer match for this MAC prefix. This
-                  doesn&apos;t guarantee it&apos;s safe — some devices use
-                  randomized MACs.
+                  does <strong>not</strong> mean the device is safe — modern
+                  hidden cameras frequently use unregistered or randomized MAC
+                  addresses precisely so they don&apos;t appear in vendor
+                  databases.
                 </span>
               )}
             </div>
@@ -273,19 +384,21 @@ export default function SafeStay() {
       {/* ── Divider ── */}
       <div className="border-t border-white/[0.06]" />
 
-      {/* ── Section 3: Physical Inspection Guide ── */}
+      {/* ── Section 3: Physical Check ── */}
       <section className="flex flex-col gap-4">
         <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
-          Physical Inspection Guide
+          Physical Check
         </h2>
         <p className="text-sm leading-7 text-[var(--text)]">
-          A network scan only catches devices on WiFi. Use this guide to
-          physically inspect your space for cameras that may be offline,
-          hardwired, or recording to local storage.
+          Network scanning misses an entire class of threats: cameras on a
+          separate VLAN, cameras with a 4G/LTE SIM, SD-card-only recorders, and
+          anything an AP-isolated network hides from a scanner. Do this
+          60-second sweep in addition to the scan — you can do it from your
+          phone if you can&apos;t install the tool right now.
         </p>
 
         <div className="flex flex-col gap-6">
-          {CHECKLIST_ITEMS.map((group) => (
+          {PHYSICAL_CHECK.map((group) => (
             <div key={group.area} className="flex flex-col gap-2">
               <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
                 {group.area}
@@ -304,6 +417,76 @@ export default function SafeStay() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="border-t border-white/[0.06]" />
+
+      {/* ── Section 4: If You Found Something ── */}
+      <section className="flex flex-col gap-4">
+        <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
+          If You Found Something
+        </h2>
+        <p className="text-sm leading-7 text-[var(--text)]">
+          The order matters. Document first, then escalate. Do not confront the
+          host on-site. The steps below are general guidance, not legal advice —
+          see the disclaimer above.
+        </p>
+
+        <div className="flex flex-col gap-6">
+          {POST_DETECTION_STEPS.map((step) => (
+            <div key={step.area} className="flex flex-col gap-2">
+              <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
+                {step.area}
+              </h3>
+              <ul className="flex flex-col gap-1.5 pl-1">
+                {step.items.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-sm leading-7 text-[var(--text)]"
+                  >
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <a
+          href={AIRBNB_HELP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="self-start text-xs text-[var(--text)] opacity-60 transition-opacity hover:opacity-90"
+        >
+          Airbnb&apos;s help article on security cameras &rarr;
+        </a>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="border-t border-white/[0.06]" />
+
+      {/* ── Section 5: What This Tool Cannot See ── */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
+          What This Tool Cannot See
+        </h2>
+        <p className="text-sm leading-7 text-[var(--text)]">
+          A clean network scan is not a guarantee. SafeStay covers one slice
+          of the threat surface — these are the parts it doesn&apos;t.
+        </p>
+        <ul className="flex flex-col gap-1.5 pl-1">
+          {LIMITS.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-3 text-sm leading-7 text-[var(--text)]"
+            >
+              <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );
