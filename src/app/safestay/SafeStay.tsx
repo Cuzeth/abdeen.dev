@@ -46,41 +46,6 @@ const PHYSICAL_CHECK = [
   },
 ];
 
-const POST_DETECTION_STEPS = [
-  {
-    area: "1. The host (per published safety reporting)",
-    items: [
-      "Widely-cited safety articles describe on-site confrontation as a common source of escalation, particularly for travellers far from home.",
-      "Published accounts also describe unplugging or moving suspected devices as a frequent cause of lost evidence — one photo of the device in place is typically preserved first.",
-      "Accusatory messaging from inside the unit is commonly described as counter-productive in the same accounts.",
-    ],
-  },
-  {
-    area: "2. Documentation (per Airbnb's resolution flow)",
-    items: [
-      "Airbnb's resolution submissions typically request timestamped photos and short video showing the device's location.",
-      "SafeStay can export an HTML report (press 'e' in the app) that can be attached as one piece of evidence among others.",
-      "The listing URL, host name, and exact check-in/check-out times are commonly requested.",
-    ],
-  },
-  {
-    area: "3. Local authorities (per Airbnb's guidance)",
-    items: [
-      "Airbnb's published guidance directs guests to contact local police before contacting Airbnb support.",
-      "Police reports typically generate a reference number; Airbnb's resolution team commonly asks for it.",
-      "Outside one's home country, the non-emergency police line varies by city — local search results are usually more accurate than 911.",
-    ],
-  },
-  {
-    area: "4. Airbnb's resolution centre",
-    items: [
-      "Per Airbnb's policy, hidden cameras anywhere inside a listing have been prohibited since April 2024.",
-      "Per Airbnb's published terms, reporting within 72 hours of discovery is associated with eligibility for refund and rebooking.",
-      "Typical submission contents per Airbnb's flow: photos, police report number, any scan report or evidence.",
-    ],
-  },
-];
-
 const LIMITS = [
   "Cameras on a 4G/LTE SIM card are invisible to any WiFi scan",
   "AP / client isolation hides every other device on the network from this tool",
@@ -99,11 +64,8 @@ const DOWNLOAD_LINKS = [
 const RELEASES_BASE =
   "https://github.com/Cuzeth/airbnb-safety-tools/releases/latest/download";
 const REPO_URL = "https://github.com/Cuzeth/airbnb-safety-tools";
-const DISCLAIMER_URL =
-  "https://github.com/Cuzeth/airbnb-safety-tools/blob/main/DISCLAIMER.md";
 const OUI_DB_URL =
   "https://github.com/Cuzeth/airbnb-safety-tools/blob/main/internal/oui/oui.go";
-const AIRBNB_HELP_URL = "https://www.airbnb.com/help/article/3061";
 const INSTALL_CMD =
   "curl -fsSL https://raw.githubusercontent.com/Cuzeth/airbnb-safety-tools/main/install.sh | bash";
 
@@ -178,8 +140,13 @@ export default function SafeStay() {
           manufacturer, probes camera-specific ports (RTSP, ONVIF, Tuya P2P,
           MQTT-TLS, debug backdoors), and flags suspicious devices with risk
           levels. It also ships an in-app physical-check guide for the cameras
-          a network scan cannot see (4G/SIM, SD-card-only, separate VLAN).
-          Runs entirely on your machine.
+          a network scan cannot see (4G/SIM, SD-card-only, separate VLAN). Runs
+          entirely on your machine.
+        </p>
+        <p className="text-xs leading-6 text-[var(--text)] opacity-50">
+          Hobby project. MIT-licensed, AS IS, no warranty, no liability. Not
+          legal advice. Network scanning may be illegal where you are — that&apos;s
+          on you to check before running it.
         </p>
 
         <div className="flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
@@ -240,12 +207,12 @@ export default function SafeStay() {
             After install
           </p>
           <pre className="overflow-x-auto text-xs leading-6 text-[var(--text)]">
-            <code>{`sudo safestay          # best results (raw ICMP fills the ARP cache)\nsafestay               # unprivileged fallback (TCP/UDP probes only)\nsafestay --disclaimer  # informational notice`}</code>
+            <code>{`sudo safestay  # best results (raw ICMP fills the ARP cache)\nsafestay       # unprivileged fallback (TCP/UDP probes only)`}</code>
           </pre>
           <p className="text-xs leading-5 text-[var(--text)] opacity-50">
             Press <code className="rounded bg-white/[0.06] px-1">?</code> inside
-            the app at any time for the in-app safety guide — physical-check
-            checklist, what to do if you found something, and limits.
+            the app at any time for the physical-check guide and the limits of
+            what a network scan can see.
           </p>
         </div>
         <a
@@ -313,10 +280,9 @@ export default function SafeStay() {
                     This MAC prefix is registered to a surveillance or camera
                     company. That is not, on its own, proof of what the
                     physical device actually is — MACs can be spoofed and OUI
-                    assignments can be reused — but if you did not expect a
-                    camera on this network, it is worth investigating further.
-                    Major consumer brands (Ring, Nest, Wyze, Arlo, Eufy, Tapo)
-                    must be disclosed by Airbnb hosts — check the listing.
+                    assignments can be reused. If a major-brand camera shows
+                    up that you didn&apos;t expect, it may be a legitimately
+                    disclosed device — check the listing.
                   </p>
                 </>
               )}
@@ -388,54 +354,7 @@ export default function SafeStay() {
       {/* ── Divider ── */}
       <div className="border-t border-white/[0.06]" />
 
-      {/* ── Section 4: If You Found Something ── */}
-      <section className="flex flex-col gap-4">
-        <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
-          If You Found Something
-        </h2>
-        <p className="text-sm leading-7 text-[var(--text)]">
-          The list below summarises Airbnb&apos;s own published guidance and
-          widely-cited safety reporting.{" "}
-          <strong>It is not advice from this software&apos;s author.</strong>{" "}
-          Personal-safety decisions are yours alone — for those, contact local
-          authorities and a licensed attorney in the relevant jurisdiction.
-        </p>
-
-        <div className="flex flex-col gap-6">
-          {POST_DETECTION_STEPS.map((step) => (
-            <div key={step.area} className="flex flex-col gap-2">
-              <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
-                {step.area}
-              </h3>
-              <ul className="flex flex-col gap-1.5 pl-1">
-                {step.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm leading-7 text-[var(--text)]"
-                  >
-                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <a
-          href={AIRBNB_HELP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="self-start text-xs text-[var(--text)] opacity-60 transition-opacity hover:opacity-90"
-        >
-          Airbnb&apos;s help article on security cameras &rarr;
-        </a>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="border-t border-white/[0.06]" />
-
-      {/* ── Section 5: What This Tool Cannot See ── */}
+      {/* ── Section 4: What This Tool Cannot See ── */}
       <section className="flex flex-col gap-3">
         <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
           What This Tool Cannot See
@@ -463,26 +382,12 @@ export default function SafeStay() {
       {/* ── Footer notice ── */}
       <section className="flex flex-col gap-4">
         <p className="text-sm leading-7 text-[var(--text)] opacity-70">
-          SafeStay is MIT-licensed and provided as is, with no warranty and no
-          liability. Detection results may contain false positives and false
-          negatives — never rely on this tool as the sole basis for any
-          decision about your safety. Nothing here is legal advice.
-        </p>
-        <p className="text-sm leading-7 text-[var(--text)] opacity-70">
-          Network scanning may be illegal under your jurisdiction or the terms
-          of the network you are on. Confirming you have authorization is your
-          responsibility. Not affiliated with Airbnb, any hotel chain, or any
-          vendor named here.
+          Hobby project. MIT-licensed, AS IS, no warranty, no liability. Not
+          legal advice. Detection is heuristic — false positives and false
+          negatives are expected. Network scanning may be illegal where you
+          are; confirming you have authorization is on you.
         </p>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)] opacity-50">
-          <a
-            href={DISCLAIMER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-opacity hover:opacity-80"
-          >
-            Full notice &rarr;
-          </a>
           <a
             href={`${REPO_URL}/blob/main/LICENSE`}
             target="_blank"
