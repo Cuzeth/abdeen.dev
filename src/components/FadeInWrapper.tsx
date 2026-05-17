@@ -36,7 +36,7 @@ export default function FadeInWrapper({ children, delay = 0, direction = 'up' }:
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.18 }}
+      viewport={{ once: true, amount: "some" }}
       variants={variants}
     >
       {children}
