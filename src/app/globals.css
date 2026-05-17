@@ -176,13 +176,20 @@ a {
   text-decoration-color: rgba(204, 27, 27, 0.25);
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-  caret-color: var(--color-red);
-  font-size: 16px;
+@layer base {
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    caret-color: var(--color-red);
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 img,
