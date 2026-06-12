@@ -117,7 +117,7 @@ export default function HomePage() {
                 >
                   <Tag
                     href={item.href}
-                    className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
+                    className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-white/[0.16] md:rounded-[1.6rem] md:px-5 md:py-5"
                     {...externalProps}
                   >
                     <div className="flex h-full flex-col gap-4">
@@ -127,9 +127,9 @@ export default function HomePage() {
                           : item.href}
                       </span>
                       <div>
-                        <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
+                        <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
                           {item.title}
-                        </h2>
+                        </h3>
                         <p className="mt-2 text-sm leading-7 text-[var(--text)]">
                           {item.description}
                         </p>
@@ -163,16 +163,16 @@ export default function HomePage() {
               >
                 <Link
                   href={item.href}
-                  className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
+                  className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-white/[0.16] md:rounded-[1.6rem] md:px-5 md:py-5"
                 >
                   <div className="flex h-full flex-col gap-4">
                     <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
                       {item.href}
                     </span>
                     <div>
-                      <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
+                      <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
                         {item.title}
-                      </h2>
+                      </h3>
                       <p className="mt-2 text-sm leading-7 text-[var(--text)]">
                         {item.description}
                       </p>
