@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>frost</title>
+        <item>
+            <title>1.0</title>
+            <pubDate>Thu, 25 Jun 2026 16:53:21 -0400</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v1.0/Frost-1.0.dmg" length="3330870" type="application/octet-stream" sparkle:edSignature="By8S9cKA/4ea7/h79eoCDZgr7ivaR6OB389EDtVD6hm4WT5jjFXGdsTSOMB6CeNXR0ZPkCzB4GI0VIge1frkDw=="/>
+        </item>
+    </channel>
+</rss>
