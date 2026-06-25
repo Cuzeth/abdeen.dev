@@ -50,6 +50,13 @@ const tools = [
 
 const apps = [
   {
+    title: "Frost",
+    description:
+      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with Touch ID.",
+    href: "/frost",
+    external: false,
+  },
+  {
     title: "Hush",
     description:
       "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
