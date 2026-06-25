@@ -44,7 +44,6 @@ const requirements = [
   "Apple silicon & Intel",
   "Touch ID required",
   "Accessibility permission",
-  "Updates via Sparkle",
 ];
 
 type Release = {
