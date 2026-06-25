@@ -3,6 +3,14 @@
     <channel>
         <title>frost</title>
         <item>
+            <title>1.1</title>
+            <pubDate>Thu, 25 Jun 2026 18:07:03 -0400</pubDate>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v1.1/Frost-1.1.dmg" length="3343536" type="application/octet-stream" sparkle:edSignature="RNfiUJNedZ8Nyb+gOegq+LWs7LF9GrBASad/vaskIAWBQ8hu0w+CBswuhggarC7Umwgah5lXHG0postDckRzAw=="/>
+        </item>
+        <item>
             <title>1.0.2</title>
             <pubDate>Thu, 25 Jun 2026 17:27:23 -0400</pubDate>
             <sparkle:version>2</sparkle:version>
