@@ -6,9 +6,9 @@
             <title>1.0</title>
             <pubDate>Thu, 25 Jun 2026 16:53:21 -0400</pubDate>
             <sparkle:version>1</sparkle:version>
-            <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
+            <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v1.0/Frost-1.0.dmg" length="3330870" type="application/octet-stream" sparkle:edSignature="By8S9cKA/4ea7/h79eoCDZgr7ivaR6OB389EDtVD6hm4WT5jjFXGdsTSOMB6CeNXR0ZPkCzB4GI0VIge1frkDw=="/>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v1.0.1/Frost-1.0.1.dmg" length="3336099" type="application/octet-stream" sparkle:edSignature="kv5vfDGTK8G1qg74+HTrpH2wvxLFkRIKXOGDZXVXBb6np+wysJ4CBx+1JhDtQaXKFxPEsOZB9GhTL5HFL997Bw=="/>
         </item>
     </channel>
 </rss>
