@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default function TwoFactorQRPage() {
   return (
     <ToolPageShell
+      wide
+      eyebrow="/2fa"
       title="2FA QR Generator"
       description="Create authenticator-ready QR codes from TOTP or HOTP secrets, or generate them directly from an otpauth URI."
     >

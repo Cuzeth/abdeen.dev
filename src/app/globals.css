@@ -301,6 +301,397 @@ canvas {
   direction: rtl;
 }
 
+/* ──────────────────────────────────────────────────────────────────────
+   Tool control vocabulary — shared, brand-true primitives used by every
+   tool page so they read as the same product as the homepage. Canonical
+   palette only (red/ink/paper/fog/graphite); mono carries the technical
+   register. No off-palette colors — strength/state is communicated with
+   the paper ramp + a word label, never green/amber.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* Block field label — mono system register */
+.field-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: var(--tracking-mono-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+
+/* Text controls — input / textarea / select share one recipe */
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  outline: none;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-graphite);
+  opacity: 0.75;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--color-red);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(204, 27, 27, 0.14);
+}
+
+.input:disabled,
+.textarea:disabled,
+.select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Mono modifier for code-like fields (regex pattern, hex, secrets) */
+.input-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' stroke='%238A8A8A' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+    box-shadow 0.18s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-red);
+  color: var(--color-paper);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 24px -12px var(--accent-glow);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 14px 30px -10px var(--accent-glow);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-graphite);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--color-paper);
+}
+
+.btn-ghost[data-active="true"] {
+  border-color: var(--color-red);
+  color: var(--color-paper);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Segmented control — track + animated thumb + items */
+.segmented {
+  position: relative;
+  display: flex;
+  gap: 0.2rem;
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.7rem;
+}
+
+.segmented-thumb {
+  position: absolute;
+  top: 0.25rem;
+  height: calc(100% - 0.5rem);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.segmented-item {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: 0.45rem 0.85rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--color-graphite);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.segmented-item:hover {
+  color: var(--color-paper);
+}
+
+.segmented-item[data-active="true"] {
+  color: var(--color-paper);
+}
+
+/* Accent variant — red thumb for primary type selectors */
+.segmented--accent .segmented-thumb {
+  background: var(--color-red);
+  box-shadow: 0 8px 20px -10px var(--accent-glow);
+}
+
+/* Switch (styled checkbox) */
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 38px;
+  height: 22px;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-track {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-paper);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.switch input:checked + .switch-track {
+  background: var(--color-red);
+}
+
+.switch input:checked + .switch-track::after {
+  transform: translateX(16px);
+}
+
+/* Check row */
+.check-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-graphite);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.check-row input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-red);
+}
+
+/* Range slider */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  outline: none;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-red);
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(204, 27, 27, 0);
+  transition: box-shadow 0.15s ease;
+}
+
+.range:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 5px rgba(204, 27, 27, 0.16);
+}
+
+.range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-red);
+  cursor: pointer;
+}
+
+/* Chip / badge — mono pill */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: var(--tracking-mono-chip);
+  color: var(--color-graphite);
+  white-space: nowrap;
+}
+
+.chip-accent {
+  color: var(--color-paper);
+  border-color: rgba(204, 27, 27, 0.4);
+}
+
+/* Keyboard hint */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--color-graphite);
+}
+
+/* Strength/quality meter — monochrome paper ramp (palette-only) */
+.meter {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+}
+
+.meter-seg {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease;
+}
+
+.meter-seg[data-on="true"] {
+  background: var(--color-paper);
+}
+
+/* Color picker */
+.color-swatch {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.55rem;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.color-swatch::-webkit-color-swatch-wrapper {
+  padding: 3px;
+}
+
+.color-swatch::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.35rem;
+}
+
+.color-swatch::-moz-color-swatch {
+  border: none;
+  border-radius: 0.35rem;
+}
+
+.color-hex {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-graphite);
+}
+
+/* Preview stage — framed surface for the output pane of a two-pane tool */
+.tool-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
 /* ── Mobile touch & performance fixes ── */
 button, a, [role="button"], input, select, textarea {
   touch-action: manipulation;

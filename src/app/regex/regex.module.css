@@ -1,209 +1,79 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 700px;
-}
+/* Regex — tool-specific styling. Shared controls live in globals.css. */
 
 .patternRow {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
-}
-
-.patternInput {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-family: monospace;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.patternInput:focus {
-  border-color: var(--accent);
-}
-
-.patternInput.error {
-  border-color: #ef4444;
+  align-items: stretch;
 }
 
 .flags {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.3rem;
   flex-shrink: 0;
 }
 
 .flagBtn {
-  width: 32px;
-  height: 36px;
+  width: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.375rem;
-  color: var(--text);
-  font-family: monospace;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-graphite);
+  font-family: var(--font-mono);
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+    transform 0.1s ease;
 }
 
 .flagBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.flagBtnActive {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--color-paper);
 }
 
 .flagBtn:active {
   transform: scale(0.93);
 }
 
-.errorMsg {
-  font-size: 0.8rem;
-  color: #ef4444;
+.flagBtnActive {
+  background: var(--color-red);
+  border-color: var(--color-red);
+  color: var(--color-paper);
 }
 
-.testArea {
+/* Pattern input error state — layered on the shared .input recipe */
+.inputError,
+.inputError:focus {
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgba(204, 27, 27, 0.14);
+}
+
+/* Output boxes (match preview, replace result) */
+.outputBox {
   width: 100%;
-  min-height: 160px;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-family: monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.testArea:focus {
-  border-color: var(--accent);
-}
-
-.highlightBox {
-  width: 100%;
-  min-height: 80px;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.5rem;
-  font-family: monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text);
+  min-height: 92px;
+  padding: 0.8rem 0.95rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--color-graphite);
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .match {
-  background: rgba(220, 38, 38, 0.25);
-  border-radius: 2px;
-  color: var(--heading);
+  background: rgba(204, 27, 27, 0.28);
+  border-radius: 3px;
+  padding: 0 1px;
+  color: var(--color-paper);
 }
 
-.info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.8rem;
-  color: var(--text);
-}
-
-.infoBadge {
-  padding: 0.25rem 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  white-space: nowrap;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.sectionLabel {
-  font-size: 0.75rem;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.6;
-}
-
-.replaceRow {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.replaceInput {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-family: monospace;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.replaceInput:focus {
-  border-color: var(--accent);
-}
-
-.replaceToggle {
-  font-size: 0.8rem;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.replaceToggle:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.replaceToggleActive {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.resultBox {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.5rem;
-  font-family: monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--heading);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
+/* Capture groups */
 .groups {
   display: flex;
   flex-direction: column;
@@ -211,48 +81,65 @@
 }
 
 .group {
-  font-family: monospace;
-  font-size: 0.8rem;
-  color: var(--text);
-  padding: 0.25rem 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 0.25rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-graphite);
 }
 
 .groupIndex {
-  color: var(--accent);
+  color: var(--color-red);
   margin-right: 0.5rem;
 }
 
-/* Collapse panel for Replace and Cheatsheet */
-.collapsePanel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, visibility 0.35s;
-  opacity: 0;
-  visibility: hidden;
+/* Empty/placeholder state for the results pane */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: var(--color-graphite);
+  font-size: 0.82rem;
 }
 
-.collapsePanelOpen {
+/* Collapse panels (replace, cheatsheet) */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease, visibility 0.35s;
+}
+
+.collapseOpen {
   grid-template-rows: 1fr;
   opacity: 1;
   visibility: visible;
 }
 
-.collapsePanelInner {
-  overflow: hidden;
+.collapseInner {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
   min-height: 0;
+  padding-top: 0.75rem;
+  overflow: hidden;
 }
 
+/* Cheatsheet */
 .cheatsheet {
   display: flex;
   flex-direction: column;
-  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.75rem;
+  border-radius: 0.85rem;
   overflow: hidden;
 }
 
@@ -265,13 +152,13 @@
 }
 
 .cheatTitle {
-  font-size: 0.65rem;
-  font-weight: 500;
-  color: var(--text);
+  margin-bottom: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.625rem;
-  opacity: 0.5;
+  color: var(--color-graphite);
 }
 
 .cheatItems {
@@ -280,9 +167,10 @@
   gap: 0;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 640px) {
   .cheatItems {
     grid-template-columns: 1fr 1fr;
+    gap: 0 1.5rem;
   }
 }
 
@@ -290,28 +178,20 @@
   display: flex;
   align-items: baseline;
   gap: 0.875rem;
-  padding: 0.3rem 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
+  padding: 0.32rem 0;
 }
 
 .cheatPattern {
   flex-shrink: 0;
   width: 64px;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--heading);
-  opacity: 0.9;
-  background: none;
-  border: none;
-  padding: 0;
-  border-radius: 0;
+  color: var(--color-paper);
 }
 
 .cheatDesc {
-  color: var(--text);
-  opacity: 0.7;
-  font-size: 0.75rem;
+  font-size: 0.76rem;
+  color: var(--color-graphite);
 }
 
 @media (max-width: 480px) {
@@ -320,21 +200,11 @@
   }
 
   .flags {
-    align-self: flex-start;
+    align-self: stretch;
   }
 
   .flagBtn {
-    min-width: 40px;
-    min-height: 40px;
-  }
-
-  .testArea {
-    min-height: 120px;
-  }
-
-  .replaceToggle {
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
+    flex: 1;
+    min-height: 42px;
   }
 }

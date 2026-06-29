@@ -112,9 +112,12 @@ export default function PomodoroTimer() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.modes} ref={modeSlider.containerRef}>
+      <div
+        className="segmented segmented--accent w-full"
+        ref={modeSlider.containerRef}
+      >
         <div
-          className={styles.modeSlider}
+          className="segmented-thumb"
           style={{
             left: modeSlider.style.left,
             width: modeSlider.style.width,
@@ -125,7 +128,7 @@ export default function PomodoroTimer() {
           <button
             key={m}
             data-active={mode === m}
-            className={`${styles.modeBtn} ${mode === m ? styles.modeBtnActive : ''}`}
+            className="segmented-item"
             onClick={() => switchMode(m)}
           >
             {MODE_LABELS[m]}
@@ -150,11 +153,11 @@ export default function PomodoroTimer() {
         </span>
       </div>
 
-      <div className={styles.controls}>
-        <button className={`${styles.controlBtn} ${styles.startBtn}`} onClick={() => setRunning(!running)}>
+      <div className="flex gap-3">
+        <button className="btn btn-primary px-8" onClick={() => setRunning(!running)}>
           {running ? 'Pause' : 'Start'}
         </button>
-        <button className={`${styles.controlBtn} ${styles.resetBtn}`} onClick={reset}>
+        <button className="btn btn-ghost px-8" onClick={reset}>
           Reset
         </button>
       </div>
@@ -170,7 +173,10 @@ export default function PomodoroTimer() {
       </div>
 
       <div className={styles.settings}>
-        <button className={styles.settingsToggle} onClick={() => setShowSettings(!showSettings)}>
+        <button
+          className="mx-auto text-xs text-[var(--color-graphite)] transition-colors duration-200 hover:text-[var(--color-paper)]"
+          onClick={() => setShowSettings(!showSettings)}
+        >
           {showSettings ? 'Hide Settings' : 'Customize Durations'}
         </button>
         <div className={`${styles.settingsPanel} ${showSettings ? styles.settingsPanelOpen : ''}`}>
@@ -178,7 +184,7 @@ export default function PomodoroTimer() {
             {(Object.keys(MODE_LABELS) as Mode[]).map((m) => (
               <div key={m} className={styles.settingRow}>
                 <span>{MODE_LABELS[m]}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                <div className="flex items-center gap-1.5">
                   <input
                     type="number"
                     className={styles.settingInput}
@@ -187,7 +193,7 @@ export default function PomodoroTimer() {
                     min={1}
                     max={99}
                   />
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text)' }}>min</span>
+                  <span className="text-xs text-[var(--color-graphite)]">min</span>
                 </div>
               </div>
             ))}

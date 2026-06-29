@@ -310,233 +310,255 @@ export default function PasswordGenerator() {
   const strength = selected ? getStrengthLabel(selected.entropy) : null;
 
   return (
-    <div className={styles.container} ref={containerRef}>
-      {/* Mode selector */}
-      <div className={styles.modeRow} ref={modeSlider.containerRef}>
+    <div className="grid w-full gap-7 lg:grid-cols-2 lg:gap-10" ref={containerRef}>
+      {/* LEFT — controls */}
+      <div className="flex min-w-0 flex-col gap-5">
+        {/* Mode selector */}
         <div
-          className={styles.modeSlider}
-          style={{
-            left: modeSlider.style.left,
-            width: modeSlider.style.width,
-            opacity: modeSlider.ready ? 1 : 0,
-          }}
-        />
-        <button
-          data-active={mode === 'memorable'}
-          className={`${styles.modeBtn} ${mode === 'memorable' ? styles.modeBtnActive : ''}`}
-          onClick={() => setMode('memorable')}
+          className="segmented segmented--accent"
+          ref={modeSlider.containerRef}
         >
-          Memorable
-        </button>
-        <button
-          data-active={mode === 'passphrase'}
-          className={`${styles.modeBtn} ${mode === 'passphrase' ? styles.modeBtnActive : ''}`}
-          onClick={() => setMode('passphrase')}
-        >
-          Passphrase
-        </button>
-      </div>
-
-      {/* Primary password display */}
-      {selected && (
-        <div
-          className={`${styles.result} ${copied ? styles.resultCopied : ''}`}
-          onClick={copyToClipboard}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyToClipboard(); } }}
-          title="Click to copy"
-          role="button"
-          tabIndex={0}
-          aria-label={`Password: ${selected.full}. Click to copy.`}
-          aria-live="polite"
-        >
-          <div className={styles.passwordSegments}>
-            {selected.segments.map((seg, i) => (
-              <span key={i} className={styles[`seg${capitalize(seg.type)}` as keyof typeof styles]}>
-                {seg.text}
-              </span>
-            ))}
-          </div>
-          <div className={styles.resultMeta}>
-            <span className={styles.charCount}>{selected.full.length} chars</span>
-            <span className={styles.copyHint}>{copied ? 'Copied!' : 'Click to copy'}</span>
-          </div>
-        </div>
-      )}
-
-      {/* Strength meter */}
-      {strength && (
-        <div className={styles.strengthRow}>
-          <div className={styles.strengthBar}>
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={`${styles.strengthSegment} ${i <= strength.level ? styles[`strength${strength.level}`] : ''}`}
-              />
-            ))}
-          </div>
-          <span className={styles.strengthLabel}>
-            {selected.entropy} bits &middot; {strength.label}
-          </span>
-        </div>
-      )}
-
-      {/* Batch list */}
-      <div className={`${styles.batchList} ${generating ? styles.batchFresh : ''}`}>
-        {passwords.map((p, i) => (
-          <button
-            key={i}
-            className={`${styles.batchItem} ${i === selectedIndex ? styles.batchSelected : ''}`}
-            onClick={() => {
-              setSelectedIndex(i);
-              setCopied(false);
+          <div
+            className="segmented-thumb"
+            style={{
+              left: modeSlider.style.left,
+              width: modeSlider.style.width,
+              opacity: modeSlider.ready ? 1 : 0,
             }}
+          />
+          <button
+            data-active={mode === 'memorable'}
+            className="segmented-item"
+            onClick={() => setMode('memorable')}
           >
-            <span className={styles.batchPassword}>{p.full}</span>
-            <span className={styles.batchIndex}>{i + 1}</span>
+            Memorable
           </button>
-        ))}
+          <button
+            data-active={mode === 'passphrase'}
+            className="segmented-item"
+            onClick={() => setMode('passphrase')}
+          >
+            Passphrase
+          </button>
+        </div>
+
+        {/* Controls */}
+        <div className={styles.controls}>
+          {/* Separator — shared */}
+          <div className={styles.controlRow}>
+            <span className={styles.controlLabel}>Separator</span>
+            <div
+              className="segmented"
+              ref={sepSlider.containerRef}
+            >
+              <div
+                className="segmented-thumb"
+                style={{
+                  left: sepSlider.style.left,
+                  width: sepSlider.style.width,
+                  opacity: sepSlider.ready ? 1 : 0,
+                }}
+              />
+              {([['', 'None'], ['-', 'Hyphen'], ['.', 'Dot']] as [Separator, string][]).map(([val, label]) => (
+                <button
+                  key={val}
+                  data-active={separator === val}
+                  className="segmented-item"
+                  onClick={() => setSeparator(val)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {mode === 'memorable' && (
+            <>
+              <label className={styles.controlRow} style={{ cursor: 'pointer' }}>
+                <span className={styles.controlLabel}>Common Words</span>
+                <span className="switch">
+                  <input type="checkbox" checked={useCommon} onChange={(e) => setUseCommon(e.target.checked)} />
+                  <span className="switch-track" />
+                </span>
+              </label>
+
+              <label className={styles.controlRow} style={{ cursor: 'pointer' }}>
+                <span className={styles.controlLabel}>Leetify</span>
+                <span className="switch">
+                  <input type="checkbox" checked={useLeet} onChange={(e) => setUseLeet(e.target.checked)} />
+                  <span className="switch-track" />
+                </span>
+              </label>
+
+              {useLeet && (
+                <div className={styles.rangeGroup}>
+                  <div className={styles.rangeHeader}>
+                    <span className={styles.controlLabel}>Leetify Amount</span>
+                    <span className={styles.rangeValue}>{leetAmount}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={leetAmount}
+                    onChange={(e) => setLeetAmount(Number(e.target.value))}
+                    className="range"
+                  />
+                </div>
+              )}
+            </>
+          )}
+
+          {mode === 'passphrase' && (
+            <>
+              <div className={styles.controlRow}>
+                <span className={styles.controlLabel}>Word List</span>
+                <div
+                  className="segmented"
+                  ref={sourceSlider.containerRef}
+                >
+                  <div
+                    className="segmented-thumb"
+                    style={{
+                      left: sourceSlider.style.left,
+                      width: sourceSlider.style.width,
+                      opacity: sourceSlider.ready ? 1 : 0,
+                    }}
+                  />
+                  <button
+                    data-active={passphraseSource === 'eff'}
+                    className="segmented-item"
+                    onClick={() => setPassphraseSource('eff')}
+                  >
+                    EFF
+                  </button>
+                  <button
+                    data-active={passphraseSource === 'bip39'}
+                    className="segmented-item"
+                    onClick={() => setPassphraseSource('bip39')}
+                  >
+                    BIP-39
+                  </button>
+                </div>
+              </div>
+
+              <div className={styles.rangeGroup}>
+                <div className={styles.rangeHeader}>
+                  <span className={styles.controlLabel}>Words</span>
+                  <span className={styles.rangeValue}>{wordCount}</span>
+                </div>
+                <input
+                  type="range"
+                  min={3}
+                  max={8}
+                  value={wordCount}
+                  onChange={(e) => setWordCount(Number(e.target.value))}
+                  className="range"
+                />
+              </div>
+
+              <label className={styles.controlRow} style={{ cursor: 'pointer' }}>
+                <span className={styles.controlLabel}>Capitalize</span>
+                <span className="switch">
+                  <input type="checkbox" checked={passphraseCapitalize} onChange={(e) => setPassphraseCapitalize(e.target.checked)} />
+                  <span className="switch-track" />
+                </span>
+              </label>
+            </>
+          )}
+        </div>
+
+        {/* Generate button */}
+        <button className="btn btn-primary btn-block" onClick={generate}>
+          <span>Generate</span>
+          <kbd className="kbd">Space</kbd>
+        </button>
+
+        {/* Source credits */}
+        <div className={styles.credit}>
+          <a href="https://github.com/MichaelWehar/Public-Domain-Word-Lists" target="_blank" rel="noopener noreferrer">
+            Public Domain Word Lists
+          </a>
+          {' '}&middot;{' '}
+          <a href="https://www.eff.org/dice" target="_blank" rel="noopener noreferrer">
+            EFF Large Wordlist
+          </a>
+          {' '}(CC-BY-3.0) &middot;{' '}
+          <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt" target="_blank" rel="noopener noreferrer">
+            BIP-39
+          </a>
+          {' '}(MIT)
+        </div>
       </div>
 
-      {/* Generate button */}
-      <button className={styles.generateBtn} onClick={generate}>
-        <span>Generate</span>
-        <kbd className={styles.kbd}>Space</kbd>
-      </button>
+      {/* RIGHT — result */}
+      <div className="lg:border-l lg:border-white/[0.06] lg:pl-10">
+        <div className="flex flex-col gap-4 lg:sticky lg:top-24">
+          <div className="flex items-center justify-between gap-3">
+            <span className="eyebrow-system">Result</span>
+            <div className={styles.hints}>
+              <span><kbd className="kbd">Space</kbd> new</span>
+              <span><kbd className="kbd">C</kbd> copy</span>
+            </div>
+          </div>
 
-      {/* Controls */}
-      <div className={styles.controls}>
-        {/* Separator — shared */}
-        <div className={styles.controlRow}>
-          <span className={styles.controlLabel}>Separator</span>
-          <div className={styles.segmentedControl} ref={sepSlider.containerRef}>
+          {/* Primary password display */}
+          {selected && (
             <div
-              className={styles.segSlider}
-              style={{
-                left: sepSlider.style.left,
-                width: sepSlider.style.width,
-                opacity: sepSlider.ready ? 1 : 0,
-              }}
-            />
-            {([['', 'None'], ['-', 'Hyphen'], ['.', 'Dot']] as [Separator, string][]).map(([val, label]) => (
+              className={`${styles.result} ${copied ? styles.resultCopied : ''}`}
+              onClick={copyToClipboard}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyToClipboard(); } }}
+              title="Click to copy"
+              role="button"
+              tabIndex={0}
+              aria-label={`Password: ${selected.full}. Click to copy.`}
+              aria-live="polite"
+            >
+              <div className={styles.passwordSegments}>
+                {selected.segments.map((seg, i) => (
+                  <span key={i} className={styles[`seg${capitalize(seg.type)}` as keyof typeof styles]}>
+                    {seg.text}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.resultMeta}>
+                <span className={styles.charCount}>{selected.full.length} chars</span>
+                <span className={styles.copyHint}>{copied ? 'Copied!' : 'Click to copy'}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Strength meter */}
+          {strength && (
+            <div className="flex w-full items-center gap-3">
+              <div className="meter">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="meter-seg" data-on={i <= strength.level} />
+                ))}
+              </div>
+              <span className="whitespace-nowrap font-mono text-[0.66rem] uppercase tracking-[0.06em] tabular-nums text-[var(--color-graphite)]">
+                {selected.entropy} bits &middot; {strength.label}
+              </span>
+            </div>
+          )}
+
+          {/* Batch list */}
+          <div className={`${styles.batchList} ${generating ? styles.batchFresh : ''}`}>
+            {passwords.map((p, i) => (
               <button
-                key={val}
-                data-active={separator === val}
-                className={`${styles.segBtn} ${separator === val ? styles.segBtnActive : ''}`}
-                onClick={() => setSeparator(val)}
+                key={i}
+                className={`${styles.batchItem} ${i === selectedIndex ? styles.batchSelected : ''}`}
+                onClick={() => {
+                  setSelectedIndex(i);
+                  setCopied(false);
+                }}
               >
-                {label}
+                <span className={styles.batchPassword}>{p.full}</span>
+                <span className={styles.batchIndex}>{i + 1}</span>
               </button>
             ))}
           </div>
         </div>
-
-        {mode === 'memorable' && (
-          <>
-            <label className={styles.toggle}>
-              <span className={styles.controlLabel}>Common Words</span>
-              <input type="checkbox" checked={useCommon} onChange={(e) => setUseCommon(e.target.checked)} />
-              <span className={styles.slider} />
-            </label>
-
-            <label className={styles.toggle}>
-              <span className={styles.controlLabel}>Leetify</span>
-              <input type="checkbox" checked={useLeet} onChange={(e) => setUseLeet(e.target.checked)} />
-              <span className={styles.slider} />
-            </label>
-
-            {useLeet && (
-              <div className={styles.rangeGroup}>
-                <div className={styles.rangeHeader}>
-                  <span className={styles.controlLabel}>Leetify Amount</span>
-                  <span className={styles.rangeValue}>{leetAmount}%</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={leetAmount}
-                  onChange={(e) => setLeetAmount(Number(e.target.value))}
-                  className={styles.range}
-                />
-              </div>
-            )}
-          </>
-        )}
-
-        {mode === 'passphrase' && (
-          <>
-            <div className={styles.controlRow}>
-              <span className={styles.controlLabel}>Word List</span>
-              <div className={styles.segmentedControl} ref={sourceSlider.containerRef}>
-                <div
-                  className={styles.segSlider}
-                  style={{
-                    left: sourceSlider.style.left,
-                    width: sourceSlider.style.width,
-                    opacity: sourceSlider.ready ? 1 : 0,
-                  }}
-                />
-                <button
-                  data-active={passphraseSource === 'eff'}
-                  className={`${styles.segBtn} ${passphraseSource === 'eff' ? styles.segBtnActive : ''}`}
-                  onClick={() => setPassphraseSource('eff')}
-                >
-                  EFF
-                </button>
-                <button
-                  data-active={passphraseSource === 'bip39'}
-                  className={`${styles.segBtn} ${passphraseSource === 'bip39' ? styles.segBtnActive : ''}`}
-                  onClick={() => setPassphraseSource('bip39')}
-                >
-                  BIP-39
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.rangeGroup}>
-              <div className={styles.rangeHeader}>
-                <span className={styles.controlLabel}>Words</span>
-                <span className={styles.rangeValue}>{wordCount}</span>
-              </div>
-              <input
-                type="range"
-                min={3}
-                max={8}
-                value={wordCount}
-                onChange={(e) => setWordCount(Number(e.target.value))}
-                className={styles.range}
-              />
-            </div>
-
-            <label className={styles.toggle}>
-              <span className={styles.controlLabel}>Capitalize</span>
-              <input type="checkbox" checked={passphraseCapitalize} onChange={(e) => setPassphraseCapitalize(e.target.checked)} />
-              <span className={styles.slider} />
-            </label>
-          </>
-        )}
-      </div>
-
-      {/* Source credits */}
-      <div className={styles.credit}>
-        <a href="https://github.com/MichaelWehar/Public-Domain-Word-Lists" target="_blank" rel="noopener noreferrer">
-          Public Domain Word Lists
-        </a>
-        {' '}&middot;{' '}
-        <a href="https://www.eff.org/dice" target="_blank" rel="noopener noreferrer">
-          EFF Large Wordlist
-        </a>
-        {' '}(CC-BY-3.0) &middot;{' '}
-        <a href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt" target="_blank" rel="noopener noreferrer">
-          BIP-39
-        </a>
-        {' '}(MIT)
-      </div>
-
-      {/* Keyboard hints */}
-      <div className={styles.hints}>
-        <span><kbd className={styles.kbdSmall}>Space</kbd> regenerate</span>
-        <span><kbd className={styles.kbdSmall}>C</kbd> copy</span>
       </div>
     </div>
   );

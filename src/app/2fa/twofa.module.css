@@ -1,143 +1,26 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 500px;
-}
+/* 2FA — tool-specific styling. Shared controls live in globals.css. */
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.label {
-  font-size: 0.75rem;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.6;
-}
-
-.input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: var(--accent);
-}
-
-.input.invalid {
-  border-color: #ef4444;
-}
-
-.input::placeholder {
-  color: var(--text);
-  opacity: 0.5;
-}
-
-.select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-  cursor: pointer;
-  appearance: none;
-}
-
-.select:focus {
-  border-color: var(--accent);
-}
-
-.checkRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--text);
-}
-
-.checkRow input[type="checkbox"] {
-  accent-color: var(--accent);
+/* Invalid field state — layered on the shared .input recipe */
+.invalid,
+.invalid:focus {
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgba(204, 27, 27, 0.14);
 }
 
 .divider {
+  margin: 0.25rem 0;
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  margin: 0.25rem 0;
 }
 
-.uriInput {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-family: monospace;
-  font-size: 0.8rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.uriInput:focus {
-  border-color: var(--accent);
-}
-
-.uriInput.invalid {
-  border-color: #ef4444;
-}
-
-.qrSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.75rem;
-  animation: fadeIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.qrImage {
-  border-radius: 0.5rem;
-  background: #fff;
-  padding: 0.5rem;
-  transition: width 0.3s ease, height 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.sizeSlider {
-  width: 100%;
-  accent-color: var(--accent);
-}
-
-/* Advanced panel collapse */
+/* Advanced options collapse */
 .advancedPanel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, visibility 0.35s;
   opacity: 0;
   visibility: hidden;
+  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease, visibility 0.35s;
 }
 
 .advancedPanelOpen {
@@ -147,27 +30,42 @@
 }
 
 .advancedPanelInner {
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   min-height: 0;
+  padding-top: 1rem;
+  overflow: hidden;
 }
 
 .advancedNote {
   font-size: 0.75rem;
-  color: var(--text);
-  opacity: 0.5;
   line-height: 1.5;
+  color: var(--color-graphite);
 }
 
-@media (max-width: 480px) {
-  .qrImage {
-    max-width: 100%;
-    height: auto !important;
-  }
+/* QR image */
+.qrImage {
+  max-width: 100%;
+  height: auto;
+  padding: 0.5rem;
+  background: #fff;
+  border-radius: 0.6rem;
+  transition: width 0.3s ease, height 0.3s ease;
+}
 
-  .qrSection {
-    padding: 1rem;
-  }
+/* Empty state */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 0.85rem;
+  color: var(--color-graphite);
+  font-size: 0.82rem;
 }

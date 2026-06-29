@@ -266,10 +266,15 @@ export default function CoverQuad() {
     if (e.key === 'Escape') closeAllModals();
   };
 
+  const filledCount = slots.filter(Boolean).length;
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.grid}>
-        {slots.map((slot, i) => (
+    <div className="grid w-full items-start gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,260px)] lg:gap-10">
+      {/* LEFT — collage */}
+      <div className="flex flex-col gap-3">
+        <div className="mx-auto w-full max-w-[460px]">
+          <div className={styles.grid}>
+            {slots.map((slot, i) => (
           <div
             key={i}
             className={`${styles.slot} ${slot ? styles.filled : ''}`}
@@ -316,26 +321,44 @@ export default function CoverQuad() {
               onChange={(e) => handleFileChange(e, i)}
             />
           </div>
-        ))}
+            ))}
+          </div>
+        </div>
+        <p className="text-center text-xs leading-5 text-[var(--color-graphite)]">
+          Click a tile to upload or search album art &middot; drag &amp; drop works too
+        </p>
       </div>
 
-      <div className={styles.controls}>
-        <select
-          className={styles.select}
-          value={exportSize}
-          onChange={(e) => setExportSize(Number(e.target.value) as ExportSize)}
-        >
-          <option value={3000}>3000px (Full)</option>
-          <option value={2000}>2000px (Medium)</option>
-          <option value={1000}>1000px (Small)</option>
-        </select>
-        <button
-          className={styles.btnExport}
-          disabled={!allFilled}
-          onClick={handleExport}
-        >
-          Export PNG
-        </button>
+      {/* RIGHT — export */}
+      <div className="lg:border-l lg:border-white/[0.06] lg:pl-10">
+        <div className="flex flex-col gap-4 lg:sticky lg:top-24">
+          <div className="flex items-center justify-between">
+            <span className="eyebrow-system">Export</span>
+            <span className="chip">{filledCount} / 4 filled</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="field-label">Resolution</label>
+            <select
+              className="select"
+              value={exportSize}
+              onChange={(e) => setExportSize(Number(e.target.value) as ExportSize)}
+            >
+              <option value={3000}>3000px (Full)</option>
+              <option value={2000}>2000px (Medium)</option>
+              <option value={1000}>1000px (Small)</option>
+            </select>
+          </div>
+          <button
+            className="btn btn-primary btn-block"
+            disabled={!allFilled}
+            onClick={handleExport}
+          >
+            Export PNG
+          </button>
+          <p className="text-xs leading-5 text-[var(--color-graphite)]">
+            Fill all four tiles to export a square 2&times;2 collage as a high-resolution PNG.
+          </p>
+        </div>
       </div>
 
       {modal === 'choice' && (
@@ -371,7 +394,7 @@ export default function CoverQuad() {
             <div className={styles.modalTitle}>Search Album Art</div>
             <div className={styles.searchBar}>
               <input
-                className={styles.searchInput}
+                className="input min-w-0 flex-1"
                 type="text"
                 placeholder="Artist or album name…"
                 value={searchQuery}
@@ -379,7 +402,7 @@ export default function CoverQuad() {
                 onKeyDown={handleSearchKeyDown}
                 autoFocus
               />
-              <button className={styles.btnSearch} onClick={performSearch} disabled={searching}>
+              <button className="btn btn-ghost" onClick={performSearch} disabled={searching}>
                 Search
               </button>
             </div>

@@ -129,7 +129,7 @@ export default function SafeStay() {
   }, []);
 
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-10">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-10">
       {/* ── Section 1: Install ── */}
       <section className="flex flex-col gap-4">
         <h2 className="text-base font-bold tracking-[-0.02em] text-[var(--heading)]">
@@ -258,17 +258,17 @@ export default function SafeStay() {
             placeholder="e.g. 00:BC:99:1A:2B:3C"
             spellCheck={false}
             autoComplete="off"
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 font-mono text-sm text-[var(--heading)] placeholder:text-[var(--text)] placeholder:opacity-30 focus:border-white/[0.2] focus:outline-none"
+            className="input input-mono"
           />
 
           {lookupResult && (
             <div
               className={`rounded-xl border px-4 py-3 text-sm ${
                 lookupResult.risk === "high"
-                  ? "border-red-500/30 bg-red-500/[0.06] text-red-400"
+                  ? "border-[rgba(204,27,27,0.4)] bg-[rgba(204,27,27,0.08)] text-[var(--color-paper)]"
                   : lookupResult.risk === "medium"
-                    ? "border-yellow-500/30 bg-yellow-500/[0.06] text-yellow-400"
-                    : "border-green-500/30 bg-green-500/[0.06] text-green-400"
+                    ? "border-white/15 bg-white/[0.04] text-[var(--color-paper)]"
+                    : "border-white/[0.08] bg-white/[0.02] text-[var(--color-graphite)]"
               }`}
             >
               {lookupResult.risk === "high" && (

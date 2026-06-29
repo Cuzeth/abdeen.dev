@@ -146,121 +146,149 @@ export default function RegexTester() {
     }
   }, [regex, testString, showReplace, replaceString]);
 
+  const hasResult = Boolean(pattern && testString && !error);
+
   return (
-    <div className={styles.container}>
-      <div className={styles.section}>
-        <label htmlFor="regex-pattern" className={styles.sectionLabel}>Pattern</label>
-        <div className={styles.patternRow}>
-          <input
-            id="regex-pattern"
-            type="text"
-            className={`${styles.patternInput} ${error ? styles.error : ''}`}
-            value={pattern}
-            onChange={(e) => setPattern(e.target.value)}
-            placeholder="Enter regex pattern..."
-            spellCheck={false}
-            aria-invalid={!!error}
-            aria-describedby={error ? 'regex-error' : undefined}
-          />
-          <div className={styles.flags}>
-            {ALL_FLAGS.map((f) => (
-              <button
-                key={f}
-                className={`${styles.flagBtn} ${flags.has(f) ? styles.flagBtnActive : ''}`}
-                onClick={() => toggleFlag(f)}
-                title={
-                  f === 'g' ? 'Global' : f === 'i' ? 'Case insensitive' : f === 'm' ? 'Multiline' : 'Dot matches newline'
-                }
-              >
-                {f}
-              </button>
-            ))}
+    <div className="flex flex-col gap-7">
+      {/* Two-pane: inputs | live results */}
+      <div className="grid gap-7 lg:grid-cols-2 lg:gap-9">
+        {/* LEFT — inputs */}
+        <div className="flex min-w-0 flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="regex-pattern" className="field-label">Pattern</label>
+            <div className={styles.patternRow}>
+              <input
+                id="regex-pattern"
+                type="text"
+                className={`input input-mono ${error ? styles.inputError : ''}`}
+                value={pattern}
+                onChange={(e) => setPattern(e.target.value)}
+                placeholder="Enter regex pattern..."
+                spellCheck={false}
+                aria-invalid={!!error}
+                aria-describedby={error ? 'regex-error' : undefined}
+              />
+              <div className={styles.flags}>
+                {ALL_FLAGS.map((f) => (
+                  <button
+                    key={f}
+                    className={`${styles.flagBtn} ${flags.has(f) ? styles.flagBtnActive : ''}`}
+                    onClick={() => toggleFlag(f)}
+                    title={
+                      f === 'g' ? 'Global' : f === 'i' ? 'Case insensitive' : f === 'm' ? 'Multiline' : 'Dot matches newline'
+                    }
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {error && <span id="regex-error" className="text-xs text-[var(--color-red)]" role="alert">{error}</span>}
           </div>
-        </div>
-        {error && <span id="regex-error" className={styles.errorMsg} role="alert">{error}</span>}
-      </div>
 
-      <div className={styles.section}>
-        <label htmlFor="regex-test" className={styles.sectionLabel}>Test String</label>
-        <textarea
-          id="regex-test"
-          className={styles.testArea}
-          value={testString}
-          onChange={(e) => setTestString(e.target.value)}
-          placeholder="Enter test string..."
-          spellCheck={false}
-        />
-      </div>
-
-      {testString && pattern && !error && (
-        <div className={styles.section}>
-          <span className={styles.sectionLabel}>Matches</span>
-          <div className={styles.highlightBox}>{highlighted}</div>
-          <div className={styles.info}>
-            <span className={styles.infoBadge}>
-              {matches.length} match{matches.length !== 1 ? 'es' : ''}
-            </span>
-            {matches.length > 0 && matches[0].groups.length > 0 && (
-              <span className={styles.infoBadge}>{matches[0].groups.length} group{matches[0].groups.length !== 1 ? 's' : ''}</span>
-            )}
-          </div>
-        </div>
-      )}
-
-      {matches.length > 0 && matches.some((m) => m.groups.length > 0) && (
-        <div className={styles.section}>
-          <span className={styles.sectionLabel}>Capture Groups</span>
-          <div className={styles.groups}>
-            {matches.map((m, mi) =>
-              m.groups.map((g, gi) => (
-                <div key={`${mi}-${gi}`} className={styles.group}>
-                  <span className={styles.groupIndex}>
-                    Match {mi + 1}, Group {gi + 1}:
-                  </span>
-                  {g ?? '(empty)'}
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      )}
-
-      <div className={styles.section}>
-        <button
-          className={`${styles.replaceToggle} ${showReplace ? styles.replaceToggleActive : ''}`}
-          onClick={() => setShowReplace(!showReplace)}
-        >
-          {showReplace ? 'Hide Replace' : 'Show Replace'}
-        </button>
-        <div className={`${styles.collapsePanel} ${showReplace ? styles.collapsePanelOpen : ''}`}>
-          <div className={styles.collapsePanelInner}>
-            <input
-              type="text"
-              className={styles.replaceInput}
-              value={replaceString}
-              onChange={(e) => setReplaceString(e.target.value)}
-              placeholder="Replacement string..."
+          <div className="flex flex-col gap-2">
+            <label htmlFor="regex-test" className="field-label">Test String</label>
+            <textarea
+              id="regex-test"
+              className="textarea input-mono"
+              style={{ minHeight: '160px' }}
+              value={testString}
+              onChange={(e) => setTestString(e.target.value)}
+              placeholder="Enter test string..."
               spellCheck={false}
             />
-            {testString && regex && (
-              <div className={styles.section}>
-                <span className={styles.sectionLabel}>Result</span>
-                <div className={styles.resultBox}>{replaceResult}</div>
+          </div>
+
+          <div className="flex flex-col">
+            <button
+              className="btn btn-ghost btn-block"
+              data-active={showReplace}
+              onClick={() => setShowReplace(!showReplace)}
+            >
+              {showReplace ? 'Hide Replace' : 'Show Replace'}
+            </button>
+            <div className={`${styles.collapse} ${showReplace ? styles.collapseOpen : ''}`}>
+              <div className={styles.collapseInner}>
+                <input
+                  type="text"
+                  className="input input-mono"
+                  value={replaceString}
+                  onChange={(e) => setReplaceString(e.target.value)}
+                  placeholder="Replacement string..."
+                  spellCheck={false}
+                />
+                {testString && regex && (
+                  <div className="flex flex-col gap-2">
+                    <span className="field-label">Result</span>
+                    <div className={styles.outputBox}>{replaceResult}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT — live results */}
+        <div className="lg:border-l lg:border-white/[0.06] lg:pl-9">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-3">
+              <span className="eyebrow-system">Matches</span>
+              {hasResult && (
+                <div className="flex items-center gap-2">
+                  <span className="chip">
+                    {matches.length} match{matches.length !== 1 ? 'es' : ''}
+                  </span>
+                  {matches.length > 0 && matches[0].groups.length > 0 && (
+                    <span className="chip">
+                      {matches[0].groups.length} group{matches[0].groups.length !== 1 ? 's' : ''}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {error ? (
+              <div className={styles.placeholder}>{error}</div>
+            ) : hasResult ? (
+              <div className={styles.outputBox}>{highlighted}</div>
+            ) : (
+              <div className={styles.placeholder}>
+                Enter a pattern and test string to see matches.
+              </div>
+            )}
+
+            {matches.length > 0 && matches.some((m) => m.groups.length > 0) && (
+              <div className="flex flex-col gap-2">
+                <span className="field-label">Capture Groups</span>
+                <div className={styles.groups}>
+                  {matches.map((m, mi) =>
+                    m.groups.map((g, gi) => (
+                      <div key={`${mi}-${gi}`} className={styles.group}>
+                        <span className={styles.groupIndex}>
+                          Match {mi + 1}, Group {gi + 1}:
+                        </span>
+                        {g ?? '(empty)'}
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <div className={styles.section}>
+      {/* Cheatsheet — full width */}
+      <div className="flex flex-col">
         <button
-          className={`${styles.replaceToggle} ${showCheatsheet ? styles.replaceToggleActive : ''}`}
+          className="btn btn-ghost btn-block"
+          data-active={showCheatsheet}
           onClick={() => setShowCheatsheet(!showCheatsheet)}
         >
           {showCheatsheet ? 'Hide Cheatsheet' : 'Regex Cheatsheet'}
         </button>
-        <div className={`${styles.collapsePanel} ${showCheatsheet ? styles.collapsePanelOpen : ''}`}>
-          <div className={styles.collapsePanelInner}>
+        <div className={`${styles.collapse} ${showCheatsheet ? styles.collapseOpen : ''}`}>
+          <div className={styles.collapseInner}>
             <div className={styles.cheatsheet}>
               {CHEATSHEET.map((section) => (
                 <div key={section.title} className={styles.cheatSection}>

@@ -1,416 +1,61 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 440px;
-}
+/* QR — tool-specific layout only. Shared controls live in globals.css. */
 
-.tabs {
-  display: flex;
-  gap: 0.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 0.5rem;
-  padding: 0.25rem;
-  position: relative;
-}
-
-.tabSlider {
-  position: absolute;
-  top: 0.25rem;
-  height: calc(100% - 0.5rem);
-  border-radius: 0.375rem;
-  background: var(--accent);
-  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.tab {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 0.25s ease;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-}
-
-.tab:hover {
-  color: var(--heading);
-}
-
-.tabActive {
-  color: #fff;
-}
-
-/* Form fade-in on tab switch */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  animation: formFadeIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  gap: 0.875rem;
+  animation: formFade 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.label {
-  font-size: 0.75rem;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.6;
+@keyframes formFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: var(--accent);
-}
-
-.input:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-size: 0.9rem;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.textarea:focus {
-  border-color: var(--accent);
-}
-
-.select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  color: var(--heading);
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-  cursor: pointer;
-  appearance: none;
-}
-
-.select:focus {
-  border-color: var(--accent);
-}
-
-.checkRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--text);
-}
-
-.checkRow input[type="checkbox"] {
-  accent-color: var(--accent);
-}
-
-.generateBtn {
-  padding: 0.75rem 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s ease;
-}
-
-.generateBtn:hover {
-  opacity: 0.85;
-}
-
-.generateBtn:active {
-  transform: scale(0.97);
-}
-
-.generateBtn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.error {
-  font-size: 0.8rem;
-  color: #ef4444;
-  text-align: center;
-  animation: formFadeIn 0.2s ease;
-}
-
-/* Style toggle */
-.styleToggle {
-  font-size: 0.8rem;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-}
-
-.styleToggle:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.styleToggleActive {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--accent);
-  color: var(--heading);
-}
-
-/* Style section - animate height */
-.styleSection {
+/* Collapsible "Customize Style" panel */
+.collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, visibility 0.35s;
   opacity: 0;
   visibility: hidden;
+  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease, visibility 0.35s;
 }
 
-.styleSectionOpen {
+.collapseOpen {
   grid-template-rows: 1fr;
   opacity: 1;
   visibility: visible;
 }
 
-.styleSectionInner {
+.collapseInner {
+  min-height: 0;
   overflow: hidden;
+}
+
+.panel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  min-height: 0;
-}
-
-.styleSectionOpen .styleSectionInner {
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0.75rem;
+  border-radius: 0.9rem;
 }
 
-.styleGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.styleField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.styleSelect {
-  padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.375rem;
-  color: var(--heading);
-  font-size: 0.8rem;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  transition: border-color 0.2s;
-}
-
-.styleSelect:focus {
-  border-color: var(--accent);
-}
-
-/* Color controls */
-.colorSection {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.colorRow {
+/* QR canvas holder */
+.qr {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
 }
 
-.colorPicker {
-  width: 32px;
-  height: 32px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0.375rem;
-  padding: 0;
-  cursor: pointer;
-  background: none;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.colorPicker::-webkit-color-swatch-wrapper {
-  padding: 2px;
-}
-
-.colorPicker::-webkit-color-swatch {
-  border: none;
-  border-radius: 0.25rem;
-}
-
-.colorPicker::-moz-color-swatch {
-  border: none;
-  border-radius: 0.25rem;
-}
-
-.colorHex {
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: var(--text);
-  opacity: 0.7;
-}
-
-.gradientRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.75rem;
-}
-
-/* QR Output */
-.output {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, padding 0.35s ease;
-  padding: 0 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+.qr canvas {
+  max-width: 100%;
+  height: auto;
   border-radius: 0.75rem;
-  overflow: hidden;
 }
 
-.output > * {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.outputVisible {
-  grid-template-rows: 1fr;
-  padding: 1.5rem;
-  opacity: 1;
-}
-
-.output canvas {
-  border-radius: 1rem;
-  display: block;
-  margin: 0 auto;
-}
-
-.downloadBtn {
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s;
-  animation: formFadeIn 0.25s ease;
-}
-
-.downloadBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.hint {
-  font-size: 0.7rem;
-  color: var(--text);
-  opacity: 0.5;
-  text-align: center;
-}
-
-@keyframes formFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 480px) {
-  .tabs {
-    flex-wrap: wrap;
-  }
-
-  .tabSlider {
-    display: none;
-  }
-
-  .tab {
-    flex: 1 1 calc(50% - 0.125rem);
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .tabActive {
-    background: var(--accent);
-  }
-
-  .generateBtn {
-    width: 100%;
-  }
-
-  .output {
-    padding: 0 1rem;
-  }
-
-  .outputVisible {
-    padding: 1rem;
-  }
-
-  .output canvas {
-    max-width: 100%;
-    height: auto !important;
-  }
-
-  .styleGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .gradientRow {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .gradientRow > :last-child {
-    grid-column: 1 / -1;
-  }
-
-  .hint {
-    display: none;
-  }
+.qrHidden {
+  visibility: hidden;
 }
