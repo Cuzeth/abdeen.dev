@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default function QRGeneratorPage() {
   return (
     <ToolPageShell
+      wide
+      eyebrow="/qr"
       title="QR Generator"
       description="Generate QR codes for links, WiFi credentials, contact details, and more with tasteful styling controls and quick download."
     >

@@ -108,173 +108,196 @@ export default function TwoFactorQR() {
     setUriEdited(false);
   }, []);
 
+  const showQr = Boolean(displayQr && (secret || uriEdited));
+
   return (
-    <div className={styles.container}>
-      <div className={styles.section}>
-        <label htmlFor="twofa-type" className={styles.label}>Type</label>
-        <select
-          id="twofa-type"
-          className={styles.select}
-          value={type}
-          onChange={(e) => { setType(e.target.value as OTPType); handleFieldChange(); }}
-        >
-          <option value="totp">Time based (TOTP)</option>
-          <option value="hotp">Counter based (HOTP)</option>
-        </select>
-      </div>
+    <div className="grid w-full gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,300px)] lg:gap-10">
+      {/* LEFT — form */}
+      <div className="flex min-w-0 flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="twofa-type" className="field-label">Type</label>
+          <select
+            id="twofa-type"
+            className="select"
+            value={type}
+            onChange={(e) => { setType(e.target.value as OTPType); handleFieldChange(); }}
+          >
+            <option value="totp">Time based (TOTP)</option>
+            <option value="hotp">Counter based (HOTP)</option>
+          </select>
+        </div>
 
-      <div className={styles.section}>
-        <label htmlFor="twofa-secret" className={styles.label}>Secret (required)</label>
-        <input
-          id="twofa-secret"
-          className={`${styles.input} ${secret === '' && label !== '' ? styles.invalid : ''}`}
-          type="text"
-          placeholder="e.g. JBSWY3DPEHPK3PXP"
-          value={secret}
-          onChange={(e) => { setSecret(e.target.value); handleFieldChange(); }}
-          autoComplete="off"
-          spellCheck={false}
-        />
-      </div>
-
-      <div className={styles.section}>
-        <label htmlFor="twofa-label" className={styles.label}>Label (required)</label>
-        <input
-          id="twofa-label"
-          className={`${styles.input} ${label === '' && secret !== '' ? styles.invalid : ''}`}
-          type="text"
-          placeholder="e.g. user@example.com"
-          value={label}
-          onChange={(e) => { setLabel(e.target.value); handleFieldChange(); }}
-          autoComplete="off"
-          spellCheck={false}
-        />
-      </div>
-
-      <div className={styles.section}>
-        <label htmlFor="twofa-issuer" className={styles.label}>Issuer (optional)</label>
-        <input
-          id="twofa-issuer"
-          className={styles.input}
-          type="text"
-          placeholder="e.g. Google, GitHub, etc."
-          value={issuer}
-          onChange={(e) => { setIssuer(e.target.value); handleFieldChange(); }}
-          list="issuers-list"
-          spellCheck={false}
-        />
-        <datalist id="issuers-list">
-          {ISSUERS.map((name) => (
-            <option key={name} value={name} />
-          ))}
-        </datalist>
-      </div>
-
-      {type === 'hotp' && (
-        <div className={styles.section}>
-          <label className={styles.label}>Initial Counter</label>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="twofa-secret" className="field-label">Secret (required)</label>
           <input
-            className={styles.input}
+            id="twofa-secret"
+            className={`input input-mono ${secret === '' && label !== '' ? styles.invalid : ''}`}
             type="text"
-            placeholder="Defaults to 0"
-            value={counter}
-            onChange={(e) => { setCounter(e.target.value); handleFieldChange(); }}
+            placeholder="e.g. JBSWY3DPEHPK3PXP"
+            value={secret}
+            onChange={(e) => { setSecret(e.target.value); handleFieldChange(); }}
             autoComplete="off"
+            spellCheck={false}
           />
         </div>
-      )}
 
-      <label className={styles.checkRow}>
-        <input
-          type="checkbox"
-          checked={showAdvanced}
-          onChange={(e) => { setShowAdvanced(e.target.checked); handleFieldChange(); }}
-        />
-        Advanced options
-      </label>
-
-      <div className={`${styles.advancedPanel} ${showAdvanced ? styles.advancedPanelOpen : ''}`}>
-        <div className={styles.advancedPanelInner}>
-          <p className={styles.advancedNote}>
-            Advanced options are not supported by Google Authenticator (they are ignored). Yubico Authenticator supports them.
-          </p>
-          <div className={styles.section}>
-            <label className={styles.label}>Algorithm</label>
-            <select
-              className={styles.select}
-              value={algorithm}
-              onChange={(e) => { setAlgorithm(e.target.value); handleFieldChange(); }}
-            >
-              <option value="SHA1">SHA1 (Default)</option>
-              <option value="SHA256">SHA256</option>
-              <option value="SHA512">SHA512</option>
-            </select>
-          </div>
-          <div className={styles.section}>
-            <label className={styles.label}>Digits</label>
-            <select
-              className={styles.select}
-              value={digits}
-              onChange={(e) => { setDigits(e.target.value); handleFieldChange(); }}
-            >
-              <option value="6">6 digits (Default)</option>
-              <option value="8">8 digits</option>
-            </select>
-          </div>
-          {type === 'totp' && (
-            <div className={styles.section}>
-              <label className={styles.label}>Period (seconds)</label>
-              <input
-                className={styles.input}
-                type="text"
-                placeholder="Defaults to 30"
-                value={period}
-                onChange={(e) => { setPeriod(e.target.value); handleFieldChange(); }}
-                autoComplete="off"
-              />
-            </div>
-          )}
-        </div>
-      </div>
-
-      <hr className={styles.divider} />
-
-      <div className={styles.section}>
-        <label htmlFor="twofa-uri" className={styles.label}>OTPAuth URI</label>
-        <input
-          id="twofa-uri"
-          className={styles.uriInput}
-          type="text"
-          placeholder="otpauth://"
-          value={effectiveUri}
-          onChange={(e) => parseUri(e.target.value)}
-          autoComplete="off"
-          spellCheck={false}
-        />
-      </div>
-
-      {displayQr && (
-        <div className={styles.qrSection}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={displayQr}
-            alt="2FA QR Code"
-            width={size}
-            height={size}
-            className={styles.qrImage}
-          />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="twofa-label" className="field-label">Label (required)</label>
           <input
-            className={styles.sizeSlider}
-            type="range"
-            min={50}
-            max={400}
-            step={25}
-            value={size}
-            onChange={(e) => setSize(Number(e.target.value))}
-            title="QR Code Size"
+            id="twofa-label"
+            className={`input ${label === '' && secret !== '' ? styles.invalid : ''}`}
+            type="text"
+            placeholder="e.g. user@example.com"
+            value={label}
+            onChange={(e) => { setLabel(e.target.value); handleFieldChange(); }}
+            autoComplete="off"
+            spellCheck={false}
           />
         </div>
-      )}
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="twofa-issuer" className="field-label">Issuer (optional)</label>
+          <input
+            id="twofa-issuer"
+            className="input"
+            type="text"
+            placeholder="e.g. Google, GitHub, etc."
+            value={issuer}
+            onChange={(e) => { setIssuer(e.target.value); handleFieldChange(); }}
+            list="issuers-list"
+            spellCheck={false}
+          />
+          <datalist id="issuers-list">
+            {ISSUERS.map((name) => (
+              <option key={name} value={name} />
+            ))}
+          </datalist>
+        </div>
+
+        {type === 'hotp' && (
+          <div className="flex flex-col gap-2">
+            <label className="field-label">Initial Counter</label>
+            <input
+              className="input"
+              type="text"
+              placeholder="Defaults to 0"
+              value={counter}
+              onChange={(e) => { setCounter(e.target.value); handleFieldChange(); }}
+              autoComplete="off"
+            />
+          </div>
+        )}
+
+        <label className="check-row mt-1">
+          <input
+            type="checkbox"
+            checked={showAdvanced}
+            onChange={(e) => { setShowAdvanced(e.target.checked); handleFieldChange(); }}
+          />
+          Advanced options
+        </label>
+
+        <div className={`${styles.advancedPanel} ${showAdvanced ? styles.advancedPanelOpen : ''}`}>
+          <div className={styles.advancedPanelInner}>
+            <p className={styles.advancedNote}>
+              Advanced options are not supported by Google Authenticator (they are ignored). Yubico Authenticator supports them.
+            </p>
+            <div className="flex flex-col gap-2">
+              <label className="field-label">Algorithm</label>
+              <select
+                className="select"
+                value={algorithm}
+                onChange={(e) => { setAlgorithm(e.target.value); handleFieldChange(); }}
+              >
+                <option value="SHA1">SHA1 (Default)</option>
+                <option value="SHA256">SHA256</option>
+                <option value="SHA512">SHA512</option>
+              </select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="field-label">Digits</label>
+              <select
+                className="select"
+                value={digits}
+                onChange={(e) => { setDigits(e.target.value); handleFieldChange(); }}
+              >
+                <option value="6">6 digits (Default)</option>
+                <option value="8">8 digits</option>
+              </select>
+            </div>
+            {type === 'totp' && (
+              <div className="flex flex-col gap-2">
+                <label className="field-label">Period (seconds)</label>
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Defaults to 30"
+                  value={period}
+                  onChange={(e) => { setPeriod(e.target.value); handleFieldChange(); }}
+                  autoComplete="off"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <hr className={styles.divider} />
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="twofa-uri" className="field-label">OTPAuth URI</label>
+          <input
+            id="twofa-uri"
+            className="input input-mono text-xs"
+            type="text"
+            placeholder="otpauth://"
+            value={effectiveUri}
+            onChange={(e) => parseUri(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
+          />
+        </div>
+      </div>
+
+      {/* RIGHT — QR preview */}
+      <div className="lg:border-l lg:border-white/[0.06] lg:pl-10">
+        <div className="flex flex-col gap-4 lg:sticky lg:top-24">
+          <span className="eyebrow-system">QR Code</span>
+          <div className="tool-stage">
+            {showQr ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={displayQr!}
+                  alt="2FA QR Code"
+                  width={size}
+                  height={size}
+                  className={styles.qrImage}
+                />
+                <div className="flex w-full flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="field-label">Size</span>
+                    <span className="color-hex">{size}px</span>
+                  </div>
+                  <input
+                    className="range"
+                    type="range"
+                    min={50}
+                    max={400}
+                    step={25}
+                    value={size}
+                    onChange={(e) => setSize(Number(e.target.value))}
+                    title="QR Code Size"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className={styles.placeholder}>
+                Enter a secret and label to generate your code.
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default function PasswordGeneratorPage() {
   return (
     <ToolPageShell
+      wide
+      eyebrow="/pwgen"
       title="Password Generator"
       description="Generate polished passwords or passphrases with strong defaults, useful entropy feedback, and quick batch creation."
     >

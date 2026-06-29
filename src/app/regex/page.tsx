@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default function RegexTesterPage() {
   return (
     <ToolPageShell
+      wide
+      eyebrow="/regex"
       title="Regex Tester"
       description="Test patterns, inspect matches, preview replacements, and keep your regex workflow readable while you iterate."
     >

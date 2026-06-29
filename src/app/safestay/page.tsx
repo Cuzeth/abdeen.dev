@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 export default function SafeStayPage() {
   return (
     <ToolPageShell
+      eyebrow="/safestay"
       title="SafeStay Scanner"
       description="Detect hidden cameras and suspicious devices at Airbnbs, hotels, and rentals."
     >

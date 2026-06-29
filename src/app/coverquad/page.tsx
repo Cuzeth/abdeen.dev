@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 export default function CoverQuadPage() {
   return (
     <ToolPageShell
+      wide
+      eyebrow="/coverquad"
       title="CoverQuad"
       description="Rebuild the classic 2x2 playlist cover look with a clean collage workflow, album art search, and high-resolution export."
     >
