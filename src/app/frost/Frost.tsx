@@ -87,7 +87,7 @@ function DownloadButton() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-red)] px-6 py-3 text-sm font-semibold text-[var(--color-paper)] shadow-[0_14px_30px_-10px_var(--accent-glow)] transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-[var(--accent-hover)] hover:shadow-[0_18px_40px_-10px_var(--accent-glow)] active:translate-y-0"
+      className="inline-flex items-center gap-2.5 rounded-full bg-[var(--color-red)] px-6 py-3 text-sm font-semibold text-[var(--color-paper)] shadow-[0_14px_30px_-10px_var(--accent-glow)] transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-[var(--accent-hover)] hover:shadow-[0_18px_40px_-10px_var(--accent-glow)] active:translate-y-0"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d={APPLE_PATH} />
@@ -171,7 +171,9 @@ export default function Frost() {
                 aria-hidden="true"
                 className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
               />
-              macOS App
+              <span style={{ textTransform: "none", letterSpacing: "0.05em" }}>
+                macOS App
+              </span>
             </span>
             <h1 className="text-4xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-6xl">
               Frost
@@ -214,7 +216,7 @@ export default function Frost() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <FadeInWrapper key={f.label} direction="up" delay={0.04 + i * 0.04}>
-              <div className="surface-card flex h-full flex-col gap-2 rounded-[1.1rem] px-5 py-5 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-white/[0.16] md:rounded-[1.6rem]">
+              <div className="surface-card flex h-full flex-col gap-2 rounded-[1.1rem] px-5 py-5 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-white/[0.16] md:rounded-[1.6rem]">
                 <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
                   {f.label}
                 </h3>
