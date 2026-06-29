@@ -185,6 +185,8 @@ const jsonLd = {
             "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx
+        /*
         {
           "@type": "SoftwareApplication",
           name: "SafeStay Scanner",
@@ -195,6 +197,7 @@ const jsonLd = {
             "CLI tool to detect hidden cameras on WiFi networks. ARP scanning, MAC address lookup, and port detection.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        */
       ],
     },
   ],

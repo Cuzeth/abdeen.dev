@@ -63,6 +63,9 @@ const apps = [
     href: "/hush",
     external: false,
   },
+  // DISABLED: SafeStay Scanner — re-enable by uncommenting this entry
+  // and flipping ENABLED in src/app/safestay/page.tsx back to true.
+  /*
   {
     title: "SafeStay Scanner",
     description:
@@ -70,6 +73,7 @@ const apps = [
     href: "/safestay",
     external: false,
   },
+  */
   {
     title: "Strobe",
     description:
