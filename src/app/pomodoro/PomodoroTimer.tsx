@@ -114,16 +114,9 @@ export default function PomodoroTimer() {
     <div className={styles.container}>
       <div
         className="segmented segmented--accent w-full"
-        ref={modeSlider.containerRef}
+        ref={modeSlider}
       >
-        <div
-          className="segmented-thumb"
-          style={{
-            left: modeSlider.style.left,
-            width: modeSlider.style.width,
-            opacity: modeSlider.ready ? 1 : 0,
-          }}
-        />
+        <div className="segmented-thumb" />
         {(Object.keys(MODE_LABELS) as Mode[]).map((m) => (
           <button
             key={m}

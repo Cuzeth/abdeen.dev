@@ -218,16 +218,9 @@ export default function QRGenerator() {
           className="segmented segmented--accent"
           role="tablist"
           aria-label="QR code type"
-          ref={tabSlider.containerRef}
+          ref={tabSlider}
         >
-          <div
-            className="segmented-thumb"
-            style={{
-              left: tabSlider.style.left,
-              width: tabSlider.style.width,
-              opacity: tabSlider.ready ? 1 : 0,
-            }}
-          />
+          <div className="segmented-thumb" />
           {TABS.map(({ key, label }) => (
             <button
               key={key}

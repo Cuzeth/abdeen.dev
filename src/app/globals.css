@@ -454,7 +454,10 @@ canvas {
 .segmented-thumb {
   position: absolute;
   top: 0.25rem;
+  left: var(--useslider-left, 0px);
+  width: var(--useslider-width, 0px);
   height: calc(100% - 0.5rem);
+  opacity: var(--useslider-opacity, 0);
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);

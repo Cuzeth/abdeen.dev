@@ -316,16 +316,9 @@ export default function PasswordGenerator() {
         {/* Mode selector */}
         <div
           className="segmented segmented--accent"
-          ref={modeSlider.containerRef}
+          ref={modeSlider}
         >
-          <div
-            className="segmented-thumb"
-            style={{
-              left: modeSlider.style.left,
-              width: modeSlider.style.width,
-              opacity: modeSlider.ready ? 1 : 0,
-            }}
-          />
+          <div className="segmented-thumb" />
           <button
             data-active={mode === 'memorable'}
             className="segmented-item"
@@ -349,16 +342,9 @@ export default function PasswordGenerator() {
             <span className={styles.controlLabel}>Separator</span>
             <div
               className="segmented"
-              ref={sepSlider.containerRef}
+              ref={sepSlider}
             >
-              <div
-                className="segmented-thumb"
-                style={{
-                  left: sepSlider.style.left,
-                  width: sepSlider.style.width,
-                  opacity: sepSlider.ready ? 1 : 0,
-                }}
-              />
+              <div className="segmented-thumb" />
               {([['', 'None'], ['-', 'Hyphen'], ['.', 'Dot']] as [Separator, string][]).map(([val, label]) => (
                 <button
                   key={val}
@@ -415,16 +401,9 @@ export default function PasswordGenerator() {
                 <span className={styles.controlLabel}>Word List</span>
                 <div
                   className="segmented"
-                  ref={sourceSlider.containerRef}
+                  ref={sourceSlider}
                 >
-                  <div
-                    className="segmented-thumb"
-                    style={{
-                      left: sourceSlider.style.left,
-                      width: sourceSlider.style.width,
-                      opacity: sourceSlider.ready ? 1 : 0,
-                    }}
-                  />
+                  <div className="segmented-thumb" />
                   <button
                     data-active={passphraseSource === 'eff'}
                     className="segmented-item"

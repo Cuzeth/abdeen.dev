@@ -212,7 +212,10 @@
 .stationSlider {
   position: absolute;
   top: 0.25rem;
+  left: var(--useslider-left, 0px);
+  width: var(--useslider-width, 0px);
   height: calc(100% - 0.5rem);
+  opacity: var(--useslider-opacity, 0);
   border-radius: 999px;
   border: 1px solid rgba(204, 27, 27, 0.5);
   background: rgba(204, 27, 27, 0.12);

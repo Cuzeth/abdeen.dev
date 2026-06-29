@@ -365,15 +365,8 @@ export default function LofiAtcRadio() {
       </div>
 
       {/* station switcher */}
-      <div className={styles.stationPicker} role="radiogroup" aria-label="Lo-fi station" ref={stationSlider.containerRef}>
-        <div
-          className={styles.stationSlider}
-          style={{
-            left: stationSlider.style.left,
-            width: stationSlider.style.width,
-            opacity: stationSlider.ready ? 1 : 0,
-          }}
-        />
+      <div className={styles.stationPicker} role="radiogroup" aria-label="Lo-fi station" ref={stationSlider}>
+        <div className={styles.stationSlider} />
         {LOFI_STATIONS.map((s, i) => (
           <button
             key={s.url}
