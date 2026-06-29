@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 interface FadeInWrapperProps {
@@ -10,7 +10,14 @@ interface FadeInWrapperProps {
 }
 
 export default function FadeInWrapper({ children, delay = 0, direction = 'up' }: FadeInWrapperProps) {
+  const shouldReduceMotion = useReducedMotion();
   const distance = 28;
+
+  // The CSS reduced-motion kill-switch can't stop framer's inline styles,
+  // so honor the preference here and render statically.
+  if (shouldReduceMotion) {
+    return <div>{children}</div>;
+  }
 
   const variants = {
     hidden: {
