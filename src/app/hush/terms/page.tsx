@@ -27,7 +27,7 @@ export default function HushTermsPage() {
             </p>
           </div>
           <div className="flex flex-col gap-8 px-5 py-6 md:px-8 md:py-8">
-            <p className="text-xs text-[var(--text)] opacity-40">
+            <p className="text-xs text-[var(--text)] opacity-80">
               Last updated: April 10, 2026
             </p>
 
@@ -95,7 +95,7 @@ export default function HushTermsPage() {
                   Questions? Reach out at{" "}
                   <a
                     href="mailto:help@abdeen.dev"
-                    className="text-[var(--accent)] transition-opacity hover:opacity-70"
+                    className="text-[var(--accent)] underline underline-offset-4 transition-opacity hover:opacity-70"
                   >
                     help@abdeen.dev
                   </a>
@@ -104,7 +104,7 @@ export default function HushTermsPage() {
               </section>
             </div>
 
-            <div className="flex gap-4 text-xs text-[var(--text)] opacity-40">
+            <div className="flex gap-4 text-xs text-[var(--text)] opacity-80">
               <Link
                 href="/hush"
                 className="transition-opacity hover:opacity-70"

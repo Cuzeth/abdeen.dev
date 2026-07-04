@@ -82,7 +82,10 @@ export default function QRGenerator() {
           setError('Please enter a password for the secured network');
           return null;
         }
-        return `WIFI:T:${wifiSecurity};S:${ssid};P:${wifiPassword};H:${wifiHidden ? 'true' : 'false'};;`;
+        // Backslash-escape the WIFI: format's reserved characters so networks
+        // with e.g. ";" or ":" in the name/password still join correctly
+        const esc = (v: string) => v.replace(/([\\;,:"])/g, '\\$1');
+        return `WIFI:T:${wifiSecurity};S:${esc(ssid)};P:${esc(wifiPassword)};H:${wifiHidden ? 'true' : 'false'};;`;
       }
       case 'email': {
         const to = emailTo.trim();
@@ -372,8 +375,9 @@ export default function QRGenerator() {
             <div className={styles.panel}>
               <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                 <div className="flex flex-col gap-1.5">
-                  <label className="field-label">Dot Style</label>
+                  <label htmlFor="qr-dot-style" className="field-label">Dot Style</label>
                   <select
+                    id="qr-dot-style"
                     className="select"
                     value={dotStyle}
                     onChange={(e) => setDotStyle(e.target.value as DotType)}
@@ -385,8 +389,9 @@ export default function QRGenerator() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="field-label">Corner Style</label>
+                  <label htmlFor="qr-corner-style" className="field-label">Corner Style</label>
                   <select
+                    id="qr-corner-style"
                     className="select"
                     value={cornerStyle}
                     onChange={(e) => setCornerStyle(e.target.value as CornerSquareType)}
@@ -398,8 +403,9 @@ export default function QRGenerator() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="field-label">Corner Dot</label>
+                  <label htmlFor="qr-corner-dot" className="field-label">Corner Dot</label>
                   <select
+                    id="qr-corner-dot"
                     className="select"
                     value={cornerDotStyle}
                     onChange={(e) => setCornerDotStyle(e.target.value as CornerDotType)}
@@ -415,6 +421,7 @@ export default function QRGenerator() {
                     <input
                       type="color"
                       className="color-swatch"
+                      aria-label="Background color"
                       value={bgColor}
                       onChange={(e) => setBgColor(e.target.value)}
                     />
@@ -442,6 +449,7 @@ export default function QRGenerator() {
                         <input
                           type="color"
                           className="color-swatch"
+                          aria-label="Gradient color 1"
                           value={gradientColor1}
                           onChange={(e) => setGradientColor1(e.target.value)}
                         />
@@ -454,6 +462,7 @@ export default function QRGenerator() {
                         <input
                           type="color"
                           className="color-swatch"
+                          aria-label="Gradient color 2"
                           value={gradientColor2}
                           onChange={(e) => setGradientColor2(e.target.value)}
                         />
@@ -461,8 +470,9 @@ export default function QRGenerator() {
                       </div>
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="field-label">Type</label>
+                      <label htmlFor="qr-gradient-type" className="field-label">Type</label>
                       <select
+                        id="qr-gradient-type"
                         className="select"
                         value={gradientType}
                         onChange={(e) => setGradientType(e.target.value as GradientType)}
@@ -479,6 +489,7 @@ export default function QRGenerator() {
                       <input
                         type="color"
                         className="color-swatch"
+                        aria-label="Dot color"
                         value={dotColor}
                         onChange={(e) => setDotColor(e.target.value)}
                       />

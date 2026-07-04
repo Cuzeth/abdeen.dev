@@ -21,9 +21,15 @@ const MODE_LABELS: Record<Mode, string> = {
 const RING_RADIUS = 120;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
+// One shared context — browsers cap concurrent AudioContexts, so creating a
+// new one per beep eventually silences the completion sound.
+let audioCtx: AudioContext | null = null;
+
 function playBeep() {
   try {
-    const ctx = new AudioContext();
+    audioCtx ??= new AudioContext();
+    const ctx = audioCtx;
+    if (ctx.state === 'suspended') void ctx.resume();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
@@ -47,6 +53,7 @@ export default function PomodoroTimer() {
   const [sessions, setSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const endTimeRef = useRef<number>(0);
   const modeSlider = useSlider(mode);
 
   const totalSeconds = durations[mode] * 60;
@@ -71,31 +78,54 @@ export default function PomodoroTimer() {
       return;
     }
 
-    intervalRef.current = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          playBeep();
-          if (mode === 'work') {
-            const newSessions = sessions + 1;
-            setSessions(newSessions);
-            const nextMode = newSessions % 4 === 0 ? 'long' : 'short';
-            setMode(nextMode);
-            setRunning(false);
-            return durations[nextMode] * 60;
-          } else {
-            setMode('work');
-            setRunning(false);
-            return durations.work * 60;
-          }
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    // Count down against a wall-clock end time — a 1s interval decrementing
+    // state drifts and stalls entirely when the tab is backgrounded.
+    endTimeRef.current = Date.now() + secondsLeft * 1000;
+
+    const tick = () => {
+      const remaining = Math.max(0, Math.round((endTimeRef.current - Date.now()) / 1000));
+      if (remaining > 0) {
+        setSecondsLeft(remaining);
+        return;
+      }
+
+      playBeep();
+      if (mode === 'work') {
+        const newSessions = sessions + 1;
+        setSessions(newSessions);
+        const nextMode = newSessions % 4 === 0 ? 'long' : 'short';
+        setMode(nextMode);
+        setSecondsLeft(durations[nextMode] * 60);
+      } else {
+        setMode('work');
+        setSecondsLeft(durations.work * 60);
+      }
+      setRunning(false);
+    };
+
+    intervalRef.current = setInterval(tick, 250);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
+    // secondsLeft is intentionally omitted: it's read once to set the end
+    // time when the timer starts; re-running on every tick would reset it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [running, mode, sessions, durations]);
+
+  // Surface the countdown in the tab title so it's visible from other tabs
+  useEffect(() => {
+    const original = document.title;
+    return () => {
+      document.title = original;
+    };
+  }, []);
+
+  useEffect(() => {
+    const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+    const ss = String(secondsLeft % 60).padStart(2, '0');
+    document.title = `${mm}:${ss} · ${MODE_LABELS[mode]} — Pomodoro`;
+  }, [secondsLeft, mode]);
 
   const reset = () => {
     setRunning(false);
@@ -121,6 +151,7 @@ export default function PomodoroTimer() {
           <button
             key={m}
             data-active={mode === m}
+            aria-pressed={mode === m}
             className="segmented-item"
             onClick={() => switchMode(m)}
           >
@@ -185,6 +216,7 @@ export default function PomodoroTimer() {
                     onChange={(e) => updateDuration(m, e.target.value)}
                     min={1}
                     max={99}
+                    aria-label={`${MODE_LABELS[m]} duration in minutes`}
                   />
                   <span className="text-xs text-[var(--color-graphite)]">min</span>
                 </div>

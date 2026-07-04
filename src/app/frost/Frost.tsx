@@ -71,7 +71,9 @@ function DownloadButton() {
         );
         if (dmg) {
           setHref(dmg.browser_download_url);
-          setLabel(`Download Frost ${data.tag_name.replace(/^v/, "")}`);
+          // Same visual width as the fallback label — avoids the button
+          // resizing under the cursor when the release info arrives
+          setLabel(`Download ${data.tag_name.replace(/^v/, "")} for macOS`);
         }
       })
       .catch(() => {
@@ -253,12 +255,12 @@ export default function Frost() {
             input. No accounts, no analytics, no tracking. Frost is not a screen
             lock or a replacement for the macOS login window.
           </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)] opacity-50">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]">
             <a
               href={REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-opacity hover:opacity-80"
+              className="transition-colors hover:text-[var(--color-paper)]"
             >
               GitHub &rarr;
             </a>
@@ -266,7 +268,7 @@ export default function Frost() {
               href={RELEASES_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-opacity hover:opacity-80"
+              className="transition-colors hover:text-[var(--color-paper)]"
             >
               All releases &rarr;
             </a>

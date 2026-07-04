@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback, type DragEvent, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useState, useRef, useCallback, useEffect, type DragEvent, type ChangeEvent, type KeyboardEvent } from 'react';
 import styles from './coverquad.module.css';
 
 // --- Types ---
@@ -38,11 +38,21 @@ export default function CoverQuad() {
   const [searchError, setSearchError] = useState('');
   const [searching, setSearching] = useState(false);
   const [loadingSlot, setLoadingSlot] = useState<number | null>(null);
+  const [slotError, setSlotError] = useState('');
   const [exportSize, setExportSize] = useState<ExportSize>(3000);
 
   const fileInputRefs = useRef<(HTMLInputElement | null)[]>([null, null, null, null]);
+  const slotButtonRefs = useRef<(HTMLButtonElement | null)[]>([null, null, null, null]);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const slotErrorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allFilled = slots.every(Boolean);
+
+  const showSlotError = useCallback((message: string) => {
+    setSlotError(message);
+    if (slotErrorTimer.current) clearTimeout(slotErrorTimer.current);
+    slotErrorTimer.current = setTimeout(() => setSlotError(''), 5000);
+  }, []);
 
   const closeAllModals = useCallback(() => {
     setModal('none');
@@ -50,7 +60,15 @@ export default function CoverQuad() {
     setSearchResults([]);
     setSearchError('');
     setSearching(false);
-  }, []);
+    // Hand focus back to the tile that opened the dialog
+    if (activeSlot !== null) slotButtonRefs.current[activeSlot]?.focus();
+  }, [activeSlot]);
+
+  // The choice dialog has no autofocused field, so focus the overlay —
+  // otherwise Escape-to-close keydowns never reach it.
+  useEffect(() => {
+    if (modal === 'choice') overlayRef.current?.focus();
+  }, [modal]);
 
   const loadImageFromUrl = useCallback((url: string): Promise<{ img: HTMLImageElement; objectUrl: string }> => {
     return fetch(url)
@@ -122,7 +140,7 @@ export default function CoverQuad() {
       const { img, objectUrl } = await loadImageFromFile(file);
       setSlot(index, { img, objectUrl, label: file.name });
     } catch {
-      // silently fail
+      showSlotError(`Couldn't load “${file.name}” — it may not be a valid image.`);
     }
     e.target.value = '';
   };
@@ -139,7 +157,7 @@ export default function CoverQuad() {
       const { img, objectUrl } = await loadImageFromFile(file);
       setSlot(index, { img, objectUrl, label: file.name });
     } catch {
-      // silently fail
+      showSlotError(`Couldn't load “${file.name}” — it may not be a valid image.`);
     }
   };
 
@@ -158,6 +176,11 @@ export default function CoverQuad() {
         headers: { Accept: 'application/json' },
       });
 
+      if (res.status === 429 || res.status === 503) {
+        setSearching(false);
+        setSearchError('The album database is rate-limiting requests — wait a few seconds and try again.');
+        return;
+      }
       if (!res.ok) throw new Error('Search failed');
 
       const data = await res.json() as {
@@ -216,7 +239,7 @@ export default function CoverQuad() {
       const { img, objectUrl } = await loadImageFromUrl(proxyUrl);
       setSlot(slotIndex, { img, objectUrl, label: `${album.title} \u2014 ${album.artist}` });
     } catch {
-      // silently fail
+      showSlotError(`Couldn't load the cover for \u201c${album.title}\u201d. Try another result.`);
     } finally {
       setLoadingSlot(null);
     }
@@ -278,28 +301,32 @@ export default function CoverQuad() {
           <div
             key={i}
             className={`${styles.slot} ${slot ? styles.filled : ''}`}
-            onClick={() => handleSlotClick(i)}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, i)}
-            role="button"
-            tabIndex={0}
-            aria-label={slot ? `Slot ${i + 1}: ${slot.label} — click to replace` : `Slot ${i + 1}: empty — click to add cover art`}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSlotClick(i); } }}
           >
-            <div className={styles.slotEmpty}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-            </div>
-            {slot && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img className={styles.slotImg} src={slot.img.src} alt={slot.label} />
-            )}
+            <button
+              type="button"
+              className={styles.slotAction}
+              ref={(el) => { slotButtonRefs.current[i] = el; }}
+              onClick={() => handleSlotClick(i)}
+              aria-label={slot ? `Slot ${i + 1}: ${slot.label} — activate to replace` : `Slot ${i + 1}: empty — activate to add cover art`}
+            >
+              <div className={styles.slotEmpty}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+              {slot && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className={styles.slotImg} src={slot.img.src} alt="" />
+              )}
+            </button>
             {slot && (
               <button
                 className={styles.slotClear}
                 title="Clear"
+                aria-label={`Clear slot ${i + 1}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClear(i);
@@ -324,6 +351,11 @@ export default function CoverQuad() {
             ))}
           </div>
         </div>
+        {slotError && (
+          <p role="alert" className="text-center text-xs leading-5 text-[var(--color-red)]">
+            {slotError}
+          </p>
+        )}
         <p className="text-center text-xs leading-5 text-[var(--color-graphite)]">
           Click a tile to upload or search album art &middot; drag &amp; drop works too
         </p>
@@ -337,8 +369,9 @@ export default function CoverQuad() {
             <span className="chip">{filledCount} / 4 filled</span>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="field-label">Resolution</label>
+            <label htmlFor="coverquad-resolution" className="field-label">Resolution</label>
             <select
+              id="coverquad-resolution"
               className="select"
               value={exportSize}
               onChange={(e) => setExportSize(Number(e.target.value) as ExportSize)}
@@ -362,7 +395,7 @@ export default function CoverQuad() {
       </div>
 
       {modal === 'choice' && (
-        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Add cover art">
+        <div ref={overlayRef} className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Add cover art">
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <button className={styles.modalClose} onClick={closeAllModals} aria-label="Close">&times;</button>
             <div className={styles.modalTitle}>Add Cover Art</div>
@@ -388,7 +421,7 @@ export default function CoverQuad() {
       )}
 
       {modal === 'search' && (
-        <div className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Search album art">
+        <div ref={overlayRef} className={styles.overlay} onClick={closeAllModals} onKeyDown={handleOverlayKeyDown} tabIndex={-1} role="dialog" aria-modal="true" aria-label="Search album art">
           <div className={`${styles.modal} ${styles.searchModal}`} onClick={(e) => e.stopPropagation()}>
             <button className={styles.modalClose} onClick={closeAllModals} aria-label="Close">&times;</button>
             <div className={styles.modalTitle}>Search Album Art</div>
@@ -397,6 +430,7 @@ export default function CoverQuad() {
                 className="input min-w-0 flex-1"
                 type="text"
                 placeholder="Artist or album name…"
+                aria-label="Search for artist or album"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleSearchKeyDown}

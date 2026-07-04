@@ -69,6 +69,10 @@ function ScreenshotImage({ src, index }: { src: string; index: number }) {
         priority
         className={`h-full w-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
         onLoad={() => setLoaded(true)}
+        ref={(img) => {
+          // Cached images can finish before hydration attaches onLoad
+          if (img?.complete) setLoaded(true);
+        }}
       />
     </div>
   );
@@ -90,6 +94,9 @@ function HeroPhone() {
             priority
             className={`block h-auto w-full transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
             onLoad={() => setLoaded(true)}
+            ref={(img) => {
+              if (img?.complete) setLoaded(true);
+            }}
           />
         </div>
       </div>
@@ -168,7 +175,12 @@ export default function Hush() {
           <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
             Screenshots
           </h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div
+            className="flex gap-4 overflow-x-auto pb-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-red)]"
+            tabIndex={0}
+            role="region"
+            aria-label="App screenshots, scrollable"
+          >
             {screenshots.map((src, i) => (
               <ScreenshotImage key={i} src={src} index={i} />
             ))}
@@ -221,24 +233,24 @@ export default function Hush() {
           <p className="text-sm leading-7 text-[var(--text)] opacity-70">
             No accounts, no analytics, no tracking. Open source under GPL-3.0.
           </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)] opacity-50">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]">
             <a
               href={REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-opacity hover:opacity-80"
+              className="transition-colors hover:text-[var(--color-paper)]"
             >
               GitHub &rarr;
             </a>
             <Link
               href="/hush/privacy"
-              className="transition-opacity hover:opacity-80"
+              className="transition-colors hover:text-[var(--color-paper)]"
             >
               Privacy Policy
             </Link>
             <Link
               href="/hush/terms"
-              className="transition-opacity hover:opacity-80"
+              className="transition-colors hover:text-[var(--color-paper)]"
             >
               Terms of Service
             </Link>

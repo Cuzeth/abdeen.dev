@@ -129,6 +129,9 @@ const BATCH_SIZE = 5;
 export default function PasswordGenerator() {
   const [wordLists, setWordLists] = useState<WordLists | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [copyFailed, setCopyFailed] = useState(false);
   const [passwords, setPasswords] = useState<GeneratedPassword[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -155,12 +158,17 @@ export default function PasswordGenerator() {
   const sourceSlider = useSlider(passphraseSource);
 
   useEffect(() => {
+    const load = (path: string) =>
+      fetch(path).then((r) => {
+        if (!r.ok) throw new Error(`${path}: ${r.status}`);
+        return r.text();
+      });
     Promise.all([
-      fetch('/data/pwgen/common-words.txt').then((r) => r.text()),
-      fetch('/data/pwgen/thirteen-letter.txt').then((r) => r.text()),
-      fetch('/data/pwgen/eight-letter.txt').then((r) => r.text()),
-      fetch('/data/pwgen/eff-large.txt').then((r) => r.text()),
-      fetch('/data/pwgen/bip39.txt').then((r) => r.text()),
+      load('/data/pwgen/common-words.txt'),
+      load('/data/pwgen/thirteen-letter.txt'),
+      load('/data/pwgen/eight-letter.txt'),
+      load('/data/pwgen/eff-large.txt'),
+      load('/data/pwgen/bip39.txt'),
     ]).then(([common, thirteen, eight, eff, bip39]) => {
       const commonWords = common.split('\n').filter(Boolean);
       const thirteenLetter = thirteen.split('\n').filter(Boolean);
@@ -175,8 +183,11 @@ export default function PasswordGenerator() {
         bip39: bip39.split('\n').filter(Boolean),
       });
       setLoading(false);
+    }).catch(() => {
+      setLoadError(true);
+      setLoading(false);
     });
-  }, []);
+  }, [loadAttempt]);
 
   // ── Generators ──
 
@@ -274,14 +285,24 @@ export default function PasswordGenerator() {
 
   const copyToClipboard = useCallback(async () => {
     if (!passwords[selectedIndex]) return;
-    await navigator.clipboard.writeText(passwords[selectedIndex].full);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(passwords[selectedIndex].full);
+      setCopyFailed(false);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+      setCopyFailed(true);
+      setTimeout(() => setCopyFailed(false), 3000);
+    }
   }, [passwords, selectedIndex]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      // Don't hijack keys aimed at an interactive element (button, link,
+      // the copyable result, form fields) — Space there activates it instead.
+      const target = e.target as HTMLElement | null;
+      if (target?.closest('button, a, input, textarea, select, [role="button"]')) return;
       if (e.code === 'Space') {
         e.preventDefault();
         generate();
@@ -298,10 +319,30 @@ export default function PasswordGenerator() {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
+      <div className={styles.loading} role="status" aria-label="Loading word lists">
         <div className={styles.loadingDot} />
         <div className={styles.loadingDot} />
         <div className={styles.loadingDot} />
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-12 text-center" role="alert">
+        <p className="text-sm text-[var(--text)]">
+          Couldn&apos;t load the word lists. Check your connection and try again.
+        </p>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            setLoading(true);
+            setLoadError(false);
+            setLoadAttempt((n) => n + 1);
+          }}
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -491,7 +532,6 @@ export default function PasswordGenerator() {
               role="button"
               tabIndex={0}
               aria-label={`Password: ${selected.full}. Click to copy.`}
-              aria-live="polite"
             >
               <div className={styles.passwordSegments}>
                 {selected.segments.map((seg, i) => (
@@ -502,10 +542,17 @@ export default function PasswordGenerator() {
               </div>
               <div className={styles.resultMeta}>
                 <span className={styles.charCount}>{selected.full.length} chars</span>
-                <span className={styles.copyHint}>{copied ? 'Copied!' : 'Click to copy'}</span>
+                <span className={styles.copyHint}>
+                  {copyFailed ? 'Copy failed — select and copy manually' : copied ? 'Copied!' : 'Click to copy'}
+                </span>
               </div>
             </div>
           )}
+
+          {/* Announce copy feedback without reading the password aloud */}
+          <span className="sr-only" aria-live="polite">
+            {copyFailed ? 'Copy failed' : copied ? 'Password copied to clipboard' : ''}
+          </span>
 
           {/* Strength meter */}
           {strength && (

@@ -35,8 +35,9 @@ export const metadata: Metadata = {
     "Hush",
     "focus sounds",
     "iOS app",
-    "SafeStay",
-    "hidden camera detector",
+    // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx
+    // "SafeStay",
+    // "hidden camera detector",
   ],
   alternates: {
     canonical: "https://abdeen.dev",
@@ -164,6 +165,16 @@ const jsonLd = {
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
+        {
+          "@type": "SoftwareApplication",
+          name: "Frost",
+          url: "https://abdeen.dev/frost",
+          applicationCategory: "UtilityApplication",
+          operatingSystem: "macOS",
+          description:
+            "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with Touch ID.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        },
         // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx
         /*
         {
@@ -261,7 +272,7 @@ export default function RootLayout({
             </a>
           </nav>
         </header>
-        <main id="main-content" className="relative flex-1 px-4 md:px-8">{children}</main>
+        <main id="main-content" tabIndex={-1} className="relative flex-1 px-4 md:px-8 outline-none">{children}</main>
         <footer className="w-full px-4 pb-6 pt-2 md:px-8 md:pb-10" role="contentinfo">
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center">
             <div className="flex items-center gap-2.5 opacity-60">
@@ -275,7 +286,7 @@ export default function RootLayout({
                 Abdeen Labs
               </span>
             </div>
-            <span className="text-xs text-[var(--text)] opacity-50">
+            <span className="text-xs text-[var(--text)] opacity-80">
               &copy; {new Date().getFullYear()} Jaafar Abdeen
             </span>
           </div>
