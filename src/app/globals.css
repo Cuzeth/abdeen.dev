@@ -711,4 +711,8 @@ button, a, [role="button"], input, select, textarea {
     animation: none !important;
     transition: none !important;
   }
+
+  html {
+    scroll-behavior: auto !important;
+  }
 }

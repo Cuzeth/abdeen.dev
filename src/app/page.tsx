@@ -138,15 +138,15 @@ export default function HomePage() {
                           : item.href}
                       </span>
                       <div>
-                        <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
+                        <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
                           {item.title}
-                        </h2>
+                        </h3>
                         <p className="mt-2 text-sm leading-7 text-[var(--text)]">
                           {item.description}
                         </p>
                       </div>
                       {item.external && (
-                        <span className="mt-auto text-xs text-[var(--text)] opacity-40 transition-opacity duration-200 group-hover:opacity-70">
+                        <span className="mt-auto text-xs text-[var(--text)] opacity-80 transition-opacity duration-200 group-hover:opacity-100">
                           Visit site &rarr;
                         </span>
                       )}
@@ -181,9 +181,9 @@ export default function HomePage() {
                       {item.href}
                     </span>
                     <div>
-                      <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
+                      <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
                         {item.title}
-                      </h2>
+                      </h3>
                       <p className="mt-2 text-sm leading-7 text-[var(--text)]">
                         {item.description}
                       </p>

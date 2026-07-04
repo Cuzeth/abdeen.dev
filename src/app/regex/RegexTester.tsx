@@ -1,11 +1,55 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import styles from './regex.module.css';
 
 type Flag = 'g' | 'i' | 'm' | 's';
 
 const ALL_FLAGS: Flag[] = ['g', 'i', 'm', 's'];
+
+const FLAG_NAMES: Record<Flag, string> = {
+  g: 'Global',
+  i: 'Case insensitive',
+  m: 'Multiline',
+  s: 'Dot matches newline',
+};
+
+interface MatchInfo {
+  start: number;
+  end: number;
+  text: string;
+  groups: (string | undefined)[];
+}
+
+// Matching runs in a Web Worker so a catastrophic-backtracking pattern
+// (e.g. (a+)+$ against a long string) can be killed after a timeout
+// instead of freezing the page.
+const MATCH_TIMEOUT_MS = 2000;
+const MAX_MATCHES = 5000;
+
+const WORKER_SOURCE = `
+self.onmessage = (e) => {
+  const { id, pattern, flags, testString, replaceString, doReplace } = e.data;
+  const matches = [];
+  let replaceResult = '';
+  try {
+    const globalFlags = flags.includes('g') ? flags : flags + 'g';
+    const re = new RegExp(pattern, globalFlags);
+    let m;
+    while ((m = re.exec(testString)) !== null) {
+      matches.push({ start: m.index, end: m.index + m[0].length, text: m[0], groups: m.slice(1) });
+      if (m[0].length === 0) re.lastIndex++;
+      if (matches.length >= ${MAX_MATCHES}) break;
+    }
+    if (doReplace) {
+      replaceResult = testString.replace(new RegExp(pattern, flags), replaceString);
+    }
+  } catch {
+    // Syntax errors are surfaced on the main thread; ignore here.
+  }
+  self.postMessage({ id, matches, replaceResult });
+};
+`;
 
 const CHEATSHEET = [
   {
@@ -87,32 +131,87 @@ export default function RegexTester() {
     });
   }, []);
 
+  const flagStr = useMemo(() => ALL_FLAGS.filter((f) => flags.has(f)).join(''), [flags]);
+
   const { regex, error } = useMemo(() => {
     if (!pattern) return { regex: null, error: null };
     try {
-      const flagStr = ALL_FLAGS.filter((f) => flags.has(f)).join('');
       return { regex: new RegExp(pattern, flagStr), error: null };
     } catch (e) {
       return { regex: null, error: (e as Error).message };
     }
-  }, [pattern, flags]);
+  }, [pattern, flagStr]);
 
-  const matches = useMemo(() => {
-    if (!regex || !testString) return [];
-    const results: { start: number; end: number; text: string; groups: string[] }[] = [];
-    const globalRegex = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : regex.flags + 'g');
-    let match;
-    while ((match = globalRegex.exec(testString)) !== null) {
-      results.push({
-        start: match.index,
-        end: match.index + match[0].length,
-        text: match[0],
-        groups: match.slice(1),
-      });
-      if (match[0].length === 0) globalRegex.lastIndex++;
+  // Results are keyed to the inputs that produced them; anything else in
+  // state is stale and rendered as "no result yet".
+  const inputKey = regex && testString
+    ? [regex.source, regex.flags, testString, showReplace ? replaceString : ''].join('\u0000')
+    : '';
+  const [result, setResult] = useState<{
+    key: string;
+    matches: MatchInfo[];
+    replaceResult: string;
+    timedOut: boolean;
+  }>({ key: '', matches: [], replaceResult: '', timedOut: false });
+
+  const { matches, replaceResult, timedOut } =
+    result.key === inputKey && inputKey !== ''
+      ? result
+      : { matches: [] as MatchInfo[], replaceResult: '', timedOut: false };
+
+  const workerRef = useRef<Worker | null>(null);
+  const workerUrlRef = useRef<string | null>(null);
+  const requestIdRef = useRef(0);
+
+  const spawnWorker = useCallback(() => {
+    if (!workerUrlRef.current) {
+      workerUrlRef.current = URL.createObjectURL(
+        new Blob([WORKER_SOURCE], { type: 'text/javascript' }),
+      );
     }
-    return results;
-  }, [regex, testString]);
+    workerRef.current = new Worker(workerUrlRef.current);
+    return workerRef.current;
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      workerRef.current?.terminate();
+      if (workerUrlRef.current) URL.revokeObjectURL(workerUrlRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!regex || !testString || !inputKey) return;
+
+    const key = inputKey;
+    const id = ++requestIdRef.current;
+    const worker = workerRef.current ?? spawnWorker();
+
+    const timer = window.setTimeout(() => {
+      if (requestIdRef.current !== id) return;
+      // Pattern is still running — kill the worker and report it
+      worker.terminate();
+      workerRef.current = null;
+      setResult({ key, matches: [], replaceResult: '', timedOut: true });
+    }, MATCH_TIMEOUT_MS);
+
+    worker.onmessage = (e: MessageEvent<{ id: number; matches: MatchInfo[]; replaceResult: string }>) => {
+      if (e.data.id !== id) return;
+      window.clearTimeout(timer);
+      setResult({ key, matches: e.data.matches, replaceResult: e.data.replaceResult, timedOut: false });
+    };
+
+    worker.postMessage({
+      id,
+      pattern: regex.source,
+      flags: regex.flags,
+      testString,
+      replaceString,
+      doReplace: showReplace,
+    });
+
+    return () => window.clearTimeout(timer);
+  }, [regex, testString, replaceString, showReplace, inputKey, spawnWorker]);
 
   const highlighted = useMemo(() => {
     if (!testString) return null;
@@ -137,16 +236,7 @@ export default function RegexTester() {
     return parts;
   }, [testString, matches]);
 
-  const replaceResult = useMemo(() => {
-    if (!regex || !testString || !showReplace) return '';
-    try {
-      return testString.replace(regex, replaceString);
-    } catch {
-      return '';
-    }
-  }, [regex, testString, showReplace, replaceString]);
-
-  const hasResult = Boolean(pattern && testString && !error);
+  const hasResult = Boolean(pattern && testString && !error && !timedOut);
 
   return (
     <div className="flex flex-col gap-7">
@@ -174,9 +264,9 @@ export default function RegexTester() {
                     key={f}
                     className={`${styles.flagBtn} ${flags.has(f) ? styles.flagBtnActive : ''}`}
                     onClick={() => toggleFlag(f)}
-                    title={
-                      f === 'g' ? 'Global' : f === 'i' ? 'Case insensitive' : f === 'm' ? 'Multiline' : 'Dot matches newline'
-                    }
+                    title={FLAG_NAMES[f]}
+                    aria-label={`${FLAG_NAMES[f]} flag`}
+                    aria-pressed={flags.has(f)}
                   >
                     {f}
                   </button>
@@ -215,6 +305,7 @@ export default function RegexTester() {
                   value={replaceString}
                   onChange={(e) => setReplaceString(e.target.value)}
                   placeholder="Replacement string..."
+                  aria-label="Replacement string"
                   spellCheck={false}
                 />
                 {testString && regex && (
@@ -249,6 +340,11 @@ export default function RegexTester() {
 
             {error ? (
               <div className={styles.placeholder}>{error}</div>
+            ) : timedOut ? (
+              <div className={styles.placeholder} role="alert">
+                This pattern took too long to run and was stopped — it may
+                suffer from catastrophic backtracking. Try simplifying it.
+              </div>
             ) : hasResult ? (
               <div className={styles.outputBox}>{highlighted}</div>
             ) : (

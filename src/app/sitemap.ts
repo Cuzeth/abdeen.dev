@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/pomodoro`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/2fa`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/coverquad`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/frost`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
     // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx
     // { url: `${base}/lofi-atc`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx

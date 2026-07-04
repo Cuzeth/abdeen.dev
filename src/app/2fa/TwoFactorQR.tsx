@@ -31,6 +31,7 @@ export default function TwoFactorQR() {
   const [size, setSize] = useState(200);
   const [uri, setUri] = useState('');
   const [uriEdited, setUriEdited] = useState(false);
+  const [uriInvalid, setUriInvalid] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 
   const generateUri = useCallback(() => {
@@ -70,14 +71,24 @@ export default function TwoFactorQR() {
   const parseUri = useCallback((value: string) => {
     setUri(value);
     setUriEdited(true);
+    setUriInvalid(false);
 
     try {
       const url = new URL(value);
-      if (url.protocol !== 'otpauth:') return;
+      if (url.protocol !== 'otpauth:') {
+        setUriInvalid(true);
+        return;
+      }
 
       const urlType = url.host || url.pathname.split('/')[2];
-      if (urlType !== 'totp' && urlType !== 'hotp') return;
-      if (!url.searchParams.has('secret')) return;
+      if (urlType !== 'totp' && urlType !== 'hotp') {
+        setUriInvalid(true);
+        return;
+      }
+      if (!url.searchParams.has('secret')) {
+        setUriInvalid(true);
+        return;
+      }
 
       let urlLabel = decodeURIComponent(url.pathname.substring(url.host ? 1 : 7));
       const urlIssuer = url.searchParams.get('issuer') ? decodeURIComponent(url.searchParams.get('issuer')!) : '';
@@ -100,12 +111,14 @@ export default function TwoFactorQR() {
 
       setUriEdited(false);
     } catch {
-      // Invalid URL, just keep the raw text
+      // Invalid URL, keep the raw text but flag it
+      if (value !== '') setUriInvalid(true);
     }
   }, []);
 
   const handleFieldChange = useCallback(() => {
     setUriEdited(false);
+    setUriInvalid(false);
   }, []);
 
   const showQr = Boolean(displayQr && (secret || uriEdited));
@@ -134,6 +147,7 @@ export default function TwoFactorQR() {
             className={`input input-mono ${secret === '' && label !== '' ? styles.invalid : ''}`}
             type="text"
             placeholder="e.g. JBSWY3DPEHPK3PXP"
+            aria-invalid={secret === '' && label !== ''}
             value={secret}
             onChange={(e) => { setSecret(e.target.value); handleFieldChange(); }}
             autoComplete="off"
@@ -148,6 +162,7 @@ export default function TwoFactorQR() {
             className={`input ${label === '' && secret !== '' ? styles.invalid : ''}`}
             type="text"
             placeholder="e.g. user@example.com"
+            aria-invalid={label === '' && secret !== ''}
             value={label}
             onChange={(e) => { setLabel(e.target.value); handleFieldChange(); }}
             autoComplete="off"
@@ -176,10 +191,13 @@ export default function TwoFactorQR() {
 
         {type === 'hotp' && (
           <div className="flex flex-col gap-2">
-            <label className="field-label">Initial Counter</label>
+            <label htmlFor="twofa-counter" className="field-label">Initial Counter</label>
             <input
+              id="twofa-counter"
               className="input"
               type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               placeholder="Defaults to 0"
               value={counter}
               onChange={(e) => { setCounter(e.target.value); handleFieldChange(); }}
@@ -203,8 +221,9 @@ export default function TwoFactorQR() {
               Advanced options are not supported by Google Authenticator (they are ignored). Yubico Authenticator supports them.
             </p>
             <div className="flex flex-col gap-2">
-              <label className="field-label">Algorithm</label>
+              <label htmlFor="twofa-algorithm" className="field-label">Algorithm</label>
               <select
+                id="twofa-algorithm"
                 className="select"
                 value={algorithm}
                 onChange={(e) => { setAlgorithm(e.target.value); handleFieldChange(); }}
@@ -215,8 +234,9 @@ export default function TwoFactorQR() {
               </select>
             </div>
             <div className="flex flex-col gap-2">
-              <label className="field-label">Digits</label>
+              <label htmlFor="twofa-digits" className="field-label">Digits</label>
               <select
+                id="twofa-digits"
                 className="select"
                 value={digits}
                 onChange={(e) => { setDigits(e.target.value); handleFieldChange(); }}
@@ -227,10 +247,13 @@ export default function TwoFactorQR() {
             </div>
             {type === 'totp' && (
               <div className="flex flex-col gap-2">
-                <label className="field-label">Period (seconds)</label>
+                <label htmlFor="twofa-period" className="field-label">Period (seconds)</label>
                 <input
+                  id="twofa-period"
                   className="input"
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="Defaults to 30"
                   value={period}
                   onChange={(e) => { setPeriod(e.target.value); handleFieldChange(); }}
@@ -250,11 +273,18 @@ export default function TwoFactorQR() {
             className="input input-mono text-xs"
             type="text"
             placeholder="otpauth://"
+            aria-invalid={uriInvalid}
+            aria-describedby={uriInvalid ? 'twofa-uri-error' : undefined}
             value={effectiveUri}
             onChange={(e) => parseUri(e.target.value)}
             autoComplete="off"
             spellCheck={false}
           />
+          {uriInvalid && (
+            <p id="twofa-uri-error" role="alert" className="text-xs text-[var(--color-red)]">
+              Not a valid otpauth:// URI — authenticator apps won&apos;t recognize this code.
+            </p>
+          )}
         </div>
       </div>
 
@@ -286,7 +316,7 @@ export default function TwoFactorQR() {
                     step={25}
                     value={size}
                     onChange={(e) => setSize(Number(e.target.value))}
-                    title="QR Code Size"
+                    aria-label="QR code size in pixels"
                   />
                 </div>
               </>

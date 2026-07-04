@@ -33,7 +33,9 @@ const LOFI_STATIONS: LofiStation[] = [
 ];
 
 const ATC_SOURCE = {
-  url: "http://d.liveatc.net/kjfk9_s",
+  // Must be https: the production site is served over TLS, so an http
+  // stream would be blocked as mixed content and never play
+  url: "https://d.liveatc.net/kjfk9_s",
   credit: "LiveATC.net",
   creditUrl: "https://www.liveatc.net",
   label: "JFK Gnd/Twr",
@@ -77,6 +79,27 @@ export default function LofiAtcRadio() {
 
   const station = LOFI_STATIONS[stationIdx];
   const stationSlider = useSlider(stationIdx);
+
+  // Restore and persist volume levels across visits
+  useEffect(() => {
+    try {
+      const savedLofi = parseFloat(localStorage.getItem("lofi-atc:lofiVol") ?? "");
+      const savedAtc = parseFloat(localStorage.getItem("lofi-atc:atcVol") ?? "");
+      if (savedLofi >= 0 && savedLofi <= 1) setLofiVol(savedLofi);
+      if (savedAtc >= 0 && savedAtc <= 1) setAtcVol(savedAtc);
+    } catch {
+      // storage unavailable (private mode) — keep defaults
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("lofi-atc:lofiVol", String(lofiVol));
+      localStorage.setItem("lofi-atc:atcVol", String(atcVol));
+    } catch {
+      // storage unavailable — nothing to do
+    }
+  }, [lofiVol, atcVol]);
 
   // stop everything on unmount
   useEffect(() => {
