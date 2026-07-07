@@ -172,7 +172,7 @@ const jsonLd = {
           applicationCategory: "UtilityApplication",
           operatingSystem: "macOS",
           description:
-            "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with Touch ID.",
+            "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with TouchID.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         },
         // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx

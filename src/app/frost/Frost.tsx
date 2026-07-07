@@ -23,14 +23,14 @@ const features = [
       "The overlay covers all your monitors, and the unlock prompt follows the display you locked from.",
   },
   {
-    label: "Touch ID to Unlock",
+    label: "TouchID to Unlock",
     detail:
-      "Authenticate right inside the overlay. Optionally arm Touch ID the moment a lock begins.",
+      "Authenticate right inside the overlay. Optionally arm TouchID the moment a lock begins.",
   },
   {
     label: "Apple Watch Unlock",
     detail:
-      "Opt in to approve unlocks with a double-press on a paired Apple Watch — including on desktop Macs without Touch ID.",
+      "Opt in to approve unlocks with a double-press on a paired Apple Watch — including on desktop Macs without TouchID.",
   },
   {
     label: "Lock from Shortcuts",
@@ -57,7 +57,7 @@ const features = [
 const requirements = [
   "macOS 14.6+",
   "Apple silicon & Intel",
-  "Touch ID (or Apple Watch)",
+  "TouchID (or Apple Watch)",
   "Accessibility permission",
 ];
 
@@ -114,7 +114,7 @@ function DownloadButton() {
   );
 }
 
-/** Product visual: a dimmed, frosted desktop with a Touch ID unlock chip. */
+/** Product visual: a dimmed, frosted desktop with a TouchID unlock chip. */
 function LockVisual() {
   return (
     <div className="surface-ink-elev relative aspect-[4/3] w-full overflow-hidden rounded-[1.5rem]">
@@ -167,7 +167,7 @@ function LockVisual() {
               Input Locked
             </div>
             <div className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
-              Touch ID to unlock
+              TouchID to unlock
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function Frost() {
             <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
               A menu-bar input locker for macOS. Freeze your keyboard, mouse, and
               trackpad while the screen stays fully visible — then unlock with
-              Touch ID. Lock your desk while an agent, a build, or a render runs
+              TouchID. Lock your desk while an agent, a build, or a render runs
               unattended.
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-5 gap-y-3">

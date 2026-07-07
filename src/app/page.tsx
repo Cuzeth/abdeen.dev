@@ -52,7 +52,7 @@ const apps = [
   {
     title: "Frost",
     description:
-      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with Touch ID.",
+      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with TouchID.",
     href: "/frost",
     external: false,
   },
