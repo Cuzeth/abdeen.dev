@@ -18,14 +18,29 @@ const features = [
       "A translucent overlay dims the desktop but never hides it, so you can watch a long task run while input is frozen.",
   },
   {
+    label: "Every Display",
+    detail:
+      "The overlay covers all your monitors, and the unlock prompt follows the display you locked from.",
+  },
+  {
     label: "Touch ID to Unlock",
     detail:
       "Authenticate right inside the overlay. Optionally arm Touch ID the moment a lock begins.",
   },
   {
-    label: "Every Display",
+    label: "Apple Watch Unlock",
     detail:
-      "The overlay covers all your monitors, and the unlock prompt follows the display you locked from.",
+      "Opt in to approve unlocks with a double-press on a paired Apple Watch — including on desktop Macs without Touch ID.",
+  },
+  {
+    label: "Lock from Shortcuts",
+    detail:
+      "A Lock Input action for Shortcuts and scripts starts the same lock as the menu item. Lock-only by design — nothing can unlock Frost programmatically.",
+  },
+  {
+    label: "Overlay Message",
+    detail:
+      "Show an optional message of your own on the locked screen, so anyone at the desk can see what's running.",
   },
   {
     label: "Auto-Lock",
@@ -40,9 +55,9 @@ const features = [
 ];
 
 const requirements = [
-  "macOS 14+",
+  "macOS 14.6+",
   "Apple silicon & Intel",
-  "Touch ID required",
+  "Touch ID (or Apple Watch)",
   "Accessibility permission",
 ];
 
