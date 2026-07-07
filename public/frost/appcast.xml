@@ -3,6 +3,18 @@
     <channel>
         <title>frost</title>
         <item>
+            <title>2.1.1</title>
+            <pubDate>Tue, 07 Jul 2026 13:14:54 -0400</pubDate>
+            <sparkle:version>12</sparkle:version>
+            <sparkle:shortVersionString>2.1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[### Added
+
+- This changelog.
+]]></description>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1.1/Frost-2.1.1.dmg" length="3413362" type="application/octet-stream" sparkle:edSignature="m10lTlyQYP1pOQDtC+e+Mnb+IpNd3UBhBtnVAWfL9cm1s0Y9wreFJVPUrWgxgrRrzXrksv6ZEwC/ePiWB0vMBw=="/>
+        </item>
+        <item>
             <title>2.1</title>
             <pubDate>Tue, 07 Jul 2026 11:21:04 -0400</pubDate>
             <sparkle:version>11</sparkle:version>
@@ -17,14 +29,6 @@
             <sparkle:shortVersionString>2.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.0/Frost-2.0.dmg" length="3392269" type="application/octet-stream" sparkle:edSignature="pKa46fZl4ovp5jA4iWob4G6EGa8jvyZVwvJVSydVg4iR4xebcXuXYhbbA6RKkwZwqXfOerdcz0tUXspUfWwdBQ=="/>
-        </item>
-        <item>
-            <title>1.4</title>
-            <pubDate>Mon, 29 Jun 2026 15:22:08 -0400</pubDate>
-            <sparkle:version>8</sparkle:version>
-            <sparkle:shortVersionString>1.4</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v1.4/Frost-1.4.dmg" length="3371327" type="application/octet-stream" sparkle:edSignature="IQ3gfapR21UZc/tnQMkHBnn37DGb5rBhX2UhRENGhbWvjS/jLKdT4PcvBzLizMDDEgi4Z9+BY7vdBoHFkfPpCA=="/>
         </item>
     </channel>
 </rss>
