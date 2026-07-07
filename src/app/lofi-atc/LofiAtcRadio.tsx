@@ -407,7 +407,7 @@ export default function LofiAtcRadio() {
       {/* volume sliders — hidden on Safari where volume is not programmable */}
       {isSafari ? (
         <p className={styles.notice}>
-          Volume controls aren&apos;t supported in Safari — use your device&apos;s volume instead.
+          Volume controls aren&apos;t supported in Safari. Use your device&apos;s volume instead.
         </p>
       ) : (
         <div className={styles.sliders}>

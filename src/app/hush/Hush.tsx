@@ -125,7 +125,7 @@ export default function Hush() {
             </h1>
             <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
               Focus sounds for iOS. Real-time DSP noise generators, binaural
-              beats, and a curated library of 80+ ambient recordings — all mixed
+              beats, and a curated library of 80+ ambient recordings, all mixed
               together in a simple, distraction-free interface.
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-5 gap-y-3">

@@ -19,7 +19,7 @@ export const metadata: Metadata = ENABLED
       openGraph: {
         title: "SafeStay Scanner | abdeen.dev",
         description:
-          "Hidden-camera detection toolkit — network scanner, MAC address lookup, and physical-check guide for Airbnbs and rentals.",
+          "Hidden-camera detection toolkit: network scanner, MAC address lookup, and physical-check guide for Airbnbs and rentals.",
         url: "https://abdeen.dev/safestay",
       },
     }

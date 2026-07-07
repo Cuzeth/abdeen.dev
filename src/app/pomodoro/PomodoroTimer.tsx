@@ -124,7 +124,7 @@ export default function PomodoroTimer() {
   useEffect(() => {
     const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
     const ss = String(secondsLeft % 60).padStart(2, '0');
-    document.title = `${mm}:${ss} · ${MODE_LABELS[mode]} — Pomodoro`;
+    document.title = `${mm}:${ss} · ${MODE_LABELS[mode]} · Pomodoro`;
   }, [secondsLeft, mode]);
 
   const reset = () => {

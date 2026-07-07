@@ -28,8 +28,8 @@ export default function NotFound() {
 
       <FadeInWrapper direction="up" delay={0.1}>
         <p className="max-w-md text-base leading-relaxed text-[var(--text)] opacity-80 md:text-lg">
-          This URL doesn&apos;t point to anything — moved, retired, or never
-          shipped. Head back and see what&apos;s actually here.
+          This URL doesn&apos;t point to anything. The page moved, retired, or
+          never shipped. Head back and see what&apos;s actually here.
         </p>
       </FadeInWrapper>
 

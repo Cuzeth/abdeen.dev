@@ -10,7 +10,7 @@ const features = [
   {
     label: "Locks Every Input",
     detail:
-      "Keyboard, mouse, and trackpad are suppressed at the system level — not just in your frontmost app.",
+      "Keyboard, mouse, and trackpad are suppressed at the system level.",
   },
   {
     label: "Screen Stays Visible",
@@ -30,12 +30,12 @@ const features = [
   {
     label: "Apple Watch Unlock",
     detail:
-      "Opt in to approve unlocks with a double-press on a paired Apple Watch — including on desktop Macs without TouchID.",
+      "Opt in to approve unlocks with a double-press on a paired Apple Watch. It works even on desktop Macs without TouchID.",
   },
   {
     label: "Lock from Shortcuts",
     detail:
-      "A Lock Input action for Shortcuts and scripts starts the same lock as the menu item. Lock-only by design — nothing can unlock Frost programmatically.",
+      "A Lock Input action for Shortcuts and scripts starts the same lock as the menu item. Lock-only by design. Nothing can unlock Frost programmatically.",
   },
   {
     label: "Overlay Message",
@@ -45,7 +45,7 @@ const features = [
   {
     label: "Auto-Lock",
     detail:
-      "Lock automatically after the Mac sits idle — anywhere from 30 seconds to two hours.",
+      "Lock automatically after the Mac sits idle, anywhere from 30 seconds to two hours.",
   },
   {
     label: "Stays Awake",
@@ -197,7 +197,7 @@ export default function Frost() {
             </h1>
             <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
               A menu-bar input locker for macOS. Freeze your keyboard, mouse, and
-              trackpad while the screen stays fully visible — then unlock with
+              trackpad while the screen stays fully visible. Then unlock with
               TouchID. Lock your desk while an agent, a build, or a render runs
               unattended.
             </p>

@@ -27,7 +27,7 @@ export default function Error({
         This page hit an error<span className="text-[var(--color-red)]">.</span>
       </h1>
       <p className="max-w-xl text-base leading-7 text-[var(--text)]">
-        Nothing you did — something broke on this end. You can try again, or
+        Nothing you did. Something broke on this end. You can try again, or
         head back to the homepage.
       </p>
       <div className="flex flex-wrap items-center gap-4">

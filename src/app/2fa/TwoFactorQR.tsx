@@ -282,7 +282,7 @@ export default function TwoFactorQR() {
           />
           {uriInvalid && (
             <p id="twofa-uri-error" role="alert" className="text-xs text-[var(--color-red)]">
-              Not a valid otpauth:// URI — authenticator apps won&apos;t recognize this code.
+              Not a valid otpauth:// URI. Authenticator apps won&apos;t recognize this code.
             </p>
           )}
         </div>

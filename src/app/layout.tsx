@@ -9,7 +9,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     template: "%s | abdeen.dev",
-    default: "abdeen.dev — Small tools, carefully engineered",
+    default: "abdeen.dev · Small tools, carefully engineered",
   },
   description:
     "Free and open-source tools by Jaafar Abdeen. No sign-up, no tracking.",
@@ -46,16 +46,16 @@ export const metadata: Metadata = {
     siteName: "abdeen.dev",
     type: "website",
     url: "https://abdeen.dev",
-    title: "abdeen.dev — Small tools, carefully engineered",
+    title: "abdeen.dev · Small tools, carefully engineered",
     description:
       "Free and open-source tools by Jaafar Abdeen. No sign-up required.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "abdeen.dev — Small tools, carefully engineered",
+    title: "abdeen.dev · Small tools, carefully engineered",
     description:
-      "Free and open-source tools — password generator, QR codes, regex tester, pomodoro timer, and more.",
+      "Free and open-source tools: password generator, QR codes, regex tester, pomodoro timer, and more.",
   },
   robots: {
     index: true,
@@ -85,7 +85,7 @@ const jsonLd = {
       name: "abdeen.dev",
       url: "https://abdeen.dev",
       description:
-        "Free and open-source tools by Jaafar Abdeen — password generator, QR code maker, regex tester, pomodoro timer, and more.",
+        "Free and open-source tools by Jaafar Abdeen: password generator, QR code maker, regex tester, pomodoro timer, and more.",
       author: { "@id": "https://abdeen.dev/#person" },
       publisher: { "@id": "https://abdeen.dev/#organization" },
     },
@@ -249,7 +249,7 @@ export default function RootLayout({
             <Link
               href="/"
               className="group flex min-w-0 items-center gap-3 rounded-full px-2 py-1.5 transition-opacity hover:opacity-90"
-              aria-label="Abdeen Labs — Home"
+              aria-label="Abdeen Labs · Home"
             >
               <span
                 aria-hidden="true"

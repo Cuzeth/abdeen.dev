@@ -5,7 +5,7 @@ import QRGenerator from './QRGenerator';
 export const metadata: Metadata = {
   title: 'QR Generator',
   description:
-    'Generate custom QR codes for URLs, WiFi networks, email, and phone numbers. Customize colors, dot styles, and gradients. Download as PNG — free, no sign-up.',
+    'Generate custom QR codes for URLs, WiFi networks, email, and phone numbers. Customize colors, dot styles, and gradients. Download as PNG. Free, no sign-up.',
   alternates: { canonical: 'https://abdeen.dev/qr' },
   openGraph: {
     title: 'QR Generator | abdeen.dev',

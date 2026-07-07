@@ -543,7 +543,7 @@ export default function PasswordGenerator() {
               <div className={styles.resultMeta}>
                 <span className={styles.charCount}>{selected.full.length} chars</span>
                 <span className={styles.copyHint}>
-                  {copyFailed ? 'Copy failed — select and copy manually' : copied ? 'Copied!' : 'Click to copy'}
+                  {copyFailed ? 'Copy failed. Select and copy manually' : copied ? 'Copied!' : 'Click to copy'}
                 </span>
               </div>
             </div>

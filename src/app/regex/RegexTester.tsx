@@ -342,7 +342,7 @@ export default function RegexTester() {
               <div className={styles.placeholder}>{error}</div>
             ) : timedOut ? (
               <div className={styles.placeholder} role="alert">
-                This pattern took too long to run and was stopped — it may
+                This pattern took too long to run and was stopped. It may
                 suffer from catastrophic backtracking. Try simplifying it.
               </div>
             ) : hasResult ? (

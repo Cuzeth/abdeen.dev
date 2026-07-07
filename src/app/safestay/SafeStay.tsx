@@ -22,14 +22,14 @@ const PHYSICAL_CHECK = [
     items: [
       "Turn off all lights and close the curtains",
       "Use a flashlight (phone torch works) and slowly sweep across surfaces from eye level",
-      "A camera lens reflects a sharp, repeatable glint — different from glass or metal",
+      "A camera lens reflects a sharp, repeatable glint, different from glass or metal",
       "Inspect any glint up close: lift, twist, or unscrew the object if you can",
     ],
   },
   {
     area: "Use your phone's front camera to find IR LEDs",
     items: [
-      "Open your phone's front-facing camera (not the rear — most rear cameras filter IR)",
+      "Open your phone's front-facing camera, not the rear (most rear cameras filter IR)",
       "Turn off the room lights. Point it at smoke detectors, vents, clocks, frames",
       "Night-vision cameras emit faint purple/white dots that are invisible to the eye but visible to your phone sensor",
       "If you see steady IR dots from an object that should not have a camera, treat it as a finding",
@@ -38,9 +38,9 @@ const PHYSICAL_CHECK = [
   {
     area: "Check for cameras that don't use the WiFi",
     items: [
-      "4G/LTE cameras have a SIM card and bypass the host network entirely — SafeStay cannot see them",
+      "4G/LTE cameras have a SIM card and bypass the host network entirely, so SafeStay cannot see them",
       "Look for objects with an unusual second power cable, or a small antenna nub",
-      "SD-card recorders need no network at all — they just store video locally",
+      "SD-card recorders need no network at all, since they just store video locally",
       "If you find a device you cannot explain, document it before touching it further",
     ],
   },
@@ -50,7 +50,7 @@ const LIMITS = [
   "Cameras on a 4G/LTE SIM card are invisible to any WiFi scan",
   "AP / client isolation hides every other device on the network from this tool",
   "Cameras that only write to an SD card and never go online cannot be detected",
-  "Modern hidden cameras often run unbranded firmware on commodity chips (Tuya, ESP32, Anyka, Ingenic) — they may not match any known vendor",
+  "Modern hidden cameras often run unbranded firmware on commodity chips (Tuya, ESP32, Anyka, Ingenic), so they may not match any known vendor",
   "This tool is a starting point, not a guarantee. Always pair it with a physical sweep",
 ];
 
@@ -145,7 +145,7 @@ export default function SafeStay() {
         </p>
         <p className="text-xs leading-6 text-[var(--text)] opacity-50">
           Hobby project. MIT-licensed, AS IS, no warranty, no liability. Not
-          legal advice. Network scanning may be illegal where you are — that&apos;s
+          legal advice. Network scanning may be illegal where you are. That&apos;s
           on you to check before running it.
         </p>
 
@@ -245,7 +245,7 @@ export default function SafeStay() {
             SafeStay OUI database
           </a>{" "}
           (derived from the IEEE MA-L public registry). Vendor labels are
-          technical references, not confirmed identifications — MAC addresses
+          technical references, not confirmed identifications. MAC addresses
           can be spoofed and OUI assignments can be reused. For full detection
           with port scanning, risk assessment, and the physical-check guide,
           install the scanner above.
@@ -279,10 +279,10 @@ export default function SafeStay() {
                   <p className="mt-1 opacity-80">
                     This MAC prefix is registered to a surveillance or camera
                     company. That is not, on its own, proof of what the
-                    physical device actually is — MACs can be spoofed and OUI
+                    physical device actually is. MACs can be spoofed and OUI
                     assignments can be reused. If a major-brand camera shows
                     up that you didn&apos;t expect, it may be a legitimately
-                    disclosed device — check the listing.
+                    disclosed device. Check the listing.
                   </p>
                 </>
               )}
@@ -294,7 +294,7 @@ export default function SafeStay() {
                   <p className="mt-1 opacity-80">
                     This chipset is commonly found inside hidden cameras and
                     IoT devices, but also inside many legitimate ones. Not
-                    definitive on its own — worth investigating only if
+                    definitive on its own. Worth investigating only if
                     combined with camera-streaming ports being open.
                   </p>
                 </>
@@ -302,7 +302,7 @@ export default function SafeStay() {
               {lookupResult.risk === "none" && (
                 <span>
                   No known camera manufacturer match for this MAC prefix. This
-                  does <strong>not</strong> mean the device is safe — modern
+                  does <strong>not</strong> mean the device is safe. Modern
                   hidden cameras frequently use unregistered or randomized MAC
                   addresses precisely so they don&apos;t appear in vendor
                   databases.
@@ -325,7 +325,7 @@ export default function SafeStay() {
           Network scanning misses an entire class of threats: cameras on a
           separate VLAN, cameras with a 4G/LTE SIM, SD-card-only recorders, and
           anything an AP-isolated network hides from a scanner. Do this
-          60-second sweep in addition to the scan — you can do it from your
+          60-second sweep in addition to the scan. You can do it from your
           phone if you can&apos;t install the tool right now.
         </p>
 
@@ -361,7 +361,7 @@ export default function SafeStay() {
         </h2>
         <p className="text-sm leading-7 text-[var(--text)]">
           A clean network scan is not a guarantee. SafeStay covers one slice
-          of the threat surface — these are the parts it doesn&apos;t.
+          of the threat surface. These are the parts it doesn&apos;t.
         </p>
         <ul className="flex flex-col gap-1.5 pl-1">
           {LIMITS.map((item) => (
@@ -383,7 +383,7 @@ export default function SafeStay() {
       <section className="flex flex-col gap-4">
         <p className="text-sm leading-7 text-[var(--text)] opacity-70">
           Hobby project. MIT-licensed, AS IS, no warranty, no liability. Not
-          legal advice. Detection is heuristic — false positives and false
+          legal advice. Detection is heuristic. False positives and false
           negatives are expected. Network scanning may be illegal where you
           are; confirming you have authorization is on you.
         </p>

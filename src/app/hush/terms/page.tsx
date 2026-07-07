@@ -3,11 +3,11 @@ import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Hush | abdeen.dev",
+  title: "Terms of Service · Hush | abdeen.dev",
   description: "Terms of service for Hush, a focus sounds app for iOS.",
   alternates: { canonical: "https://abdeen.dev/hush/terms" },
   openGraph: {
-    title: "Terms of Service — Hush | abdeen.dev",
+    title: "Terms of Service · Hush | abdeen.dev",
     description: "Terms of service for Hush, a focus sounds app for iOS.",
     url: "https://abdeen.dev/hush/terms",
   },

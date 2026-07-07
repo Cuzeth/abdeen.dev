@@ -140,7 +140,7 @@ export default function CoverQuad() {
       const { img, objectUrl } = await loadImageFromFile(file);
       setSlot(index, { img, objectUrl, label: file.name });
     } catch {
-      showSlotError(`Couldn't load “${file.name}” — it may not be a valid image.`);
+      showSlotError(`Couldn't load “${file.name}”. It may not be a valid image.`);
     }
     e.target.value = '';
   };
@@ -157,7 +157,7 @@ export default function CoverQuad() {
       const { img, objectUrl } = await loadImageFromFile(file);
       setSlot(index, { img, objectUrl, label: file.name });
     } catch {
-      showSlotError(`Couldn't load “${file.name}” — it may not be a valid image.`);
+      showSlotError(`Couldn't load “${file.name}”. It may not be a valid image.`);
     }
   };
 
@@ -178,7 +178,7 @@ export default function CoverQuad() {
 
       if (res.status === 429 || res.status === 503) {
         setSearching(false);
-        setSearchError('The album database is rate-limiting requests — wait a few seconds and try again.');
+        setSearchError('The album database is rate-limiting requests. Wait a few seconds and try again.');
         return;
       }
       if (!res.ok) throw new Error('Search failed');
@@ -309,7 +309,7 @@ export default function CoverQuad() {
               className={styles.slotAction}
               ref={(el) => { slotButtonRefs.current[i] = el; }}
               onClick={() => handleSlotClick(i)}
-              aria-label={slot ? `Slot ${i + 1}: ${slot.label} — activate to replace` : `Slot ${i + 1}: empty — activate to add cover art`}
+              aria-label={slot ? `Slot ${i + 1}: ${slot.label} · activate to replace` : `Slot ${i + 1}: empty · activate to add cover art`}
             >
               <div className={styles.slotEmpty}>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

@@ -3,12 +3,12 @@ import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Hush | abdeen.dev",
+  title: "Privacy Policy · Hush | abdeen.dev",
   description:
     "Hush does not collect, store, or transmit your personal data. Everything stays on your device.",
   alternates: { canonical: "https://abdeen.dev/hush/privacy" },
   openGraph: {
-    title: "Privacy Policy — Hush | abdeen.dev",
+    title: "Privacy Policy · Hush | abdeen.dev",
     description:
       "Hush does not collect, store, or transmit your personal data.",
     url: "https://abdeen.dev/hush/privacy",
@@ -50,9 +50,9 @@ export default function HushPrivacyPage() {
                   Local Storage Only
                 </h2>
                 <p>
-                  All data — including your saved presets, sound preferences,
-                  and session state — remains exclusively on your device. Nothing
-                  is uploaded to any server.
+                  Your saved presets, sound preferences, and session state all
+                  remain exclusively on your device. Nothing is uploaded to any
+                  server.
                 </p>
               </section>
 
