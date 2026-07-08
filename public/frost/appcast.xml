@@ -4,6 +4,18 @@
         <title>frost</title>
         <item>
             <title>2.1.2</title>
+            <pubDate>Tue, 07 Jul 2026 21:00:46 -0400</pubDate>
+            <sparkle:version>14</sparkle:version>
+            <sparkle:shortVersionString>2.1.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[### Fixed
+
+- Frost no longer opens the Settings window when it starts automatically at login — it now comes up quietly in the background, like other menu-bar apps.
+]]></description>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1.2/Frost-2.1.2.dmg" length="3416264" type="application/octet-stream" sparkle:edSignature="Kb72jmvu6sl8m7OUTaIRBmXYUtchDCtocVWTX3JBHDpPiulQ9YeLockJ2X9/zlZINCSIL44hcLDAC2DrBzagAQ=="/>
+        </item>
+        <item>
+            <title>2.1.2</title>
             <pubDate>Tue, 07 Jul 2026 20:26:40 -0400</pubDate>
             <sparkle:version>13</sparkle:version>
             <sparkle:shortVersionString>2.1.2</sparkle:shortVersionString>
@@ -25,14 +37,6 @@
 - This changelog.
 ]]></description>
             <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1.1/Frost-2.1.1.dmg" length="3413362" type="application/octet-stream" sparkle:edSignature="m10lTlyQYP1pOQDtC+e+Mnb+IpNd3UBhBtnVAWfL9cm1s0Y9wreFJVPUrWgxgrRrzXrksv6ZEwC/ePiWB0vMBw=="/>
-        </item>
-        <item>
-            <title>2.1</title>
-            <pubDate>Tue, 07 Jul 2026 11:21:04 -0400</pubDate>
-            <sparkle:version>11</sparkle:version>
-            <sparkle:shortVersionString>2.1</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1/Frost-2.1.dmg" length="3413317" type="application/octet-stream" sparkle:edSignature="raDZiHOtfZVjRlu7fOz+VAjFImXxrUmLXWVCmBb7J1HQYFsNwZjm60MwBfs9OYuKSXEfoW/TO9iYOcCyF7j2CQ=="/>
         </item>
     </channel>
 </rss>
