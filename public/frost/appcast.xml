@@ -3,6 +3,18 @@
     <channel>
         <title>frost</title>
         <item>
+            <title>2.1.2</title>
+            <pubDate>Tue, 07 Jul 2026 20:26:40 -0400</pubDate>
+            <sparkle:version>13</sparkle:version>
+            <sparkle:shortVersionString>2.1.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[### Fixed
+
+- Frost no longer opens the Settings window when it starts automatically at login. It now launches quietly in the background, and still opens Settings when you launch Frost yourself.
+]]></description>
+            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1.2/Frost-2.1.2.dmg" length="3417604" type="application/octet-stream" sparkle:edSignature="kh4u1m+JLSKNC6hLW/VsKf0MMR7AbI301usBSC/cPxTvYpdPx8IfCmpW0mv2uiZsSK5fzsFbS6yCD3WZrtf2CA=="/>
+        </item>
+        <item>
             <title>2.1.1</title>
             <pubDate>Tue, 07 Jul 2026 13:14:54 -0400</pubDate>
             <sparkle:version>12</sparkle:version>
@@ -21,14 +33,6 @@
             <sparkle:shortVersionString>2.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.1/Frost-2.1.dmg" length="3413317" type="application/octet-stream" sparkle:edSignature="raDZiHOtfZVjRlu7fOz+VAjFImXxrUmLXWVCmBb7J1HQYFsNwZjm60MwBfs9OYuKSXEfoW/TO9iYOcCyF7j2CQ=="/>
-        </item>
-        <item>
-            <title>2.0</title>
-            <pubDate>Wed, 01 Jul 2026 18:42:16 -0400</pubDate>
-            <sparkle:version>10</sparkle:version>
-            <sparkle:shortVersionString>2.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Cuzeth/frost/releases/download/v2.0/Frost-2.0.dmg" length="3392269" type="application/octet-stream" sparkle:edSignature="pKa46fZl4ovp5jA4iWob4G6EGa8jvyZVwvJVSydVg4iR4xebcXuXYhbbA6RKkwZwqXfOerdcz0tUXspUfWwdBQ=="/>
         </item>
     </channel>
 </rss>
