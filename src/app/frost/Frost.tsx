@@ -282,47 +282,49 @@ export default function Frost() {
         </section>
       </FadeInWrapper>
 
-      {/* Closing CTA */}
+      {/* Download */}
       <FadeInWrapper direction="up">
         <section
           aria-label="Download Frost"
-          className="shell-panel rounded-[1.5rem] px-6 py-10 md:rounded-[2rem] md:px-12 md:py-14"
+          className="border-t border-white/[0.08] pt-8 md:pt-10"
         >
-          <div className="relative flex flex-col gap-6">
-            <span className="eyebrow-system">
-              <span aria-hidden="true" className="text-[var(--color-red)]">
-                /
-              </span>
-              Get Frost
-            </span>
-            <h2 className="max-w-2xl text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--color-paper)] md:text-5xl">
-              Freeze the desk,
-              <br />
-              keep the screen<span className="text-[var(--color-red)]">.</span>
-            </h2>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <DownloadButton href={release.href} label={release.label} />
-              <a
-                href={RELEASES_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-[var(--text)] transition-colors hover:text-[var(--color-paper)]"
-              >
-                All releases &rarr;
-              </a>
-              <a
-                href={REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-[var(--text)] transition-colors hover:text-[var(--color-paper)]"
-              >
-                GitHub &rarr;
-              </a>
+          <div className="flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
+            <div className="flex max-w-md flex-col gap-3">
+              <h2 className="eyebrow-system">
+                <span aria-hidden="true" className="text-[var(--color-red)]">
+                  /
+                </span>
+                Download
+              </h2>
+              <p className="text-sm leading-7 text-[var(--text)]">
+                One DMG, no installer, no account. Drag Frost to Applications
+                and lock your desk from the menu bar.
+              </p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
+                macOS 14.6+ &middot; Free &amp; open source
+              </p>
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
-              macOS 14.6+ &middot; Free &amp; open source &middot; No accounts,
-              no tracking
-            </p>
+            <div className="flex flex-col items-start gap-3">
+              <DownloadButton href={release.href} label={release.label} />
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]">
+                <a
+                  href={RELEASES_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-[var(--color-paper)]"
+                >
+                  All releases &rarr;
+                </a>
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-[var(--color-paper)]"
+                >
+                  GitHub &rarr;
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </FadeInWrapper>

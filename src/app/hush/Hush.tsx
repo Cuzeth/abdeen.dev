@@ -234,62 +234,55 @@ export default function Hush() {
         </section>
       </FadeInWrapper>
 
-      {/* Closing CTA */}
+      {/* Download */}
       <FadeInWrapper direction="up">
         <section
           aria-label="Get Hush"
-          className="shell-panel rounded-[1.5rem] px-6 py-10 md:rounded-[2rem] md:px-12 md:py-14"
+          className="border-t border-white/[0.08] pt-8 md:pt-10"
         >
-          <div className="relative flex flex-col gap-6">
-            <span className="eyebrow-system">
-              <span aria-hidden="true" className="text-[var(--color-red)]">
-                /
-              </span>
-              Get Hush
-            </span>
-            <h2 className="max-w-2xl text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--color-paper)] md:text-5xl">
-              Quiet the room,
-              <br />
-              keep the focus<span className="text-[var(--color-red)]">.</span>
-            </h2>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <AppStoreButton />
-              <a
-                href={REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-[var(--text)] transition-colors hover:text-[var(--color-paper)]"
-              >
-                GitHub &rarr;
-              </a>
+          <div className="flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
+            <div className="flex max-w-md flex-col gap-3">
+              <h2 className="eyebrow-system">
+                <span aria-hidden="true" className="text-[var(--color-red)]">
+                  /
+                </span>
+                Get the app
+              </h2>
+              <p className="text-sm leading-7 text-[var(--text)]">
+                Free on the App Store. No accounts, no analytics, no tracking.
+                Open source under GPL-3.0.
+              </p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
+                iOS &middot; Free &amp; open source
+              </p>
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
-              iOS &middot; Free &amp; open source &middot; GPL-3.0 &middot; No
-              accounts, no tracking
-            </p>
+            <div className="flex flex-col items-start gap-3">
+              <AppStoreButton />
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]">
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-[var(--color-paper)]"
+                >
+                  GitHub &rarr;
+                </a>
+                <Link
+                  href="/hush/privacy"
+                  className="transition-colors hover:text-[var(--color-paper)]"
+                >
+                  Privacy
+                </Link>
+                <Link
+                  href="/hush/terms"
+                  className="transition-colors hover:text-[var(--color-paper)]"
+                >
+                  Terms
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
-      </FadeInWrapper>
-
-      {/* Legal */}
-      <FadeInWrapper direction="up">
-        <nav
-          aria-label="Hush legal"
-          className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]"
-        >
-          <Link
-            href="/hush/privacy"
-            className="transition-colors hover:text-[var(--color-paper)]"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href="/hush/terms"
-            className="transition-colors hover:text-[var(--color-paper)]"
-          >
-            Terms of Service
-          </Link>
-        </nav>
       </FadeInWrapper>
     </div>
   );
