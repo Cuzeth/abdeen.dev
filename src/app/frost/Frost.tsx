@@ -56,9 +56,8 @@ const features = [
 
 const requirements = [
   "macOS 14.6+",
-  "Apple silicon & Intel",
+  "Apple Silicon & Intel",
   "TouchID (or Apple Watch)",
-  "Accessibility permission",
 ];
 
 const APPLE_PATH =
