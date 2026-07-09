@@ -1,103 +1,7 @@
 import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
-
-interface IndexEntry {
-  title: string;
-  description: string;
-  href: string;
-  meta: string;
-  external?: boolean;
-}
-
-const apps: IndexEntry[] = [
-  {
-    title: "Frost",
-    description:
-      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible, then unlock with TouchID.",
-    href: "/frost",
-    meta: "macOS",
-  },
-  {
-    title: "Hush",
-    description:
-      "Focus sounds for iOS. Real-time noise generators, binaural beats, and a library of 80+ ambient recordings.",
-    href: "/hush",
-    meta: "iOS",
-  },
-  // DISABLED: SafeStay Scanner — re-enable by uncommenting this entry
-  // and flipping ENABLED in src/app/safestay/page.tsx back to true.
-  /*
-  {
-    title: "SafeStay Scanner",
-    description:
-      "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
-    href: "/safestay",
-    meta: "macOS · Linux",
-  },
-  */
-  {
-    title: "Strobe",
-    description:
-      "Rapid serial visual reader for iPhone, iPad, and Mac. Read PDFs, EPUBs, and plain text at speed.",
-    href: "https://strobefast.app",
-    meta: "strobefast.app",
-    external: true,
-  },
-];
-
-const tools: IndexEntry[] = [
-  {
-    title: "CoverQuad",
-    description:
-      "Apple killed the 2×2 playlist covers. This brings them back.",
-    href: "/coverquad",
-    meta: "/coverquad",
-  },
-  {
-    title: "Regex Tester",
-    description:
-      "Test and debug regular expressions with live match highlighting.",
-    href: "/regex",
-    meta: "/regex",
-  },
-  {
-    title: "Pomodoro Timer",
-    description: "A minimal focus timer to stay productive.",
-    href: "/pomodoro",
-    meta: "/pomodoro",
-  },
-  {
-    title: "Password Generator",
-    description:
-      "Memorable, secure passwords inspired by Apple Keychain.",
-    href: "/pwgen",
-    meta: "/pwgen",
-  },
-  {
-    title: "2FA QR Generator",
-    description:
-      "Turn two-factor authentication secrets into scannable QR codes.",
-    href: "/2fa",
-    meta: "/2fa",
-  },
-  {
-    title: "QR Generator",
-    description: "QR codes for links, WiFi, email, and phone. Styled, then downloaded.",
-    href: "/qr",
-    meta: "/qr",
-  },
-  // DISABLED: Lo-fi ATC Radio — re-enable by uncommenting this entry
-  // and flipping ENABLED in src/app/lofi-atc/page.tsx back to true.
-  /*
-  {
-    title: "Lo-fi ATC Radio",
-    description:
-      "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
-    href: "/lofi-atc",
-    meta: "/lofi-atc",
-  },
-  */
-];
+import SectionHeader from "@/components/SectionHeader";
+import { apps, tools, type CatalogEntry } from "@/lib/catalog";
 
 const principles = [
   {
@@ -121,26 +25,12 @@ function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
-function SectionHeader({ label, count }: { label: string; count: number }) {
-  return (
-    <div className="flex items-baseline justify-between pb-4 pl-4 pr-2 md:pl-6 md:pr-3">
-      <h2 className="eyebrow-system">
-        <span aria-hidden="true" className="text-[var(--color-red)]">
-          /
-        </span>
-        {label}
-      </h2>
-      <span className="eyebrow-system opacity-60">{pad(count)}</span>
-    </div>
-  );
-}
-
 function IndexRow({
   item,
   index,
   large = false,
 }: {
-  item: IndexEntry;
+  item: CatalogEntry;
   index: number;
   large?: boolean;
 }) {
@@ -226,11 +116,21 @@ export default function HomePage() {
               nothing to sign up for.
             </p>
             <p className="eyebrow-system flex-wrap gap-x-3 gap-y-1">
-              <span>{pad(apps.length)} apps</span>
+              <a
+                href="#apps"
+                className="underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-[var(--color-paper)] hover:decoration-white/40"
+              >
+                {pad(apps.length)} apps
+              </a>
               <span aria-hidden="true" className="opacity-40">
                 ·
               </span>
-              <span>{pad(tools.length)} web tools</span>
+              <a
+                href="#tools"
+                className="underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-[var(--color-paper)] hover:decoration-white/40"
+              >
+                {pad(tools.length)} web tools
+              </a>
               <span aria-hidden="true" className="opacity-40">
                 ·
               </span>
@@ -243,7 +143,7 @@ export default function HomePage() {
       {/* Apps */}
       <section id="apps" aria-label="Apps">
         <FadeInWrapper direction="up">
-          <SectionHeader label="Apps" count={apps.length} />
+          <SectionHeader label="Apps" count={apps.length} inset />
         </FadeInWrapper>
         <div className="index-list">
           {apps.map((item, index) => (
@@ -257,7 +157,7 @@ export default function HomePage() {
       {/* Tools */}
       <section id="tools" aria-label="Tools">
         <FadeInWrapper direction="up">
-          <SectionHeader label="Web tools" count={tools.length} />
+          <SectionHeader label="Web tools" count={tools.length} inset />
         </FadeInWrapper>
         <div className="index-list">
           {tools.map((item, index) => (

@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { switzer, plexSans, arefRuqaa, jetbrainsMono } from "./fonts";
+import { apps, tools } from "@/lib/catalog";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -263,6 +264,22 @@ export default function RootLayout({
             </Link>
 
             <div className="flex items-center gap-1.5 md:gap-2">
+              <Link
+                href="/#apps"
+                className="hidden rounded-full px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)] transition-colors duration-200 hover:text-[var(--color-paper)] md:block"
+              >
+                Apps
+              </Link>
+              <Link
+                href="/#tools"
+                className="hidden rounded-full px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)] transition-colors duration-200 hover:text-[var(--color-paper)] md:block"
+              >
+                Tools
+              </Link>
+              <span
+                aria-hidden="true"
+                className="hidden h-4 w-px bg-white/[0.1] md:block"
+              />
               <a
                 href="https://github.com/Cuzeth"
                 target="_blank"
@@ -294,7 +311,7 @@ export default function RootLayout({
         <main id="main-content" tabIndex={-1} className="relative flex-1 px-4 md:px-8 outline-none">{children}</main>
         <footer className="w-full px-4 pb-8 pt-10 md:px-8 md:pb-12 md:pt-16" role="contentinfo">
           <div className="mx-auto w-full max-w-6xl border-t border-white/[0.08] pt-8 md:pt-12">
-            <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr] md:gap-8">
+            <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:gap-8">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <span
@@ -312,34 +329,55 @@ export default function RootLayout({
                   private by default.
                 </p>
               </div>
-              <nav aria-label="Site" className="flex flex-col gap-3">
+              <nav aria-label="Apps" className="flex flex-col gap-3">
                 <h2 className="eyebrow-system">
                   <span aria-hidden="true" className="text-[var(--color-red)]">
                     /
                   </span>
-                  Site
+                  Apps
                 </h2>
                 <ul className="flex flex-col gap-2 text-sm text-[var(--text)]">
-                  <li>
-                    <Link href="/#apps" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
-                      Apps
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/#tools" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
-                      Web tools
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/frost" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
-                      Frost
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hush" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
-                      Hush
-                    </Link>
-                  </li>
+                  {apps.map((app) => (
+                    <li key={app.href}>
+                      {app.external ? (
+                        <a
+                          href={app.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                        >
+                          {app.title} ↗
+                        </a>
+                      ) : (
+                        <Link
+                          href={app.href}
+                          className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                        >
+                          {app.title}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <nav aria-label="Web tools" className="flex flex-col gap-3">
+                <h2 className="eyebrow-system">
+                  <span aria-hidden="true" className="text-[var(--color-red)]">
+                    /
+                  </span>
+                  Web tools
+                </h2>
+                <ul className="flex flex-col gap-2 text-sm text-[var(--text)]">
+                  {tools.map((tool) => (
+                    <li key={tool.href}>
+                      <Link
+                        href={tool.href}
+                        className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                      >
+                        {tool.title}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </nav>
               <nav aria-label="Elsewhere" className="flex flex-col gap-3">
@@ -368,16 +406,6 @@ export default function RootLayout({
                       className="transition-colors duration-200 hover:text-[var(--color-paper)]"
                     >
                       jaafar.cv ↗
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://strobefast.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transition-colors duration-200 hover:text-[var(--color-paper)]"
-                    >
-                      Strobe ↗
                     </a>
                   </li>
                 </ul>

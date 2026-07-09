@@ -100,6 +100,20 @@ html {
   color-scheme: dark;
 }
 
+/* The sticky header is ~88px of in-flow chrome. Next.js scrolls the first
+   Page element into view on route changes, and hash anchors align to the
+   viewport top — without an offset both land with content tucked under the
+   navbar. On page navigation the margin overshoots past document top and
+   clamps to 0, which is exactly where we want to land. */
+main,
+main > * {
+  scroll-margin-top: 6rem;
+}
+
+section[id] {
+  scroll-margin-top: 6.5rem;
+}
+
 body {
   position: relative;
   isolation: isolate;
@@ -615,6 +629,26 @@ canvas {
   border-color: rgba(204, 27, 27, 0.4);
 }
 
+/* Chips that navigate (ToolPageShell "More tools" strip) get a hover lift
+   in the same register as the index rows: paper text, brighter hairline. */
+a.chip {
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+a.chip:hover,
+a.chip:focus-visible {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-paper);
+}
+
+a.chip:hover .index-arrow,
+a.chip:focus-visible .index-arrow {
+  transform: translateX(3px);
+  color: var(--color-paper);
+}
+
 /* Keyboard hint */
 .kbd {
   display: inline-flex;
@@ -787,6 +821,15 @@ canvas {
 
 .feature-cell:hover .index-num {
   color: var(--color-red);
+}
+
+/* Odd cell counts at the two-column breakpoint would leave an empty slot
+   showing the grid's hairline background as a light slab. Stretch the last
+   cell across the row instead so the panel always reads fully machined. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .feature-grid > .feature-cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }
 
 /* ── Hero watermark — the calligraphic mark as outlined art. Decorative

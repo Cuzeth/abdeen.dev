@@ -16,7 +16,7 @@ export default function Error({
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-6 pb-20 pt-16 md:pt-24">
-      <span className="eyebrow self-start">
+      <span className="eyebrow-system self-start">
         <span
           aria-hidden="true"
           className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
+import { relatedTools } from "@/lib/catalog";
 
 interface ToolPageShellProps {
   title: string;
@@ -56,6 +57,38 @@ export default function ToolPageShell({
             {children}
           </div>
         </section>
+      </FadeInWrapper>
+
+      {/* Cross-navigation — keeps every tool one click from the next */}
+      <FadeInWrapper direction="up" delay={0.08}>
+        <nav
+          aria-label="More tools"
+          className="flex flex-wrap items-center gap-x-3 gap-y-2 px-1"
+        >
+          <span className="eyebrow-system">
+            <span aria-hidden="true" className="text-[var(--color-red)]">
+              /
+            </span>
+            More tools
+          </span>
+          {relatedTools(eyebrow ?? "").map((tool) => (
+            <Link key={tool.href} href={tool.href} className="chip">
+              {tool.title}
+              <span aria-hidden="true" className="index-arrow">
+                &rarr;
+              </span>
+            </Link>
+          ))}
+          <Link
+            href="/#tools"
+            className="eyebrow-system transition-colors duration-200 hover:text-[var(--color-paper)]"
+          >
+            All tools
+            <span aria-hidden="true" className="index-arrow">
+              &rarr;
+            </span>
+          </Link>
+        </nav>
       </FadeInWrapper>
     </div>
   );

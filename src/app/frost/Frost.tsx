@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import FadeInWrapper from "@/components/FadeInWrapper";
+import SectionHeader from "@/components/SectionHeader";
 
 const REPO_URL = "https://github.com/Cuzeth/frost";
 const RELEASES_URL = `${REPO_URL}/releases/latest`;
@@ -68,7 +69,9 @@ type Release = {
   assets: { name: string; browser_download_url: string }[];
 };
 
-function DownloadButton() {
+/** Latest-release download target, shared by the hero and closing CTA so the
+ *  GitHub API is only hit once per page view. */
+function useLatestRelease() {
   const [href, setHref] = useState(RELEASES_URL);
   const [label, setLabel] = useState("Download for macOS");
 
@@ -98,6 +101,10 @@ function DownloadButton() {
     };
   }, []);
 
+  return { href, label };
+}
+
+function DownloadButton({ href, label }: { href: string; label: string }) {
   return (
     <a
       href={href}
@@ -176,20 +183,20 @@ function LockVisual() {
 }
 
 export default function Frost() {
+  const release = useLatestRelease();
+
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-14 pb-20 pt-4 md:gap-20 md:pb-28 md:pt-10">
       {/* Hero */}
       <section className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
         <FadeInWrapper direction="up">
           <div className="flex flex-col gap-5">
-            <span className="eyebrow w-fit">
+            <span className="eyebrow-system">
               <span
                 aria-hidden="true"
                 className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
               />
-              <span style={{ textTransform: "none", letterSpacing: "0.05em" }}>
-                macOS App
-              </span>
+              macOS App · Abdeen Labs
             </span>
             <h1 className="text-5xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
               Frost<span className="text-[var(--color-red)]">.</span>
@@ -201,7 +208,7 @@ export default function Frost() {
               unattended.
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <DownloadButton />
+              <DownloadButton href={release.href} label={release.label} />
               <a
                 href={REPO_URL}
                 target="_blank"
@@ -225,17 +232,7 @@ export default function Frost() {
       {/* Features */}
       <section>
         <FadeInWrapper direction="up">
-          <div className="mb-5 flex items-baseline justify-between">
-            <h2 className="eyebrow-system">
-              <span aria-hidden="true" className="text-[var(--color-red)]">
-                /
-              </span>
-              Features
-            </h2>
-            <span className="eyebrow-system opacity-60">
-              {String(features.length).padStart(2, "0")}
-            </span>
-          </div>
+          <SectionHeader label="Features" count={features.length} />
         </FadeInWrapper>
         <FadeInWrapper direction="up" delay={0.05}>
           <div className="feature-grid sm:grid-cols-2 lg:grid-cols-3">
@@ -261,12 +258,7 @@ export default function Frost() {
       {/* Requirements */}
       <FadeInWrapper direction="up">
         <section>
-          <h2 className="eyebrow-system mb-5">
-            <span aria-hidden="true" className="text-[var(--color-red)]">
-              /
-            </span>
-            Requirements
-          </h2>
+          <SectionHeader label="Requirements" />
           <div className="flex flex-wrap gap-2">
             {requirements.map((r) => (
               <span key={r} className="chip">
@@ -277,9 +269,9 @@ export default function Frost() {
         </section>
       </FadeInWrapper>
 
-      {/* Safety + Links */}
+      {/* Safety */}
       <FadeInWrapper direction="up">
-        <section className="flex flex-col gap-4">
+        <section>
           <p className="max-w-2xl text-sm leading-7 text-[var(--text)] opacity-70">
             Built to never trap you: a configurable unlock shortcut, and a clean
             teardown on SIGTERM so a remote{" "}
@@ -287,23 +279,50 @@ export default function Frost() {
             input. No accounts, no analytics, no tracking. Frost is not a screen
             lock or a replacement for the macOS login window.
           </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-[var(--text)]">
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-[var(--color-paper)]"
-            >
-              GitHub &rarr;
-            </a>
-            <a
-              href={RELEASES_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-[var(--color-paper)]"
-            >
-              All releases &rarr;
-            </a>
+        </section>
+      </FadeInWrapper>
+
+      {/* Closing CTA */}
+      <FadeInWrapper direction="up">
+        <section
+          aria-label="Download Frost"
+          className="shell-panel rounded-[1.5rem] px-6 py-10 md:rounded-[2rem] md:px-12 md:py-14"
+        >
+          <div className="relative flex flex-col gap-6">
+            <span className="eyebrow-system">
+              <span aria-hidden="true" className="text-[var(--color-red)]">
+                /
+              </span>
+              Get Frost
+            </span>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--color-paper)] md:text-5xl">
+              Freeze the desk,
+              <br />
+              keep the screen<span className="text-[var(--color-red)]">.</span>
+            </h2>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <DownloadButton href={release.href} label={release.label} />
+              <a
+                href={RELEASES_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-[var(--text)] transition-colors hover:text-[var(--color-paper)]"
+              >
+                All releases &rarr;
+              </a>
+              <a
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-[var(--text)] transition-colors hover:text-[var(--color-paper)]"
+              >
+                GitHub &rarr;
+              </a>
+            </div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
+              macOS 14.6+ &middot; Free &amp; open source &middot; No accounts,
+              no tracking
+            </p>
           </div>
         </section>
       </FadeInWrapper>

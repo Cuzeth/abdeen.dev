@@ -11,10 +11,10 @@ export default function NotFound() {
   return (
     <div className="mx-auto flex min-h-[calc(100vh-14rem)] w-full max-w-3xl flex-col items-center justify-center gap-6 px-4 py-20 text-center">
       <FadeInWrapper direction="up">
-        <span className="eyebrow">
+        <span className="eyebrow-system">
           <span
             aria-hidden="true"
-            className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent-glow)]"
+            className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
           />
           404 · Not Found
         </span>

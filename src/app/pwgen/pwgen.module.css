@@ -7,6 +7,13 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 4rem 0;
+  /* Hold roughly the height the two-pane UI will occupy. Without this the
+     page mounts as a short stub and regrows when the word lists arrive,
+     which collides with Next's post-navigation scroll handling (the
+     document shrinks, the clamped scroll can read as "already in view",
+     and the scroll-to-top is consumed without running), leaving the page
+     scrolled mid-way after clicking in from the index. */
+  min-height: 560px;
 }
 
 .loadingDot {
