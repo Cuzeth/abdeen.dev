@@ -120,8 +120,8 @@ export default function Hush() {
                 iOS App
               </span>
             </span>
-            <h1 className="text-4xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-6xl">
-              Hush
+            <h1 className="text-5xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
+              Hush<span className="text-[var(--color-red)]">.</span>
             </h1>
             <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
               Focus sounds for iOS. Real-time DSP noise generators, binaural
@@ -172,7 +172,10 @@ export default function Hush() {
       {/* Screenshots */}
       <FadeInWrapper direction="up">
         <section>
-          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
+          <h2 className="eyebrow-system mb-5">
+            <span aria-hidden="true" className="text-[var(--color-red)]">
+              /
+            </span>
             Screenshots
           </h2>
           <div
@@ -191,35 +194,51 @@ export default function Hush() {
       {/* Features Grid */}
       <section>
         <FadeInWrapper direction="up">
-          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
-            Features
-          </h2>
+          <div className="mb-5 flex items-baseline justify-between">
+            <h2 className="eyebrow-system">
+              <span aria-hidden="true" className="text-[var(--color-red)]">
+                /
+              </span>
+              Features
+            </h2>
+            <span className="eyebrow-system opacity-60">
+              {String(features.length).padStart(2, "0")}
+            </span>
+          </div>
         </FadeInWrapper>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f, i) => (
-            <FadeInWrapper key={f.label} direction="up" delay={0.04 + i * 0.04}>
-              <div className="surface-card flex h-full flex-col gap-2 rounded-[1.1rem] px-5 py-5 transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-white/[0.16] md:rounded-[1.6rem]">
-                <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
-                  {f.label}
-                </h3>
-                <p className="text-sm leading-7 text-[var(--text)]">
-                  {f.detail}
-                </p>
+        <FadeInWrapper direction="up" delay={0.05}>
+          <div className="feature-grid sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f, i) => (
+              <div key={f.label} className="feature-cell">
+                <span aria-hidden="true" className="index-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
+                    {f.label}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-7 text-[var(--text)]">
+                    {f.detail}
+                  </p>
+                </div>
               </div>
-            </FadeInWrapper>
-          ))}
-        </div>
+            ))}
+          </div>
+        </FadeInWrapper>
       </section>
 
       {/* Presets */}
       <FadeInWrapper direction="up">
         <section>
-          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
+          <h2 className="eyebrow-system mb-5">
+            <span aria-hidden="true" className="text-[var(--color-red)]">
+              /
+            </span>
             Built-in Presets
           </h2>
           <div className="flex flex-wrap gap-2">
             {presets.map((p) => (
-              <span key={p} className="eyebrow">
+              <span key={p} className="chip">
                 {p}
               </span>
             ))}

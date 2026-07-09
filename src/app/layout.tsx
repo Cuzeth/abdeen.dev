@@ -262,33 +262,135 @@ export default function RootLayout({
               </span>
             </Link>
 
-            <a
-              href="https://jaafar.cv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="eyebrow transition-colors duration-200 hover:border-white/20 hover:text-[var(--color-paper)]"
-            >
-              jaafar.cv
-            </a>
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <a
+                href="https://github.com/Cuzeth"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Cuzeth on GitHub"
+                className="rounded-full p-2 text-[var(--color-graphite)] transition-colors duration-200 hover:text-[var(--color-paper)]"
+              >
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                </svg>
+              </a>
+              <a
+                href="https://jaafar.cv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="eyebrow transition-colors duration-200 hover:border-white/20 hover:text-[var(--color-paper)]"
+              >
+                jaafar.cv
+              </a>
+            </div>
           </nav>
         </header>
         <main id="main-content" tabIndex={-1} className="relative flex-1 px-4 md:px-8 outline-none">{children}</main>
-        <footer className="w-full px-4 pb-6 pt-2 md:px-8 md:pb-10" role="contentinfo">
-          <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center">
-            <div className="flex items-center gap-2.5 opacity-60">
-              <span
-                aria-hidden="true"
-                className="brand-mark text-[20px] leading-none text-[var(--mark-default)]"
-              >
-                عابدين
+        <footer className="w-full px-4 pb-8 pt-10 md:px-8 md:pb-12 md:pt-16" role="contentinfo">
+          <div className="mx-auto w-full max-w-6xl border-t border-white/[0.08] pt-8 md:pt-12">
+            <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr] md:gap-8">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="brand-mark text-[26px] leading-none text-[var(--mark-default)]"
+                  >
+                    عابدين
+                  </span>
+                  <span className="brand-wordmark text-[10px] text-[var(--color-paper)]">
+                    Abdeen Labs
+                  </span>
+                </div>
+                <p className="max-w-xs text-sm leading-7 text-[var(--text)]">
+                  Small tools, carefully engineered. Free, open source, and
+                  private by default.
+                </p>
+              </div>
+              <nav aria-label="Site" className="flex flex-col gap-3">
+                <h2 className="eyebrow-system">
+                  <span aria-hidden="true" className="text-[var(--color-red)]">
+                    /
+                  </span>
+                  Site
+                </h2>
+                <ul className="flex flex-col gap-2 text-sm text-[var(--text)]">
+                  <li>
+                    <Link href="/#apps" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
+                      Apps
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/#tools" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
+                      Web tools
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/frost" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
+                      Frost
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/hush" className="transition-colors duration-200 hover:text-[var(--color-paper)]">
+                      Hush
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+              <nav aria-label="Elsewhere" className="flex flex-col gap-3">
+                <h2 className="eyebrow-system">
+                  <span aria-hidden="true" className="text-[var(--color-red)]">
+                    /
+                  </span>
+                  Elsewhere
+                </h2>
+                <ul className="flex flex-col gap-2 text-sm text-[var(--text)]">
+                  <li>
+                    <a
+                      href="https://github.com/Cuzeth"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                    >
+                      GitHub ↗
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://jaafar.cv"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                    >
+                      jaafar.cv ↗
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://strobefast.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors duration-200 hover:text-[var(--color-paper)]"
+                    >
+                      Strobe ↗
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.06] pt-6 md:mt-12">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
+                &copy; {new Date().getFullYear()} Jaafar Abdeen
               </span>
-              <span className="brand-wordmark text-[9px] text-[var(--color-paper)]">
-                Abdeen Labs
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)] opacity-70">
+                An Abdeen Labs property
               </span>
             </div>
-            <span className="text-xs text-[var(--text)] opacity-80">
-              &copy; {new Date().getFullYear()} Jaafar Abdeen
-            </span>
           </div>
         </footer>
         <Analytics />

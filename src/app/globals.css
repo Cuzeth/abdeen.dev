@@ -695,6 +695,128 @@ canvas {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+/* ──────────────────────────────────────────────────────────────────────
+   Editorial index — numbered list entries with hairline rules. Used by
+   the homepage (apps/tools indices). Rows are full-width links; hover
+   raises a faint wash, extends a red rule down the left edge, turns the
+   entry number red, and slides the arrow. All palette-true.
+   ────────────────────────────────────────────────────────────────────── */
+.index-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.index-row {
+  position: relative;
+  display: grid;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease;
+}
+
+.index-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-red);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.index-row:hover,
+.index-row:focus-visible {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.index-row:hover::before,
+.index-row:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.index-num {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: var(--tracking-mono-eyebrow);
+  color: var(--color-graphite);
+  transition: color 0.25s ease;
+}
+
+.index-row:hover .index-num,
+.index-row:focus-visible .index-num {
+  color: var(--color-red);
+}
+
+.index-arrow {
+  display: inline-block;
+  color: var(--color-graphite);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+
+.index-row:hover .index-arrow,
+.index-row:focus-visible .index-arrow {
+  transform: translateX(6px);
+  color: var(--color-paper);
+}
+
+/* ── Divided feature grid — one engineered panel, hairline-separated
+   cells. Reads as a single machined surface, not floating cards. ── */
+.feature-grid {
+  display: grid;
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.feature-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.4rem 1.5rem 1.6rem;
+  background: rgba(12, 12, 12, 0.92);
+  transition: background 0.3s ease;
+}
+
+.feature-cell:hover {
+  background: rgba(19, 19, 19, 0.92);
+}
+
+.feature-cell:hover .index-num {
+  color: var(--color-red);
+}
+
+/* ── Hero watermark — the calligraphic mark as outlined art. Decorative
+   only (aria-hidden); faint red fill as fallback where text-stroke is
+   unsupported, masked so it dissolves into Ink. ── */
+.hero-mark {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-mark);
+  font-weight: 700;
+  /* The mask can only cover the element's own box, and Ruqaa swashes
+     overflow a tight line box — ink outside it hits the mask edge and
+     shears off. 1.7 leading (split evenly, so the glyph doesn't move)
+     pulls all ink inside; the stops are rescaled so the fade crosses
+     the glyph exactly where the 0.95/30%/92% version did. */
+  line-height: 1.7;
+  /* Same fix, horizontal: the final noon's bowl overflows the box's left
+     edge. Left-only padding widens the box leftward — the element is
+     right-pinned, so the glyph itself stays put. */
+  padding-left: 0.35em;
+  direction: rtl;
+  color: rgba(204, 27, 27, 0.06);
+  -webkit-text-stroke: 1.5px rgba(204, 27, 27, 0.38);
+  -webkit-mask-image: linear-gradient(155deg, black 39%, transparent 73%);
+  mask-image: linear-gradient(155deg, black 39%, transparent 73%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
 /* ── Mobile touch & performance fixes ── */
 button, a, [role="button"], input, select, textarea {
   touch-action: manipulation;

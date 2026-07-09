@@ -1,67 +1,28 @@
 import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
-const tools = [
-  {
-    title: "CoverQuad",
-    description:
-      "Apple killed the 2×2 playlist covers. This brings them back.",
-    href: "/coverquad",
-  },
-  {
-    title: "Regex Tester",
-    description:
-      "Test and debug regular expressions with live match highlighting.",
-    href: "/regex",
-  },
-  {
-    title: "Pomodoro Timer",
-    description: "A minimal focus timer to stay productive.",
-    href: "/pomodoro",
-  },
-  {
-    title: "Password Generator",
-    description:
-      "Generate memorable, secure passwords inspired by Apple Keychain.",
-    href: "/pwgen",
-  },
-  {
-    title: "2FA QR Generator",
-    description:
-      "Generate QR codes from two-factor authentication secrets.",
-    href: "/2fa",
-  },
-  {
-    title: "QR Generator",
-    description: "Generate QR codes for text, WiFi, email, and phone.",
-    href: "/qr",
-  },
-  // DISABLED: Lo-fi ATC Radio — re-enable by uncommenting this entry
-  // and flipping ENABLED in src/app/lofi-atc/page.tsx back to true.
-  /*
-  {
-    title: "Lo-fi ATC Radio",
-    description:
-      "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
-    href: "/lofi-atc",
-  },
-  */
-];
+interface IndexEntry {
+  title: string;
+  description: string;
+  href: string;
+  meta: string;
+  external?: boolean;
+}
 
-const apps = [
+const apps: IndexEntry[] = [
   {
     title: "Frost",
     description:
-      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with TouchID.",
+      "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible, then unlock with TouchID.",
     href: "/frost",
-    external: false,
+    meta: "macOS",
   },
   {
     title: "Hush",
     description:
-      "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
+      "Focus sounds for iOS. Real-time noise generators, binaural beats, and a library of 80+ ambient recordings.",
     href: "/hush",
-    external: false,
+    meta: "iOS",
   },
   // DISABLED: SafeStay Scanner — re-enable by uncommenting this entry
   // and flipping ENABLED in src/app/safestay/page.tsx back to true.
@@ -71,130 +32,264 @@ const apps = [
     description:
       "Detect hidden cameras at Airbnbs and rentals. Network scanner, MAC lookup, and inspection checklist.",
     href: "/safestay",
-    external: false,
+    meta: "macOS · Linux",
   },
   */
   {
     title: "Strobe",
     description:
-      "Rapid serial visual reader for iPhone, iPad, and Mac. Read PDFs, EPUBs, and text at speed.",
+      "Rapid serial visual reader for iPhone, iPad, and Mac. Read PDFs, EPUBs, and plain text at speed.",
     href: "https://strobefast.app",
+    meta: "strobefast.app",
     external: true,
   },
 ];
 
+const tools: IndexEntry[] = [
+  {
+    title: "CoverQuad",
+    description:
+      "Apple killed the 2×2 playlist covers. This brings them back.",
+    href: "/coverquad",
+    meta: "/coverquad",
+  },
+  {
+    title: "Regex Tester",
+    description:
+      "Test and debug regular expressions with live match highlighting.",
+    href: "/regex",
+    meta: "/regex",
+  },
+  {
+    title: "Pomodoro Timer",
+    description: "A minimal focus timer to stay productive.",
+    href: "/pomodoro",
+    meta: "/pomodoro",
+  },
+  {
+    title: "Password Generator",
+    description:
+      "Memorable, secure passwords inspired by Apple Keychain.",
+    href: "/pwgen",
+    meta: "/pwgen",
+  },
+  {
+    title: "2FA QR Generator",
+    description:
+      "Turn two-factor authentication secrets into scannable QR codes.",
+    href: "/2fa",
+    meta: "/2fa",
+  },
+  {
+    title: "QR Generator",
+    description: "QR codes for links, WiFi, email, and phone. Styled, then downloaded.",
+    href: "/qr",
+    meta: "/qr",
+  },
+  // DISABLED: Lo-fi ATC Radio — re-enable by uncommenting this entry
+  // and flipping ENABLED in src/app/lofi-atc/page.tsx back to true.
+  /*
+  {
+    title: "Lo-fi ATC Radio",
+    description:
+      "Lo-fi beats mixed with live JFK Tower air-traffic control radio.",
+    href: "/lofi-atc",
+    meta: "/lofi-atc",
+  },
+  */
+];
+
+const principles = [
+  {
+    num: "01",
+    title: "Free, forever",
+    body: "Everything on this site is free to use. No paywalls, no upsells, no ads.",
+  },
+  {
+    num: "02",
+    title: "Private by default",
+    body: "No accounts and no sign-ups. The tools do their work in your browser.",
+  },
+  {
+    num: "03",
+    title: "Open source",
+    body: "The code is public on GitHub. Read it, fork it, or file an issue.",
+  },
+];
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+function SectionHeader({ label, count }: { label: string; count: number }) {
+  return (
+    <div className="flex items-baseline justify-between pb-4 pl-4 pr-2 md:pl-6 md:pr-3">
+      <h2 className="eyebrow-system">
+        <span aria-hidden="true" className="text-[var(--color-red)]">
+          /
+        </span>
+        {label}
+      </h2>
+      <span className="eyebrow-system opacity-60">{pad(count)}</span>
+    </div>
+  );
+}
+
+function IndexRow({
+  item,
+  index,
+  large = false,
+}: {
+  item: IndexEntry;
+  index: number;
+  large?: boolean;
+}) {
+  const Tag = item.external ? "a" : Link;
+  const externalProps = item.external
+    ? { target: "_blank" as const, rel: "noopener noreferrer" }
+    : {};
+  const arrow = item.external ? "↗" : "→";
+
+  return (
+    <Tag
+      href={item.href}
+      className={`index-row grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-3 pl-4 pr-2 md:grid-cols-[3.5rem_minmax(0,1fr)_auto] md:gap-x-8 md:pl-6 md:pr-3 ${large ? "py-7 md:py-9" : "py-5 md:py-6"
+        }`}
+      {...externalProps}
+    >
+      <span aria-hidden="true" className="index-num">
+        {pad(index + 1)}
+      </span>
+      <span className="block">
+        <span
+          className={`block font-semibold tracking-[-0.02em] text-[var(--color-paper)] ${large ? "text-2xl md:text-[2rem]" : "text-lg md:text-xl"
+            }`}
+        >
+          {item.title}
+        </span>
+        <span
+          className={`mt-1.5 block max-w-2xl leading-7 text-[var(--text)] ${large ? "text-[0.95rem]" : "text-sm"
+            }`}
+        >
+          {item.description}
+        </span>
+        <span className="mt-3 block md:hidden">
+          <span className="eyebrow-system">
+            {item.meta}
+            <span aria-hidden="true" className="index-arrow">
+              {arrow}
+            </span>
+          </span>
+        </span>
+      </span>
+      <span className="hidden md:block">
+        <span className="eyebrow-system gap-3">
+          {item.meta}
+          <span aria-hidden="true" className="index-arrow">
+            {arrow}
+          </span>
+        </span>
+      </span>
+    </Tag>
+  );
+}
+
 export default function HomePage() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-20 pt-4 md:gap-10 md:pb-28 md:pt-8">
-      <FadeInWrapper direction="up">
-        <div className="mb-2 flex flex-col gap-4">
-          <span className="eyebrow self-start">
-            <span
-              aria-hidden="true"
-              className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
-            />
-            An Abdeen Labs property
-          </span>
-          <h1 className="font-semibold tracking-[-0.02em] text-[var(--color-paper)] text-5xl leading-[1.02] md:text-6xl">
-            abdeen<span className="text-[var(--color-red)]">.</span>dev
-          </h1>
-          <p className="max-w-xl text-base leading-7 text-[var(--text)] md:text-lg">
-            Small tools, carefully engineered.
-          </p>
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 pb-20 pt-6 md:gap-24 md:pb-28 md:pt-12">
+      {/* Hero */}
+      <section className="relative overflow-x-clip" aria-label="Introduction">
+        <span
+          aria-hidden="true"
+          className="hero-mark right-[-2rem] top-1/2 hidden -translate-y-1/2 text-[clamp(13rem,24vw,21rem)] sm:block"
+        >
+          عابدين
+        </span>
+        <FadeInWrapper direction="up">
+          <div className="relative flex flex-col gap-6 py-6 md:py-12">
+            <span className="eyebrow-system">
+              <span
+                aria-hidden="true"
+                className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-red)] shadow-[0_0_10px_var(--accent-glow)]"
+              />
+              Abdeen Labs · Independent software
+            </span>
+            <h1 className="max-w-4xl text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
+              Small tools,
+              <br />
+              carefully engineered
+              <span className="text-[var(--color-red)]">.</span>
+            </h1>
+            <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
+              Native apps for Apple platforms and free utilities for the
+              browser, built and maintained by Abdeen. Nothing to buy,
+              nothing to sign up for.
+            </p>
+            <p className="eyebrow-system flex-wrap gap-x-3 gap-y-1">
+              <span>{pad(apps.length)} apps</span>
+              <span aria-hidden="true" className="opacity-40">
+                ·
+              </span>
+              <span>{pad(tools.length)} web tools</span>
+              <span aria-hidden="true" className="opacity-40">
+                ·
+              </span>
+              <span>Free &amp; open source</span>
+            </p>
+          </div>
+        </FadeInWrapper>
+      </section>
+
+      {/* Apps */}
+      <section id="apps" aria-label="Apps">
+        <FadeInWrapper direction="up">
+          <SectionHeader label="Apps" count={apps.length} />
+        </FadeInWrapper>
+        <div className="index-list">
+          {apps.map((item, index) => (
+            <FadeInWrapper key={item.href} direction="up" delay={0.04 + index * 0.04}>
+              <IndexRow item={item} index={index} large />
+            </FadeInWrapper>
+          ))}
         </div>
+      </section>
+
+      {/* Tools */}
+      <section id="tools" aria-label="Tools">
+        <FadeInWrapper direction="up">
+          <SectionHeader label="Web tools" count={tools.length} />
+        </FadeInWrapper>
+        <div className="index-list">
+          {tools.map((item, index) => (
+            <FadeInWrapper key={item.href} direction="up" delay={0.04 + index * 0.03}>
+              <IndexRow item={item} index={index} />
+            </FadeInWrapper>
+          ))}
+        </div>
+      </section>
+
+      {/* Principles */}
+      <FadeInWrapper direction="up">
+        <section
+          aria-label="Principles"
+          className="grid gap-8 border-t border-white/[0.08] pt-8 md:grid-cols-3 md:gap-6 md:pt-10"
+        >
+          {principles.map((p) => (
+            <div
+              key={p.num}
+              className="flex flex-col gap-2.5 md:border-l md:border-white/[0.08] md:pl-6 md:first:border-l-0 md:first:pl-0"
+            >
+              <span aria-hidden="true" className="index-num">
+                {p.num}
+              </span>
+              <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
+                {p.title}
+              </h3>
+              <p className="text-sm leading-7 text-[var(--text)]">{p.body}</p>
+            </div>
+          ))}
+        </section>
       </FadeInWrapper>
-
-      <div className="relative grid gap-8 md:gap-10 lg:grid-cols-[1fr_2fr]">
-        {/* Fading divider line (visible only side-by-side) */}
-        <div className="pointer-events-none absolute inset-y-0 left-[calc(33.333%+0.5rem)] hidden w-px lg:block" style={{ background: "linear-gradient(to bottom, transparent, var(--text) 30%, var(--text) 70%, transparent)", opacity: 0.1 }} />
-        {/* Apps */}
-        <section aria-label="Apps">
-          <FadeInWrapper direction="up" delay={0.02}>
-            <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
-              Apps
-            </h2>
-          </FadeInWrapper>
-          <div className="grid gap-4">
-            {apps.map((item, index) => {
-              const Tag = item.external ? "a" : Link;
-              const externalProps = item.external
-                ? { target: "_blank" as const, rel: "noopener noreferrer" }
-                : {};
-              return (
-                <FadeInWrapper
-                  key={item.href}
-                  direction="up"
-                  delay={0.04 + index * 0.03}
-                >
-                  <Tag
-                    href={item.href}
-                    className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
-                    {...externalProps}
-                  >
-                    <div className="flex h-full flex-col gap-4">
-                      <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
-                        {item.external
-                          ? new URL(item.href).hostname
-                          : item.href}
-                      </span>
-                      <div>
-                        <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
-                          {item.title}
-                        </h3>
-                        <p className="mt-2 text-sm leading-7 text-[var(--text)]">
-                          {item.description}
-                        </p>
-                      </div>
-                      {item.external && (
-                        <span className="mt-auto text-xs text-[var(--text)] opacity-80 transition-opacity duration-200 group-hover:opacity-100">
-                          Visit site &rarr;
-                        </span>
-                      )}
-                    </div>
-                  </Tag>
-                </FadeInWrapper>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Tools */}
-        <section aria-label="Tools">
-          <FadeInWrapper direction="up" delay={0.02}>
-            <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-graphite)]">
-              Tools
-            </h2>
-          </FadeInWrapper>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tools.map((item, index) => (
-              <FadeInWrapper
-                key={item.href}
-                direction="up"
-                delay={0.04 + index * 0.03}
-              >
-                <Link
-                  href={item.href}
-                  className="group surface-card block h-full rounded-[1.1rem] px-4 py-4 transition-transform duration-300 hover:-translate-y-1 md:rounded-[1.6rem] md:px-5 md:py-5"
-                >
-                  <div className="flex h-full flex-col gap-4">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--color-graphite)]">
-                      {item.href}
-                    </span>
-                    <div>
-                      <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] transition-colors duration-200 group-hover:text-[var(--color-red)]">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-7 text-[var(--text)]">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </FadeInWrapper>
-            ))}
-          </div>
-        </section>
-      </div>
     </div>
   );
 }
