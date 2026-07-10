@@ -53,9 +53,6 @@ export default function ToolPageShell({
             <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--text)] md:text-[0.95rem]">
               {description}
             </p>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--color-graphite)] md:text-[11px]">
-              Free to use <span aria-hidden="true">·</span> No account <span aria-hidden="true">·</span> Built for the browser
-            </p>
           </div>
 
           {/* Body */}
