@@ -203,8 +203,8 @@ export default function PomodoroTimer() {
         >
           {showSettings ? 'Hide Settings' : 'Customize Durations'}
         </button>
-        <div className={`${styles.settingsPanel} ${showSettings ? styles.settingsPanelOpen : ''}`}>
-          <div className={styles.settingsPanelInner}>
+        <div className="disclosure" data-open={showSettings}>
+          <div className={`disclosure-inner ${styles.settingsPanelInner}`}>
             {(Object.keys(MODE_LABELS) as Mode[]).map((m) => (
               <div key={m} className={styles.settingRow}>
                 <span>{MODE_LABELS[m]}</span>

@@ -297,8 +297,8 @@ export default function RegexTester() {
             >
               {showReplace ? 'Hide Replace' : 'Show Replace'}
             </button>
-            <div className={`${styles.collapse} ${showReplace ? styles.collapseOpen : ''}`}>
-              <div className={styles.collapseInner}>
+            <div className="disclosure" data-open={showReplace}>
+              <div className={`disclosure-inner ${styles.collapseInner}`}>
                 <input
                   type="text"
                   className="input input-mono"
@@ -383,8 +383,8 @@ export default function RegexTester() {
         >
           {showCheatsheet ? 'Hide Cheatsheet' : 'Regex Cheatsheet'}
         </button>
-        <div className={`${styles.collapse} ${showCheatsheet ? styles.collapseOpen : ''}`}>
-          <div className={styles.collapseInner}>
+        <div className="disclosure" data-open={showCheatsheet}>
+          <div className={`disclosure-inner ${styles.collapseInner}`}>
             <div className={styles.cheatsheet}>
               {CHEATSHEET.map((section) => (
                 <div key={section.title} className={styles.cheatSection}>
