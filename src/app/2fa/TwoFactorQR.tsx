@@ -2,9 +2,8 @@
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import QRCode from 'qrcode';
+import { buildOtpauthUri, parseOtpauthUri, type OTPType } from './otpauth';
 import styles from './twofa.module.css';
-
-type OTPType = 'totp' | 'hotp';
 
 const ISSUERS = [
   'Amazon', 'Apple', 'AWS', 'Blizzard', 'Cloudflare', 'Coinbase',
@@ -34,16 +33,21 @@ export default function TwoFactorQR() {
   const [uriInvalid, setUriInvalid] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 
-  const generateUri = useCallback(() => {
-    let s = `otpauth://${type}/${encodeURIComponent(label)}?secret=${secret.replace(/ /g, '')}`;
-    if (issuer) s += `&issuer=${encodeURIComponent(issuer)}`;
-    if (type === 'hotp') s += `&counter=${counter || '0'}`;
-    if (showAdvanced) {
-      s += `&algorithm=${algorithm}&digits=${digits}`;
-      if (type === 'totp') s += `&period=${period || '30'}`;
-    }
-    return s;
-  }, [type, secret, label, issuer, counter, showAdvanced, algorithm, digits, period]);
+  const generateUri = useCallback(
+    () =>
+      buildOtpauthUri({
+        type,
+        secret,
+        label,
+        issuer,
+        counter,
+        includeAdvanced: showAdvanced,
+        algorithm,
+        digits,
+        period,
+      }),
+    [type, secret, label, issuer, counter, showAdvanced, algorithm, digits, period],
+  );
 
   const effectiveUri = useMemo(
     () => (uriEdited ? uri : generateUri()),
@@ -73,47 +77,24 @@ export default function TwoFactorQR() {
     setUriEdited(true);
     setUriInvalid(false);
 
-    try {
-      const url = new URL(value);
-      if (url.protocol !== 'otpauth:') {
-        setUriInvalid(true);
-        return;
-      }
-
-      const urlType = url.host || url.pathname.split('/')[2];
-      if (urlType !== 'totp' && urlType !== 'hotp') {
-        setUriInvalid(true);
-        return;
-      }
-      if (!url.searchParams.has('secret')) {
-        setUriInvalid(true);
-        return;
-      }
-
-      let urlLabel = decodeURIComponent(url.pathname.substring(url.host ? 1 : 7));
-      const urlIssuer = url.searchParams.get('issuer') ? decodeURIComponent(url.searchParams.get('issuer')!) : '';
-
-      if (urlLabel.startsWith(`${urlIssuer}:`)) {
-        urlLabel = urlLabel.substring(urlIssuer.length + 1);
-      }
-
-      setType(urlType as OTPType);
-      setLabel(urlLabel);
-      setSecret(url.searchParams.get('secret') || '');
-      setIssuer(urlIssuer);
-      setCounter(url.searchParams.get('counter') || '');
-      const hasAdvanced = url.searchParams.has('algorithm') || url.searchParams.has('digits') || url.searchParams.has('period');
-      setShowAdvanced(hasAdvanced);
-      setAlgorithm(url.searchParams.get('algorithm') || 'SHA1');
-      setDigits(url.searchParams.get('digits') || '6');
-      const p = url.searchParams.get('period');
-      setPeriod(p === '30' ? '' : (p || ''));
-
-      setUriEdited(false);
-    } catch {
-      // Invalid URL, keep the raw text but flag it
+    const fields = parseOtpauthUri(value);
+    if (!fields) {
+      // Invalid URI: keep the raw text but flag it (an empty field is fine)
       if (value !== '') setUriInvalid(true);
+      return;
     }
+
+    setType(fields.type);
+    setLabel(fields.label);
+    setSecret(fields.secret);
+    setIssuer(fields.issuer);
+    setCounter(fields.counter);
+    setShowAdvanced(fields.hasAdvanced);
+    setAlgorithm(fields.algorithm);
+    setDigits(fields.digits);
+    setPeriod(fields.period);
+
+    setUriEdited(false);
   }, []);
 
   const handleFieldChange = useCallback(() => {

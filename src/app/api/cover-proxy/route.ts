@@ -1,26 +1,8 @@
 import { NextResponse } from 'next/server';
+import { isAllowedUrl } from './allowed-url';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
-
-const ALLOWED_HOSTS = ['coverartarchive.org', 'archive.org'];
-// Internet Archive image servers look like ia800123.us.archive.org — anchor
-// the match so e.g. ia800.evil.com can't slip through the allowlist
-const IA_HOST_PATTERN = /^ia\d+\.(?:[a-z0-9-]+\.)*archive\.org$/;
-
-function isAllowedUrl(url: string): boolean {
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol !== 'https:') return false;
-    return (
-      ALLOWED_HOSTS.some(
-        (host) => parsed.hostname === host || parsed.hostname.endsWith('.' + host),
-      ) || IA_HOST_PATTERN.test(parsed.hostname)
-    );
-  } catch {
-    return false;
-  }
-}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
