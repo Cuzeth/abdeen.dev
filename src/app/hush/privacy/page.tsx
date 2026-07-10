@@ -3,7 +3,8 @@ import Link from "next/link";
 import FadeInWrapper from "@/components/FadeInWrapper";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy · Hush | abdeen.dev",
+  // Plain string: the root layout's title.template appends "| abdeen.dev"
+  title: "Privacy Policy · Hush",
   description:
     "Hush does not collect, store, or transmit your personal data. Everything stays on your device.",
   alternates: { canonical: "https://abdeen.dev/hush/privacy" },

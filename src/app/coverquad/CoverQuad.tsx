@@ -48,6 +48,22 @@ export default function CoverQuad() {
 
   const allFilled = slots.every(Boolean);
 
+  // Object URLs are revoked when a slot is replaced, but client-side
+  // navigation away would otherwise leak the last four decoded images
+  // until a full page load. Track the latest slots and revoke on unmount.
+  const slotsRef = useRef(slots);
+  useEffect(() => {
+    slotsRef.current = slots;
+  }, [slots]);
+  useEffect(() => {
+    return () => {
+      if (slotErrorTimer.current) clearTimeout(slotErrorTimer.current);
+      slotsRef.current.forEach((slot) => {
+        if (slot) URL.revokeObjectURL(slot.objectUrl);
+      });
+    };
+  }, []);
+
   const showSlotError = useCallback((message: string) => {
     setSlotError(message);
     if (slotErrorTimer.current) clearTimeout(slotErrorTimer.current);
