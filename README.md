@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# abdeen.dev
 
-## Getting Started
+Small tools, carefully engineered. The source for [abdeen.dev](https://abdeen.dev): product pages for native apps (Frost, Hush) and a set of free, open-source browser tools (password generator, QR generator, regex tester, pomodoro timer, 2FA QR generator, CoverQuad).
 
-First, run the development server:
+Built with [Next.js](https://nextjs.org) (App Router), Tailwind CSS v4, and TypeScript. Deployed on Vercel.
+
+## Development
+
+This project uses [Bun](https://bun.sh):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun run dev      # dev server at http://localhost:3000
+bun run lint     # eslint
+bun run build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Layout
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `src/app/` · routes. Each browser tool is a folder with a `page.tsx` (metadata + shell) and one client component.
+- `src/components/` · shared UI (tool page shell, section header, fade-in wrapper).
+- `src/lib/catalog.ts` · the single index of apps and tools that drives the homepage, footer, and cross-links.
+- `src/app/globals.css` · brand tokens and the shared control vocabulary (buttons, inputs, segmented controls, etc.).
+- `public/data/` · word lists and lookup data fetched by the tools at runtime.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Content and branding are © Jaafar Abdeen. See individual tool pages for third-party data credits (EFF word list, BIP-39, MusicBrainz/Cover Art Archive).

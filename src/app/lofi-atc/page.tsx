@@ -5,7 +5,7 @@ import LofiAtcRadio from "./LofiAtcRadio";
 
 // DISABLED: flip to `true` to re-enable the Lo-fi ATC Radio tool.
 // Also restore the disabled entries in:
-//   - src/app/page.tsx           (tools array)
+//   - src/lib/catalog.ts         (tools array)
 //   - src/app/sitemap.ts         (sitemap entry)
 //   - src/app/layout.tsx         (JSON-LD WebApplication entry)
 const ENABLED = false;

@@ -11,7 +11,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSlider } from '@/hooks/useSlider';
 import styles from './pwgen.module.css';
 
@@ -152,7 +152,6 @@ export default function PasswordGenerator() {
   const [wordCount, setWordCount] = useState(5);
   const [passphraseCapitalize, setPassphraseCapitalize] = useState(true);
 
-  const containerRef = useRef<HTMLDivElement>(null);
   const modeSlider = useSlider(mode);
   const sepSlider = useSlider(separator);
   const sourceSlider = useSlider(passphraseSource);
@@ -351,7 +350,7 @@ export default function PasswordGenerator() {
   const strength = selected ? getStrengthLabel(selected.entropy) : null;
 
   return (
-    <div className="grid w-full gap-7 lg:grid-cols-2 lg:gap-10" ref={containerRef}>
+    <div className="grid w-full gap-7 lg:grid-cols-2 lg:gap-10">
       {/* LEFT — controls */}
       <div className="flex min-w-0 flex-col gap-5">
         {/* Mode selector */}

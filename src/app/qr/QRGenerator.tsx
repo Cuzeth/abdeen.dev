@@ -66,7 +66,6 @@ export default function QRGenerator() {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrInstance = useRef<QRCodeStyling | null>(null);
   const lastData = useRef<string>('');
-  const styleSectionRef = useRef<HTMLDivElement>(null);
 
   const buildQRData = useCallback((): string | null => {
     switch (activeTab) {
@@ -367,10 +366,7 @@ export default function QRGenerator() {
           {showStyle ? 'Hide Style Options' : 'Customize Style'}
         </button>
 
-        <div
-          className={`${styles.collapse} ${showStyle ? styles.collapseOpen : ''}`}
-          ref={styleSectionRef}
-        >
+        <div className={`${styles.collapse} ${showStyle ? styles.collapseOpen : ''}`}>
           <div className={styles.collapseInner}>
             <div className={styles.panel}>
               <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">

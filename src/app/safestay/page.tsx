@@ -5,7 +5,7 @@ import SafeStay from "./SafeStay";
 
 // DISABLED: flip to `true` to re-enable the SafeStay Scanner tool.
 // Also restore the disabled entries in:
-//   - src/app/page.tsx           (apps array)
+//   - src/lib/catalog.ts         (apps array)
 //   - src/app/sitemap.ts         (sitemap entry)
 //   - src/app/layout.tsx         (JSON-LD SoftwareApplication entry)
 const ENABLED = false;
