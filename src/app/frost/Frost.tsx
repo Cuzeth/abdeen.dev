@@ -189,7 +189,7 @@ export default function Frost() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-14 pb-20 pt-4 md:gap-20 md:pb-28 md:pt-10">
       {/* Hero */}
       <section className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-        <FadeInWrapper direction="up">
+        <FadeInWrapper direction="up" eager>
           <div className="flex flex-col gap-5">
             <span className="eyebrow-system">
               <span
@@ -224,7 +224,7 @@ export default function Frost() {
           </div>
         </FadeInWrapper>
 
-        <FadeInWrapper direction="up" delay={0.08}>
+        <FadeInWrapper direction="up" delay={0.08} eager>
           <LockVisual />
         </FadeInWrapper>
       </section>

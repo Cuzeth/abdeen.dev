@@ -7,17 +7,17 @@ const principles = [
   {
     num: "01",
     title: "Free, forever",
-    body: "Everything on this site is free to use. No paywalls, no upsells, no ads.",
+    body: "Use every tool without a paywall, an account, an upsell, or an ad in the way.",
   },
   {
     num: "02",
     title: "Private by default",
-    body: "No accounts and no sign-ups. The tools do their work in your browser.",
+    body: "Your inputs stay yours. The browser tools do their work on your device whenever possible.",
   },
   {
     num: "03",
-    title: "Open source",
-    body: "The code is public on GitHub. Read it, fork it, or file an issue.",
+    title: "Built in public",
+    body: "The source is open on GitHub. Inspect the work, report a problem, or make it better.",
   },
 ];
 
@@ -86,7 +86,7 @@ function IndexRow({
 
 export default function HomePage() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 pb-20 pt-6 md:gap-24 md:pb-28 md:pt-12">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 pb-20 pt-4 md:gap-24 md:pb-28 md:pt-10">
       {/* Hero */}
       <section className="relative overflow-x-clip" aria-label="Introduction">
         <span
@@ -95,8 +95,8 @@ export default function HomePage() {
         >
           عابدين
         </span>
-        <FadeInWrapper direction="up">
-          <div className="relative flex flex-col gap-6 py-6 md:py-12">
+        <FadeInWrapper direction="up" eager>
+          <div className="relative flex min-h-[31rem] flex-col justify-center gap-6 py-8 md:min-h-[38rem] md:py-14">
             <span className="eyebrow-system">
               <span
                 aria-hidden="true"
@@ -104,41 +104,79 @@ export default function HomePage() {
               />
               Abdeen Labs · Independent software
             </span>
-            <h1 className="max-w-4xl text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
+            <h1 className="max-w-4xl text-[clamp(2.85rem,7.5vw,5.4rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-[var(--color-paper)]">
               Small tools,
               <br />
               carefully engineered
               <span className="text-[var(--color-red)]">.</span>
             </h1>
-            <p className="max-w-xl text-base leading-8 text-[var(--text)] md:text-lg">
-              Native apps for Apple platforms and free utilities for the
-              browser, built and maintained by Abdeen. Nothing to buy,
-              nothing to sign up for.
+            <p className="max-w-2xl text-base leading-8 text-[var(--text)] md:text-lg">
+              Independent software for small, specific problems: native apps
+              for Apple platforms and focused utilities for the browser. Free
+              to use, open source, and built without account walls.
             </p>
-            <p className="eyebrow-system flex-wrap gap-x-3 gap-y-1">
+            <p className="eyebrow-system flex-wrap gap-x-3 gap-y-1 pt-1">
               <a
                 href="#apps"
                 className="underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-[var(--color-paper)] hover:decoration-white/40"
               >
                 {pad(apps.length)} apps
               </a>
-              <span aria-hidden="true" className="opacity-40">
-                ·
-              </span>
+              <span aria-hidden="true" className="opacity-40">·</span>
               <a
                 href="#tools"
                 className="underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-[var(--color-paper)] hover:decoration-white/40"
               >
                 {pad(tools.length)} web tools
               </a>
-              <span aria-hidden="true" className="opacity-40">
-                ·
-              </span>
+              <span aria-hidden="true" className="opacity-40">·</span>
               <span>Free &amp; open source</span>
             </p>
           </div>
         </FadeInWrapper>
       </section>
+
+      {/* Featured release */}
+      <FadeInWrapper direction="up">
+        <section aria-labelledby="featured-release-title" className="featured-release">
+          <div className="featured-copy">
+            <span className="eyebrow-system">
+              <span aria-hidden="true" className="text-[var(--color-red)]">/</span>
+              Featured release · macOS
+            </span>
+            <h2
+              id="featured-release-title"
+              className="mt-5 max-w-xl text-3xl font-semibold leading-[1.08] tracking-[-0.03em] text-[var(--color-paper)] md:text-5xl"
+            >
+              Lock every input. Keep the screen in view.
+            </h2>
+            <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--text)] md:text-base md:leading-8">
+              Frost freezes the keyboard, mouse, and trackpad while a build,
+              render, or agent keeps running visibly. Unlock with TouchID or a
+              paired Apple Watch.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-4">
+              <Link href="/frost" className="btn btn-primary rounded-full px-5">
+                Explore Frost <span aria-hidden="true">&rarr;</span>
+              </Link>
+              <span className="eyebrow-system">Free · Open source</span>
+            </div>
+          </div>
+          <div className="featured-visual" aria-hidden="true">
+            <div className="featured-menu">
+              <span>FROST</span>
+              <span className="featured-status-dot" />
+            </div>
+            <div className="featured-window featured-window-one" />
+            <div className="featured-window featured-window-two" />
+            <div className="featured-lock">
+              <span className="featured-lock-mark">✳</span>
+              <strong>Input Locked</strong>
+              <span>TouchID to unlock</span>
+            </div>
+          </div>
+        </section>
+      </FadeInWrapper>
 
       {/* Apps */}
       <section id="apps" aria-label="Apps">
@@ -169,27 +207,27 @@ export default function HomePage() {
       </section>
 
       {/* Principles */}
-      <FadeInWrapper direction="up">
-        <section
-          aria-label="Principles"
-          className="grid gap-8 border-t border-white/[0.08] pt-8 md:grid-cols-3 md:gap-6 md:pt-10"
-        >
-          {principles.map((p) => (
-            <div
-              key={p.num}
-              className="flex flex-col gap-2.5 md:border-l md:border-white/[0.08] md:pl-6 md:first:border-l-0 md:first:pl-0"
-            >
-              <span aria-hidden="true" className="index-num">
-                {p.num}
-              </span>
-              <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
-                {p.title}
-              </h3>
-              <p className="text-sm leading-7 text-[var(--text)]">{p.body}</p>
-            </div>
-          ))}
-        </section>
-      </FadeInWrapper>
+      <section aria-label="Principles">
+        <FadeInWrapper direction="up">
+          <SectionHeader label="The operating principles" count={principles.length} />
+        </FadeInWrapper>
+        <FadeInWrapper direction="up" delay={0.04}>
+          <div className="grid gap-8 border-t border-white/[0.08] pt-8 md:grid-cols-3 md:gap-6 md:pt-10">
+            {principles.map((p) => (
+              <div
+                key={p.num}
+                className="flex flex-col gap-2.5 md:border-l md:border-white/[0.08] md:pl-6 md:first:border-l-0 md:first:pl-0"
+              >
+                <span aria-hidden="true" className="index-num">{p.num}</span>
+                <h3 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-paper)]">
+                  {p.title}
+                </h3>
+                <p className="text-sm leading-7 text-[var(--text)]">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </FadeInWrapper>
+      </section>
     </div>
   );
 }

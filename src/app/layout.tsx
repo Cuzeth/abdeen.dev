@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { switzer, plexSans, arefRuqaa, jetbrainsMono } from "./fonts";
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
     default: "abdeen.dev · Small tools, carefully engineered",
   },
   description:
-    "Free and open-source tools by Jaafar Abdeen. No sign-up, no tracking.",
+    "Independent apps and free, open-source browser tools by Jaafar Abdeen. No sign-up required.",
   metadataBase: new URL("https://abdeen.dev"),
   applicationName: "abdeen.dev",
   authors: [{ name: "Jaafar Abdeen", url: "https://jaafar.cv" }],
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     url: "https://abdeen.dev",
     title: "abdeen.dev · Small tools, carefully engineered",
     description:
-      "Free and open-source tools by Jaafar Abdeen. No sign-up required.",
+      "Independent apps and free, open-source browser tools by Jaafar Abdeen. No sign-up required.",
     locale: "en_US",
   },
   twitter: {
@@ -230,11 +229,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={fontVars} data-scroll-behavior="smooth">
       <body className="min-h-screen flex flex-col">
-        <Script
-          id="json-ld"
+        <script
           type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
         />
         <a
           href="#main-content"
@@ -244,12 +243,12 @@ export default function RootLayout({
         </a>
         <header className="sticky top-0 z-40 w-full px-4 py-4 md:px-8" role="banner">
           <nav
-            className="surface-card mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2 backdrop-blur-xl"
+            className="site-nav surface-card mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-3 py-1.5 backdrop-blur-xl md:px-4 md:py-2"
             aria-label="Main"
           >
             <Link
               href="/"
-              className="group flex min-w-0 items-center gap-3 rounded-full px-2 py-1.5 transition-opacity hover:opacity-90"
+              className="group flex min-h-10 min-w-0 items-center gap-3 rounded-full px-2 py-1.5 transition-opacity hover:opacity-90"
               aria-label="Abdeen Labs · Home"
             >
               <span
@@ -285,7 +284,7 @@ export default function RootLayout({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Cuzeth on GitHub"
-                className="rounded-full p-2 text-[var(--color-graphite)] transition-colors duration-200 hover:text-[var(--color-paper)]"
+                className="flex min-h-10 min-w-10 items-center justify-center rounded-full text-[var(--color-graphite)] transition-colors duration-200 hover:bg-white/[0.04] hover:text-[var(--color-paper)]"
               >
                 <svg
                   width="17"

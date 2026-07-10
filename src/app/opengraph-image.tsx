@@ -96,7 +96,7 @@ export default async function OGImage() {
               fontWeight: 400,
               fontSize: 26,
               letterSpacing: '0.02em',
-              color: '#A39F97',
+              color: '#8A8A8A',
               display: 'flex',
             }}
           >
@@ -112,7 +112,7 @@ export default async function OGImage() {
             bottom: 0,
             height: 4,
             background:
-              'linear-gradient(90deg, #CC1B1B 0%, #7A1212 35%, #3A2A24 70%, #A39F97 100%)',
+              'linear-gradient(90deg, #CC1B1B 0%, #CC1B1B 38%, #8A8A8A 38%, #8A8A8A 72%, #FAFAFA 72%, #FAFAFA 100%)',
             display: 'flex',
           }}
         />

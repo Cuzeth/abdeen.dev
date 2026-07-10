@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="mx-auto flex min-h-[calc(100vh-14rem)] w-full max-w-3xl flex-col items-center justify-center gap-6 px-4 py-20 text-center">
-      <FadeInWrapper direction="up">
+      <FadeInWrapper direction="up" eager>
         <span className="eyebrow-system">
           <span
             aria-hidden="true"
@@ -20,20 +20,20 @@ export default function NotFound() {
         </span>
       </FadeInWrapper>
 
-      <FadeInWrapper direction="up" delay={0.05}>
+      <FadeInWrapper direction="up" delay={0.05} eager>
         <h1 className="text-5xl font-semibold tracking-[-0.02em] text-[var(--color-paper)] md:text-7xl">
           Nothing here<span className="text-[var(--color-red)]">.</span>
         </h1>
       </FadeInWrapper>
 
-      <FadeInWrapper direction="up" delay={0.1}>
+      <FadeInWrapper direction="up" delay={0.1} eager>
         <p className="max-w-md text-base leading-relaxed text-[var(--text)] opacity-80 md:text-lg">
           This URL doesn&apos;t point to anything. The page moved, retired, or
           never shipped. Head back and see what&apos;s actually here.
         </p>
       </FadeInWrapper>
 
-      <FadeInWrapper direction="up" delay={0.15}>
+      <FadeInWrapper direction="up" delay={0.15} eager>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/"

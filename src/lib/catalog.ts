@@ -24,7 +24,7 @@ export const apps: CatalogEntry[] = [
   {
     title: "Hush",
     description:
-      "Focus sounds for iOS. Real-time noise generators, binaural beats, and a library of 80+ ambient recordings.",
+      "A focused sound studio for iOS with real-time noise, binaural beats, and 80+ ambient recordings to layer and mix.",
     href: "/hush",
     meta: "iOS",
   },
@@ -42,7 +42,7 @@ export const apps: CatalogEntry[] = [
   {
     title: "Strobe",
     description:
-      "Rapid serial visual reader for iPhone, iPad, and Mac. Read PDFs, EPUBs, and plain text at speed.",
+      "A rapid serial visual reader for iPhone, iPad, and Mac that turns PDFs, EPUBs, and plain text into a focused reading stream.",
     href: "https://strobefast.app",
     meta: "strobefast.app",
     external: true,
@@ -66,21 +66,21 @@ export const tools: CatalogEntry[] = [
   },
   {
     title: "Pomodoro Timer",
-    description: "A minimal focus timer to stay productive.",
+    description: "A calm, adjustable focus timer with deliberate work intervals, breaks, and lightweight session tracking.",
     href: "/pomodoro",
     meta: "/pomodoro",
   },
   {
     title: "Password Generator",
     description:
-      "Memorable, secure passwords inspired by Apple Keychain.",
+      "Generate memorable passwords and diceware passphrases with clear entropy feedback and secure defaults.",
     href: "/pwgen",
     meta: "/pwgen",
   },
   {
     title: "2FA QR Generator",
     description:
-      "Turn two-factor authentication secrets into scannable QR codes.",
+      "Turn TOTP or HOTP secrets and otpauth links into authenticator-ready QR codes without exposing the secret.",
     href: "/2fa",
     meta: "/2fa",
   },

@@ -50,9 +50,18 @@ const REPO_URL = "https://github.com/cuzeth/hush";
 const APP_STORE_URL: string | null = "https://apps.apple.com/us/app/hush-focus-sounds/id6761935532";
 
 const screenshots = [
-  "/hush/screen-1.png",
-  "/hush/screen-2.png",
-  "/hush/screen-3.png",
+  {
+    src: "/hush/screen-1.png",
+    alt: "Hush scene picker playing the Calm mix with pink noise and morning birdsong",
+  },
+  {
+    src: "/hush/screen-2.png",
+    alt: "Hush sound picker with imported audio and real-time noise generators",
+  },
+  {
+    src: "/hush/screen-3.png",
+    alt: "Hush ambient sound library organized into rain, ocean, fire, nature, and city categories",
+  },
 ];
 
 const APPLE_PATH =
@@ -86,16 +95,16 @@ function AppStoreButton() {
   );
 }
 
-function ScreenshotImage({ src, index }: { src: string; index: number }) {
+function ScreenshotImage({ src, alt }: { src: string; alt: string }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div className="relative h-[480px] w-[222px] flex-shrink-0 rounded-[1.25rem] border border-white/[0.08] overflow-hidden bg-white/[0.02]">
       <Image
         src={src}
-        alt={`Hush screenshot ${index + 1}`}
+        alt={alt}
         width={222}
         height={480}
-        priority
+        sizes="222px"
         className={`h-full w-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
         onLoad={() => setLoaded(true)}
         ref={(img) => {
@@ -120,7 +129,8 @@ function HeroPhone() {
             alt="Hush app interface"
             width={244}
             height={528}
-            priority
+            preload
+            sizes="(min-width: 1024px) 244px, 280px"
             className={`block h-auto w-full transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
             onLoad={() => setLoaded(true)}
             ref={(img) => {
@@ -138,7 +148,7 @@ export default function Hush() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-14 pb-20 pt-4 md:gap-20 md:pb-28 md:pt-10">
       {/* Hero */}
       <section className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-        <FadeInWrapper direction="up">
+        <FadeInWrapper direction="up" eager>
           <div className="flex flex-col gap-5">
             <span className="eyebrow-system">
               <span
@@ -172,7 +182,7 @@ export default function Hush() {
           </div>
         </FadeInWrapper>
 
-        <FadeInWrapper direction="up" delay={0.08}>
+        <FadeInWrapper direction="up" delay={0.08} eager>
           <HeroPhone />
         </FadeInWrapper>
       </section>
@@ -187,8 +197,8 @@ export default function Hush() {
             role="region"
             aria-label="App screenshots, scrollable"
           >
-            {screenshots.map((src, i) => (
-              <ScreenshotImage key={i} src={src} index={i} />
+            {screenshots.map((screenshot) => (
+              <ScreenshotImage key={screenshot.src} {...screenshot} />
             ))}
           </div>
         </section>

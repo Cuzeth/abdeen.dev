@@ -118,9 +118,8 @@ body {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 18% 12%, rgba(204, 27, 27, 0.12), transparent 28%),
-    radial-gradient(circle at 82% 8%, rgba(250, 250, 250, 0.05), transparent 26%),
-    linear-gradient(180deg, #111111 0%, var(--color-ink) 42%, #050505 100%);
+    linear-gradient(135deg, rgba(204, 27, 27, 0.11) 0%, transparent 24%),
+    linear-gradient(180deg, #101010 0%, var(--color-ink) 42%, #050505 100%);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
@@ -135,9 +134,13 @@ body::before {
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 75% 24%, rgba(204, 27, 27, 0.12), transparent 18%),
-    radial-gradient(circle at 22% 78%, rgba(250, 250, 250, 0.04), transparent 18%);
+  background: linear-gradient(
+    112deg,
+    transparent 0%,
+    transparent 56%,
+    rgba(204, 27, 27, 0.045) 74%,
+    transparent 92%
+  );
 }
 
 body::after {
@@ -257,6 +260,14 @@ canvas {
 .surface-card {
   background: var(--surface-card-bg);
   border: var(--surface-card-border);
+}
+
+/* Persistent site navigation. The faint inner edge is enough to separate the
+   bar from the page without turning it into a glossy floating capsule. */
+.site-nav {
+  background: rgba(10, 10, 10, 0.86);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 12px 36px rgba(0, 0, 0, 0.16);
 }
 
 .metric-panel {
@@ -407,6 +418,7 @@ canvas {
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
+  min-height: 44px;
   transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease,
     box-shadow 0.18s ease, transform 0.1s ease;
 }
@@ -821,6 +833,194 @@ a.chip:focus-visible .index-arrow {
 
 .feature-cell:hover .index-num {
   color: var(--color-red);
+}
+
+/* ── Featured release — an editorial split panel, not a card grid. The left
+   side carries the proposition; the right behaves like a small, dimmed Mac
+   desktop so Frost is legible before a visitor opens its product page. ── */
+.featured-release {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  background: rgba(12, 12, 12, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.featured-copy {
+  padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+.featured-visual {
+  position: relative;
+  min-height: 25rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(145deg, rgba(204, 27, 27, 0.15), transparent 42%),
+    #101010;
+  background-size: 64px 64px, 64px 64px, auto, auto;
+}
+
+.featured-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.2);
+  backdrop-filter: blur(6px);
+}
+
+.featured-menu {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  display: flex;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--color-graphite);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.featured-status-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: var(--color-red);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.featured-window {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.featured-window-one {
+  left: 8%;
+  top: 18%;
+  width: 48%;
+  height: 42%;
+}
+
+.featured-window-two {
+  right: 8%;
+  bottom: 10%;
+  width: 42%;
+  height: 34%;
+}
+
+.featured-lock {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 2;
+  display: flex;
+  min-width: 13rem;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.65rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  background: rgba(8, 8, 8, 0.76);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(18px);
+  color: var(--color-paper);
+}
+
+.featured-lock-mark {
+  margin-bottom: 0.35rem;
+  color: var(--color-red);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.featured-lock strong {
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.featured-lock > span:last-child {
+  color: var(--color-graphite);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Tool-to-tool navigation uses the homepage's numbered index language. */
+.related-index {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(12, 12, 12, 0.7);
+}
+
+.related-link {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  transition: background 0.22s ease, padding 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.related-link:last-child {
+  border-bottom: 0;
+}
+
+.related-link:hover,
+.related-link:focus-visible {
+  padding-left: 1.35rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.related-link:hover .index-num,
+.related-link:focus-visible .index-num {
+  color: var(--color-red);
+}
+
+.related-link:hover .index-arrow,
+.related-link:focus-visible .index-arrow {
+  transform: translateX(4px);
+  color: var(--color-paper);
+}
+
+@media (min-width: 768px) {
+  .featured-release {
+    grid-template-columns: 1.03fr 0.97fr;
+  }
+
+  .featured-visual {
+    min-height: 31rem;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .related-index {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .related-link {
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 0;
+  }
+
+  .related-link:last-child {
+    border-right: 0;
+  }
 }
 
 /* Odd cell counts at the two-column breakpoint would leave an empty slot
