@@ -4,6 +4,10 @@ import { isAllowedUrl } from './allowed-url';
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
+// Full-size cover art tops out around a few MB; refuse to buffer anything
+// implausibly large from the (allowlisted) upstream.
+const MAX_BYTES = 15 * 1024 * 1024;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get('url');
@@ -28,8 +32,16 @@ export async function GET(request: Request) {
       return new NextResponse(null, { status: res.status });
     }
 
+    if (Number(res.headers.get('content-length')) > MAX_BYTES) {
+      return NextResponse.json({ error: 'Image too large' }, { status: 502 });
+    }
+
     const contentType = res.headers.get('content-type') || 'image/jpeg';
     const buffer = await res.arrayBuffer();
+    // Upstream may not send content-length (chunked); enforce the cap either way
+    if (buffer.byteLength > MAX_BYTES) {
+      return NextResponse.json({ error: 'Image too large' }, { status: 502 });
+    }
 
     return new NextResponse(buffer, {
       headers: {
