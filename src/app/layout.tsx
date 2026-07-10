@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { switzer, plexSans, arefRuqaa, jetbrainsMono } from "./fonts";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { buildJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     "Hush",
     "focus sounds",
     "iOS app",
-    // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx
+    // Disabled while SafeStay is off (enabled: false in src/lib/catalog.ts)
     // "SafeStay",
     // "hidden camera detector",
   ],
@@ -76,143 +77,9 @@ export const viewport: Viewport = {
   themeColor: "#0A0A0A",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://abdeen.dev/#website",
-      name: "abdeen.dev",
-      url: "https://abdeen.dev",
-      description:
-        "Free and open-source tools by Jaafar Abdeen: password generator, QR code maker, regex tester, pomodoro timer, and more.",
-      author: { "@id": "https://abdeen.dev/#person" },
-      publisher: { "@id": "https://abdeen.dev/#organization" },
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://abdeen.dev/#organization",
-      name: "Abdeen Labs",
-      url: "https://abdeen.dev",
-      founder: { "@id": "https://abdeen.dev/#person" },
-    },
-    {
-      "@type": "Person",
-      "@id": "https://abdeen.dev/#person",
-      name: "Jaafar Abdeen",
-      url: "https://jaafar.cv",
-      sameAs: [
-        "https://jaafar.cv",
-        "https://github.com/Cuzeth",
-        "https://linkedin.com/in/jaafar-abdeen",
-        "https://strobefast.app",
-      ],
-    },
-    {
-      "@type": "CollectionPage",
-      "@id": "https://abdeen.dev/#collection",
-      name: "Free Tools",
-      description:
-        "A curated collection of free and open-source tools.",
-      url: "https://abdeen.dev",
-      isPartOf: { "@id": "https://abdeen.dev/#website" },
-      about: [
-        {
-          "@type": "WebApplication",
-          name: "Password Generator",
-          url: "https://abdeen.dev/pwgen",
-          applicationCategory: "UtilityApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "WebApplication",
-          name: "QR Code Generator",
-          url: "https://abdeen.dev/qr",
-          applicationCategory: "UtilityApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "WebApplication",
-          name: "Regex Tester",
-          url: "https://abdeen.dev/regex",
-          applicationCategory: "DeveloperApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "WebApplication",
-          name: "Pomodoro Timer",
-          url: "https://abdeen.dev/pomodoro",
-          applicationCategory: "UtilityApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "WebApplication",
-          name: "2FA QR Generator",
-          url: "https://abdeen.dev/2fa",
-          applicationCategory: "SecurityApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "WebApplication",
-          name: "CoverQuad",
-          url: "https://abdeen.dev/coverquad",
-          applicationCategory: "MultimediaApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        {
-          "@type": "SoftwareApplication",
-          name: "Frost",
-          url: "https://abdeen.dev/frost",
-          applicationCategory: "UtilityApplication",
-          operatingSystem: "macOS",
-          description:
-            "Input locker for macOS. Freeze keyboard, mouse, and trackpad while the screen stays visible. Unlocks with TouchID.",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx
-        /*
-        {
-          "@type": "WebApplication",
-          name: "Lo-fi ATC Radio",
-          url: "https://abdeen.dev/lofi-atc",
-          applicationCategory: "MultimediaApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        */
-        {
-          "@type": "MobileApplication",
-          name: "Hush",
-          url: "https://abdeen.dev/hush",
-          applicationCategory: "UtilityApplication",
-          operatingSystem: "iOS",
-          description:
-            "Focus sounds for iOS. Noise generators, binaural beats, and 80+ ambient sounds.",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx
-        /*
-        {
-          "@type": "SoftwareApplication",
-          name: "SafeStay Scanner",
-          url: "https://abdeen.dev/safestay",
-          applicationCategory: "SecurityApplication",
-          operatingSystem: "macOS, Linux",
-          description:
-            "CLI tool to detect hidden cameras on WiFi networks. ARP scanning, MAC address lookup, and port detection.",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        },
-        */
-      ],
-    },
-  ],
-};
+// Application entries derive from src/lib/catalog.ts, so a catalog toggle
+// updates the structured data automatically.
+const jsonLd = buildJsonLd();
 
 export default function RootLayout({
   children,

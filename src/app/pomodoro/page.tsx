@@ -19,6 +19,7 @@ export default function PomodoroPage() {
   return (
     <ToolPageShell
       eyebrow="/pomodoro"
+      currentPath="/pomodoro"
       title="Pomodoro Timer"
       description="A stripped-back focus timer with customizable sessions, calm pacing, and just enough feedback to keep momentum."
     >

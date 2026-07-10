@@ -1,23 +1,24 @@
 import type { MetadataRoute } from 'next';
+import { apps, tools } from '@/lib/catalog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://abdeen.dev';
   const lastModified = new Date().toISOString().split('T')[0];
 
+  // Catalog-driven: enabled entries with a sitemapPriority (external apps
+  // and disabled tools drop out automatically).
+  const catalogUrls: MetadataRoute.Sitemap = [...apps, ...tools]
+    .filter((entry) => !entry.external && entry.sitemapPriority !== undefined)
+    .map((entry) => ({
+      url: `${base}${entry.href}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: entry.sitemapPriority,
+    }));
+
   return [
     { url: base, lastModified, changeFrequency: 'monthly', priority: 1.0 },
-    { url: `${base}/pwgen`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/qr`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/regex`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/pomodoro`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/2fa`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/coverquad`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/frost`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
-    // DISABLED: Lo-fi ATC Radio — re-enable alongside src/app/lofi-atc/page.tsx
-    // { url: `${base}/lofi-atc`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    // DISABLED: SafeStay Scanner — re-enable alongside src/app/safestay/page.tsx
-    // { url: `${base}/safestay`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/hush`, lastModified, changeFrequency: 'monthly', priority: 0.9 },
+    ...catalogUrls,
     { url: `${base}/hush/privacy`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/hush/terms`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
   ];

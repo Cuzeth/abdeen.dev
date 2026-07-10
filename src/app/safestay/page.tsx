@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ToolPageShell from "@/components/ToolPageShell";
+import { entryEnabled } from "@/lib/catalog";
 import SafeStay from "./SafeStay";
 
-// DISABLED: flip to `true` to re-enable the SafeStay Scanner tool.
-// Also restore the disabled entries in:
-//   - src/lib/catalog.ts         (apps array)
-//   - src/app/sitemap.ts         (sitemap entry)
-//   - src/app/layout.tsx         (JSON-LD SoftwareApplication entry)
-const ENABLED = false;
+// Toggled via `enabled` on the /safestay entry in src/lib/catalog.ts, which
+// also drives the homepage index, footer, sitemap, and JSON-LD at once.
+// (The layout keywords list keeps two SafeStay terms commented separately.)
+const ENABLED = entryEnabled("/safestay");
 
 export const metadata: Metadata = ENABLED
   ? {
@@ -31,6 +30,7 @@ export default function SafeStayPage() {
   return (
     <ToolPageShell
       eyebrow="/safestay"
+      currentPath="/safestay"
       title="SafeStay Scanner"
       description="Detect hidden cameras and suspicious devices at Airbnbs, hotels, and rentals."
     >

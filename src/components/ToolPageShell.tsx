@@ -8,6 +8,8 @@ interface ToolPageShellProps {
   description: string;
   /** Mono system label shown top-right (e.g. the route "/qr"). */
   eyebrow?: string;
+  /** Catalog href of this tool — keys the "Continue exploring" rotation. */
+  currentPath?: string;
   /** Widen the shell for tools that lay out two panes internally. */
   wide?: boolean;
   children: ReactNode;
@@ -17,6 +19,7 @@ export default function ToolPageShell({
   title,
   description,
   eyebrow,
+  currentPath,
   wide = false,
   children,
 }: ToolPageShellProps) {
@@ -81,7 +84,7 @@ export default function ToolPageShell({
             </Link>
           </div>
           <div className="related-index">
-            {relatedTools(eyebrow ?? "").map((tool, index) => (
+            {relatedTools(currentPath ?? "").map((tool, index) => (
               <Link key={tool.href} href={tool.href} className="related-link">
                 <span aria-hidden="true" className="index-num">
                   {String(index + 1).padStart(2, "0")}

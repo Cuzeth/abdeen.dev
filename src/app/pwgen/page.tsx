@@ -20,6 +20,7 @@ export default function PasswordGeneratorPage() {
     <ToolPageShell
       wide
       eyebrow="/pwgen"
+      currentPath="/pwgen"
       title="Password Generator"
       description="Generate polished passwords or passphrases with strong defaults, useful entropy feedback, and quick batch creation."
     >

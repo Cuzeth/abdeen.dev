@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ToolPageShell from "@/components/ToolPageShell";
+import { entryEnabled } from "@/lib/catalog";
 import LofiAtcRadio from "./LofiAtcRadio";
 
-// DISABLED: flip to `true` to re-enable the Lo-fi ATC Radio tool.
-// Also restore the disabled entries in:
-//   - src/lib/catalog.ts         (tools array)
-//   - src/app/sitemap.ts         (sitemap entry)
-//   - src/app/layout.tsx         (JSON-LD WebApplication entry)
-const ENABLED = false;
+// Toggled via `enabled` on the /lofi-atc entry in src/lib/catalog.ts, which
+// also drives the homepage index, footer, sitemap, and JSON-LD at once.
+const ENABLED = entryEnabled("/lofi-atc");
 
 export const metadata: Metadata = ENABLED
   ? {
@@ -31,6 +29,7 @@ export default function LofiAtcPage() {
 
   return (
     <ToolPageShell
+      currentPath="/lofi-atc"
       title="Lo-fi ATC Radio"
       description="Lo-fi beats + live JFK Tower air-traffic control. Two streams, two sliders."
     >

@@ -20,6 +20,7 @@ export default function QRGeneratorPage() {
     <ToolPageShell
       wide
       eyebrow="/qr"
+      currentPath="/qr"
       title="QR Generator"
       description="Generate QR codes for links, WiFi credentials, contact details, and more with tasteful styling controls and quick download."
     >

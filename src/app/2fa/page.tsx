@@ -20,6 +20,7 @@ export default function TwoFactorQRPage() {
     <ToolPageShell
       wide
       eyebrow="/2fa"
+      currentPath="/2fa"
       title="2FA QR Generator"
       description="Create authenticator-ready QR codes from TOTP or HOTP secrets, or generate them directly from an otpauth URI."
     >
