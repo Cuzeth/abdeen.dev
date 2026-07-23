@@ -34,7 +34,6 @@
   padding: 0.5rem;
   background: #fff;
   border-radius: 0.6rem;
-  transition: width 0.3s ease, height 0.3s ease;
 }
 
 /* Empty state */

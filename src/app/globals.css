@@ -1106,4 +1106,15 @@ button, a, [role="button"], input, select, textarea {
   html {
     scroll-behavior: auto !important;
   }
+
+  /* Reduced motion is not zero motion: keep the fades that explain a state
+     change and carry no movement (opacity/color only). The panel still
+     snaps to size (no growth animation); only its contents fade in. */
+  .disclosure {
+    transition: opacity 0.2s ease !important;
+  }
+
+  .meter-seg {
+    transition: background 0.3s ease !important;
+  }
 }

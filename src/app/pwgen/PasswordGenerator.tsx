@@ -35,7 +35,6 @@ export default function PasswordGenerator() {
   const [mode, setMode] = useState<Mode>('memorable');
   const [separator, setSeparator] = useState<Separator>('-');
   const [copied, setCopied] = useState(false);
-  const [generating, setGenerating] = useState(false);
   const [seed, setSeed] = useState(0);
 
   // Memorable mode
@@ -102,8 +101,6 @@ export default function PasswordGenerator() {
 
   const generate = useCallback(() => {
     setSeed((s) => s + 1);
-    setGenerating(true);
-    requestAnimationFrame(() => setGenerating(false));
   }, []);
 
   // ── Keyboard shortcuts ──
@@ -394,7 +391,7 @@ export default function PasswordGenerator() {
           )}
 
           {/* Batch list */}
-          <div className={`${styles.batchList} ${generating ? styles.batchFresh : ''}`}>
+          <div className={styles.batchList}>
             {passwords.map((p, i) => (
               <button
                 key={i}

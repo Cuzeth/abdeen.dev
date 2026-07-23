@@ -79,9 +79,10 @@
   border-radius: 999px;
   background: var(--accent);
   opacity: 0.25;
-  height: 4px;
-  will-change: height, opacity;
-  transition: height 0.06s ease-out, opacity 0.06s ease-out;
+  height: 32px;
+  transform: scaleY(0.125);
+  will-change: transform, opacity;
+  transition: transform 0.06s ease-out, opacity 0.06s ease-out;
 }
 
 /* ---------- sliders ---------- */

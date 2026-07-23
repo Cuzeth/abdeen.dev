@@ -133,6 +133,7 @@ export default function LofiAtcRadio() {
   }, []);
 
   const startVisualizer = useCallback(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const analyser = analyserRef.current;
     if (!analyser) return;
 
@@ -170,9 +171,9 @@ export default function LofiAtcRadio() {
           val = dataArray[idx] / 255;
         }
 
-        const h = 4 + val * 28;
+        const s = 0.125 + val * 0.875;
         const o = 0.3 + val * 0.7;
-        bar.style.height = `${h}px`;
+        bar.style.transform = `scaleY(${s})`;
         bar.style.opacity = `${o}`;
       }
 
@@ -187,7 +188,7 @@ export default function LofiAtcRadio() {
     for (let i = 0; i < BARS; i++) {
       const bar = barsRef.current[i];
       if (!bar) continue;
-      bar.style.height = "4px";
+      bar.style.transform = "scaleY(0.125)";
       bar.style.opacity = "0.25";
     }
   }, []);
